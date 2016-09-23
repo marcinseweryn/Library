@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DatabaseWindowController">
+   <children>
+      <TextField fx:id="text1" layoutX="100.0" layoutY="50.0" />
+      <TextField fx:id="text2" layoutX="100.0" layoutY="100.0" />
+      <TextField fx:id="text3" layoutX="100.0" layoutY="150.0" />
+      <Text layoutX="30.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model " />
+      <Text layoutX="30.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moc" />
+      <Text layoutX="30.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena" />
+      <ListView fx:id="list" layoutX="266.0" layoutY="14.0" prefHeight="354.0" prefWidth="327.0" />
+      <Button layoutX="85.0" layoutY="205.0" mnemonicParsing="false" onAction="#saveAction" text="Zapisz" />
+      <Button layoutX="203.0" layoutY="205.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Usuń" />
+      <Button layoutX="30.0" layoutY="205.0" mnemonicParsing="false" onAction="#menuAction" text="Menu" />
+      <Separator layoutX="251.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="419.0" prefWidth="15.0" />
+      <Text fx:id="saveInfo" layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zapisane" wrappingWidth="237.34959506988525">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="deleteInfo" layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały usuniete" wrappingWidth="237.34959506988525">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="editInfo" layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zmodyfikowane" wrappingWidth="237.34959506988525">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="144.0" layoutY="205.0" mnemonicParsing="false" onAction="#editAction" text="Edytuj" />
+      <Button layoutX="109.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchAction" text="Szukaj" />
+   </children>
+</Pane>
