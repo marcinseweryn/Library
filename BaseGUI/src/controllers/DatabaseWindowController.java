@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 public class DatabaseWindowController {
 	private static ArrayList<Car> base;
 	private MainController mainControler;
-	private static	ArrayList<Integer> indexlist= new ArrayList<Integer>();
+	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
 
 	Save_Read sr = new Save_Read();
 
@@ -76,9 +76,10 @@ public class DatabaseWindowController {
 		if(indexlist.isEmpty()==true){
 			base.remove(list.getSelectionModel().getSelectedIndex());
 			}else{
-				base.remove(indexlist.get(list.getSelectionModel().getSelectedIndex()));
-				System.out.println(indexlist.get(list.getSelectionModel().getSelectedIndex()));	
-				
+				int d=indexlist.get(list.getSelectionModel().getSelectedIndex());
+				base.remove(d);
+				System.out.println(d);	
+				System.out.println(indexlist.toString());
 			}
 		System.out.println("kk");
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
@@ -110,7 +111,7 @@ public class DatabaseWindowController {
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
 		  Map<Integer,Car> basee=new HashMap<Integer,Car>();
 		base=sr.getBase();
-		
+		indexlist.removeAll(indexlist);
 		for(Car car:base)
 		{
 			if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()) && car.getPrice().equals(text3.getText()) )
