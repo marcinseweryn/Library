@@ -14,6 +14,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -33,16 +35,23 @@ public class DatabaseWindowController {
 	private TextField text1, text2,text3;
 	@FXML
 	private Text saveInfo,editInfo,deleteInfo;
-	  @FXML
-	  private ListView<Car> list;
+	@FXML
+	private ListView<Car> list;
+	@FXML
+	private CheckBox checkBoxModel,checkBoxPower,checkBoxPrice;
+	  
 
 	  
 	
 	@FXML
-    void initialize() {
+    void initialize() throws ClassNotFoundException, IOException {
 		saveInfo.setVisible(false);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
+		
+		base=sr.getBase();
+		ObservableList<Car> olist=FXCollections.observableArrayList(base);
+		list.setItems(olist);
 	}
 
 	@FXML
@@ -94,12 +103,17 @@ public class DatabaseWindowController {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		editInfo.setVisible(true);
-		
+
 		base=sr.getBase();
-		base.get(list.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
-		base.get(list.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
-		base.get(list.getSelectionModel().getSelectedIndex()).setPrice(text3.getText());
-		
+		if(indexlist.isEmpty()==true){
+			base.get(list.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
+			base.get(list.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
+			base.get(list.getSelectionModel().getSelectedIndex()).setPrice(text3.getText());
+		  }else{
+			  base.get(indexlist.get(list.getSelectionModel().getSelectedIndex())).setMark(text1.getText());
+			  base.get(indexlist.get(list.getSelectionModel().getSelectedIndex())).setPower(text2.getText());
+			  base.get(indexlist.get(list.getSelectionModel().getSelectedIndex())).setPrice(text3.getText());
+		  }
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
 		list.setItems(olist);
 		sr.saveList();
@@ -112,44 +126,72 @@ public class DatabaseWindowController {
 		  Map<Integer,Car> basee=new HashMap<Integer,Car>();
 		base=sr.getBase();
 		indexlist.removeAll(indexlist);
-		for(Car car:base)
-		{
-			if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()) && car.getPrice().equals(text3.getText()) )
-			{
-				basee.put(base.indexOf(car),car);
+		
+		if(checkBoxModel.isSelected()==false && checkBoxPower.isSelected()==false && checkBoxPrice.isSelected()==false)
+		{	
 			
-			}else{
-				if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()))
+		}else{
+			for(Car car:base)
+			{
+				if(checkBoxModel.isSelected()==true && checkBoxPower.isSelected()==true && checkBoxPrice.isSelected()==true)
 				{
-					basee.put(base.indexOf(car),car);
-				}else{
-					if(car.getMark().equals(text1.getText()) && car.getPrice().equals(text3.getText()))
+					if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()) && car.getPrice().equals(text3.getText()) )
 					{
 						basee.put(base.indexOf(car),car);
-					}else{
-						if(car.getPrice().equals(text3.getText()) && car.getPower().equals(text2.getText()))
+					}else{}
+				}else{
+					if(checkBoxModel.isSelected()==true && checkBoxPower.isSelected()==true)
+					{
+						if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()))
 						{
 							basee.put(base.indexOf(car),car);
-						}else{
-							if(car.getMark().equals(text1.getText()))
+						}else{}
+					}else{
+						if(checkBoxModel.isSelected()==true && checkBoxPrice.isSelected()==true)
+						{
+							if(car.getMark().equals(text1.getText()) && car.getPrice().equals(text3.getText()))
 							{
 								basee.put(base.indexOf(car),car);
-							}else{
-								if(car.getPower().equals(text2.getText()))
+							}else{}
+						}else{
+							if(checkBoxPower.isSelected()==true && checkBoxPrice.isSelected()==true)
+							{
+								if(car.getPrice().equals(text3.getText()) && car.getPower().equals(text2.getText()))
 								{
 									basee.put(base.indexOf(car),car);
-								}else{
-									if(car.getPrice().equals(text3.getText()))
+								}else{}
+							}else{
+								if(checkBoxModel.isSelected()==true)
+								{
+									if(car.getMark().equals(text1.getText()))
 									{
 										basee.put(base.indexOf(car),car);
-									}else{}
-									}
-								}
-							}
+									}else{}	
+								}else{
+									if(checkBoxPower.isSelected()==true)
+									{
+										if(car.getPower().equals(text2.getText()))
+										{
+											basee.put(base.indexOf(car),car);
+										}else{}
+									}else{
+										if(checkBoxPrice.isSelected()==true)
+										{
+											if(car.getPrice().equals(text3.getText()))
+											{
+												basee.put(base.indexOf(car),car);
+											}else{}
+										}else{
+											
+										}	
+									}	
+								}	
+							}		
 						}
 					}
-				}
-			}		
+				}											
+			}							
+		}
 		ObservableList<Car> olist=FXCollections.observableArrayList(basee.values());
 		list.setItems(olist);
 		indexlist.addAll(basee.keySet());
