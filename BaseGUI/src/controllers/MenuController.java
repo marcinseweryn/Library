@@ -1,51 +1,59 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import base.Car;
 import base.Save_Read;
+import base.Save_Read_BaseList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class MenuController {
 
-	 private MainController mainControler;
-	 
-	   public void setMainControler(MainController mainControler) {
+	private MainController mainControler;
+	Save_Read_BaseList srbl= new Save_Read_BaseList();
+	public void setMainControler(MainController mainControler) {
 		this.mainControler = mainControler;
 	}
 
+	
 	@FXML
-	   void addAction(ActionEvent event) throws IOException {
-		   FXMLLoader loader = new FXMLLoader();
-		   loader.setLocation(this.getClass().getResource("/fxml/DatabaseWindow.fxml"));
-		   Pane pane=loader.load();
-		   mainControler.setScreen(pane);
-		   
-		   DatabaseWindowController addController=loader.getController();
-		   addController.setMainControler(mainControler);
-		   
-	    }
-	private static ArrayList<Car> base;
-	Save_Read sr = new Save_Read();
+	void initialize(){
+		
+	}
 
+	@FXML
+	void addAction(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/fxml/DatabaseWindow.fxml"));
+		Pane pane = loader.load();
+		mainControler.setScreen(pane);
 
-	 @FXML
-	    void newAction(ActionEvent event) throws IOException {
-		 File file=new File("base");
-			base=new ArrayList<Car>();	
-			FileOutputStream fos=new FileOutputStream("base");
-			ObjectOutputStream oos=new ObjectOutputStream(fos);
-			oos.writeObject(base);
-			oos.flush();
-			oos.close();
+		DatabaseWindowController addController = loader.getController();
+		addController.setMainControler(mainControler);
 
-	    }
+	}
+
+	@FXML
+	void optionsAction(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/fxml/OptionsWindow.fxml"));
+		Pane pane = loader.load();
+		mainControler.setScreen(pane);
+
+		OptionsWindowController addController = loader.getController();
+		addController.setMainControler(mainControler);
+	}	    
 }

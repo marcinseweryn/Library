@@ -1,11 +1,8 @@
 package controllers;
 
-import base.Car;
 import java.io.IOException;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 

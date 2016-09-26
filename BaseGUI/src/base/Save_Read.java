@@ -1,4 +1,5 @@
 package base;
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,8 +13,8 @@ public class Save_Read{
 	
 private static ArrayList<Car> base;
 
-public void saveList() throws IOException{
-	FileOutputStream fos=new FileOutputStream("base");
+public void saveList(String fileName) throws IOException{
+	FileOutputStream fos=new FileOutputStream(fileName);
 	ObjectOutputStream oos=new ObjectOutputStream(fos);
 	DatabaseWindowController add=new DatabaseWindowController();
 	oos.writeObject(add.getBase());
@@ -21,10 +22,10 @@ public void saveList() throws IOException{
 	oos.close();
 }
 
-public void readList() throws IOException, ClassNotFoundException
+public void readList(String baseName) throws IOException, ClassNotFoundException
 {
 	
-	FileInputStream fis=new FileInputStream("base");
+	FileInputStream fis=new FileInputStream(baseName);
 	ObjectInputStream ois=new ObjectInputStream(fis);
 	base=(ArrayList<Car>) ois.readObject();
 	ois.close();
@@ -32,12 +33,20 @@ public void readList() throws IOException, ClassNotFoundException
 
 
 
-public ArrayList<Car> getBase() throws IOException, ClassNotFoundException{
-	FileInputStream fis=new FileInputStream("base");
+public ArrayList<Car> getBase(String baseName) throws IOException, ClassNotFoundException{
+	FileInputStream fis=new FileInputStream(baseName);
 	ObjectInputStream ois=new ObjectInputStream(fis);
 	base=(ArrayList<Car>) ois.readObject();
 	ois.close();
 	return base;
+}
+
+public String getBaseName() throws FileNotFoundException, IOException, ClassNotFoundException {
+	FileInputStream fis=new FileInputStream("lastBaseInfo");
+	DataInputStream dis=new DataInputStream(fis);
+	String name=dis.readUTF();
+	dis.close();
+	return name;
 }
 	
 }

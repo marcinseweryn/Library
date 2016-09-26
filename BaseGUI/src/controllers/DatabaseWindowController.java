@@ -1,20 +1,20 @@
 package controllers;
 
+import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import base.Car;
 import base.Save_Read;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -24,6 +24,7 @@ public class DatabaseWindowController {
 	private static ArrayList<Car> base;
 	private MainController mainControler;
 	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
+	OptionsWindowController optionsWindowController=new OptionsWindowController();
 
 	Save_Read sr = new Save_Read();
 
@@ -48,10 +49,18 @@ public class DatabaseWindowController {
 		saveInfo.setVisible(false);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
-		
-		base=sr.getBase();
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);
-		list.setItems(olist);
+		try{
+			base=sr.getBase(sr.getBaseName());	
+			ObservableList<Car> olist=FXCollections.observableArrayList(base);
+			list.setItems(olist);
+		}catch(FileNotFoundException e){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("UWAGA");
+			alert.setHeaderText("Brak bazy danych!");
+			alert.setContentText("PrzejdŸ do opcji aby wybraæ bazê danych lub utworzyæ now¹");
+			alert.showAndWait();
+			mainControler.loadMenu();
+		}
 	}
 
 	@FXML
@@ -62,13 +71,14 @@ public class DatabaseWindowController {
 
 	@FXML
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException {
-		base=sr.getBase();
+		base=sr.getBase(sr.getBaseName());
 		Car car = new Car(text1.getText(), text2.getText(), text3.getText());
 		System.out.println(car.toString());
+
 		base.add(car);
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
 		list.setItems(olist);
-		sr.saveList();
+		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
@@ -80,7 +90,7 @@ public class DatabaseWindowController {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(true);
 		editInfo.setVisible(false);
-		base=sr.getBase();
+		base=sr.getBase(sr.getBaseName());
 		
 		if(indexlist.isEmpty()==true){
 			base.remove(list.getSelectionModel().getSelectedIndex());
@@ -93,7 +103,7 @@ public class DatabaseWindowController {
 		System.out.println("kk");
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
 		list.setItems(olist);
-		sr.saveList();
+		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
 		
 	}
@@ -104,7 +114,7 @@ public class DatabaseWindowController {
 		deleteInfo.setVisible(false);
 		editInfo.setVisible(true);
 
-		base=sr.getBase();
+		base=sr.getBase(sr.getBaseName());
 		if(indexlist.isEmpty()==true){
 			base.get(list.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
 			base.get(list.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
@@ -116,7 +126,7 @@ public class DatabaseWindowController {
 		  }
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
 		list.setItems(olist);
-		sr.saveList();
+		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
 
 	}
@@ -124,7 +134,7 @@ public class DatabaseWindowController {
 	  @FXML
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
 		  Map<Integer,Car> basee=new HashMap<Integer,Car>();
-		base=sr.getBase();
+		base=sr.getBase(sr.getBaseName());
 		indexlist.removeAll(indexlist);
 		
 		if(checkBoxModel.isSelected()==false && checkBoxPower.isSelected()==false && checkBoxPrice.isSelected()==false)
