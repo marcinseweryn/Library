@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 import base.Car;
 import base.Save_Read;
@@ -18,8 +19,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.text.Text;
 
 public class OptionsWindowController {
 
@@ -34,7 +38,10 @@ public class OptionsWindowController {
     public int getBaseNumber() {
 		return baseNumber;
 	}
-
+    
+    @FXML
+    private Text selectBaseInfo;
+    
 	@FXML
     private ListView<String> list;
 
@@ -48,7 +55,7 @@ public class OptionsWindowController {
 	
     @FXML
     void initialize() throws ClassNotFoundException, IOException {
-
+    	selectBaseInfo.setVisible(false);;
     }
 	
 	@FXML
@@ -59,13 +66,37 @@ public class OptionsWindowController {
 
 	@FXML
 	void deleteBaseAction(ActionEvent event) throws ClassNotFoundException, IOException {
-		baseList=srbl.getBase();
-		file=new File(baseList.get(list.getSelectionModel().getSelectedIndex()));
-		baseList.remove(list.getSelectionModel().getSelectedIndex());
-		file.delete();
-		ObservableList<String> olist=FXCollections.observableArrayList(baseList);
-		list.setItems(olist);
-		srbl.saveList();
+		try{
+			baseList=srbl.getBase();
+		}catch(FileNotFoundException e){
+			emptyDatabaseInfo();
+		}
+		if(baseList.isEmpty()){
+			emptyDatabaseInfo();
+		}else{
+			/////////////////////////////////////protection before deleting database
+			Random random=new Random();
+			int a=random.nextInt(899)+100;
+			TextInputDialog dialog = new TextInputDialog();
+			dialog.setTitle("UWAGA");
+			dialog.setHeaderText("Czy napewno chcesz usun¹æ bazê danych?\nWpisz kod aby kontynu³owaæ: "+a);
+			dialog.setContentText("Kod:");
+			Optional<String> result = dialog.showAndWait();
+			if (result.isPresent()){
+				String b=result.get();
+				int code=Integer.parseInt(b);
+				/////////////////////////////////////////////////////////////////////////
+				if(a==code)
+				{
+					file=new File(baseList.get(list.getSelectionModel().getSelectedIndex()));
+					baseList.remove(list.getSelectionModel().getSelectedIndex());
+					file.delete();
+					ObservableList<String> olist=FXCollections.observableArrayList(baseList);
+					list.setItems(olist);
+					srbl.saveList();
+				}else{}
+			}
+		}
 	}
 
 	@FXML
@@ -107,9 +138,19 @@ public class OptionsWindowController {
 
 	@FXML
 	void selectBaseAction(ActionEvent event) throws ClassNotFoundException, IOException {
-		baseList=srbl.getBase();
-		baseNumber=list.getSelectionModel().getSelectedIndex();
-		createLastBaseInfoFile(list.getSelectionModel().getSelectedItem());
+		try{
+			baseList=srbl.getBase();
+		}catch(FileNotFoundException e){
+			emptyDatabaseInfo();
+		}
+		if(baseList.isEmpty()){
+			emptyDatabaseInfo();
+		}else{
+			baseNumber=list.getSelectionModel().getSelectedIndex();
+			createLastBaseInfoFile(list.getSelectionModel().getSelectedItem());
+			selectBaseInfo.setText("Wybrano bazê danych: "+sr.getBaseName());
+			selectBaseInfo.setVisible(true);
+		}
 	}
 
 	public void createLastBaseInfoFile(String baseName) throws FileNotFoundException, IOException {
@@ -122,9 +163,24 @@ public class OptionsWindowController {
 	
     @FXML
     void showDatabases(ActionEvent event) throws ClassNotFoundException, IOException {
-    	baseList=srbl.getBase();
-    	ObservableList<String> olist=FXCollections.observableArrayList(baseList);
-		list.setItems(olist);
+    	try{
+    		baseList=srbl.getBase();
+    	}catch(FileNotFoundException e){
+    		emptyDatabaseInfo();
+    	}
+    	if(baseList.isEmpty()){
+    		emptyDatabaseInfo();
+    	}else{
+		    ObservableList<String> olist=FXCollections.observableArrayList(baseList);
+			list.setItems(olist);}
     }
+
+	public void emptyDatabaseInfo() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Informacja");
+		alert.setHeaderText(null);
+		alert.setContentText("Brak baz danych!");
+		alert.showAndWait();
+	}
 
 }

@@ -40,7 +40,8 @@ public class DatabaseWindowController {
 	private ListView<Car> list;
 	@FXML
 	private CheckBox checkBoxModel,checkBoxPower,checkBoxPrice;
-	  
+	@FXML
+    private Text baseInfo;
 
 	  
 	
@@ -50,10 +51,11 @@ public class DatabaseWindowController {
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		try{
+			baseInfo.setText("Baza danych: "+sr.getBaseName());
 			base=sr.getBase(sr.getBaseName());	
 			ObservableList<Car> olist=FXCollections.observableArrayList(base);
 			list.setItems(olist);
-		}catch(FileNotFoundException e){
+		}catch(IOException e){
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("UWAGA");
 			alert.setHeaderText("Brak bazy danych!");

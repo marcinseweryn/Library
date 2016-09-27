@@ -12,39 +12,44 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DatabaseWindowController">
    <children>
-      <TextField fx:id="text1" layoutX="100.0" layoutY="50.0" />
-      <TextField fx:id="text2" layoutX="100.0" layoutY="100.0" />
-      <TextField fx:id="text3" layoutX="100.0" layoutY="150.0" />
-      <Text layoutX="30.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model " />
-      <Text layoutX="30.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moc" />
-      <Text layoutX="30.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena" />
+      <TextField fx:id="text1" layoutX="101.0" layoutY="97.0" />
+      <TextField fx:id="text2" layoutX="101.0" layoutY="147.0" />
+      <TextField fx:id="text3" layoutX="101.0" layoutY="197.0" />
+      <Text layoutX="31.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model " />
+      <Text layoutX="31.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moc" />
+      <Text layoutX="31.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena" />
       <ListView fx:id="list" layoutX="266.0" layoutY="14.0" prefHeight="354.0" prefWidth="327.0" />
-      <Button layoutX="85.0" layoutY="205.0" mnemonicParsing="false" onAction="#saveAction" text="Zapisz" />
-      <Button layoutX="203.0" layoutY="205.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Usuń" />
-      <Button layoutX="30.0" layoutY="205.0" mnemonicParsing="false" onAction="#menuAction" text="Menu" />
+      <Button layoutX="86.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAction" text="Zapisz" />
+      <Button layoutX="204.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Usuń" />
+      <Button layoutX="31.0" layoutY="252.0" mnemonicParsing="false" onAction="#menuAction" text="Menu" />
       <Separator layoutX="251.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="419.0" prefWidth="15.0" />
-      <Text fx:id="saveInfo" layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zapisane" wrappingWidth="237.34959506988525">
+      <Text fx:id="saveInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zapisane" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="deleteInfo" layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały usuniete" wrappingWidth="237.34959506988525">
+      <Text fx:id="deleteInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały usuniete" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="editInfo" layoutX="20.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zmodyfikowane" wrappingWidth="237.34959506988525">
+      <Text fx:id="editInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zmodyfikowane" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="144.0" layoutY="205.0" mnemonicParsing="false" onAction="#editAction" text="Edytuj" />
-      <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchAction" text="Szukaj">
+      <Button layoutX="145.0" layoutY="252.0" mnemonicParsing="false" onAction="#editAction" text="Edytuj" />
+      <Button layoutX="25.0" layoutY="61.0" mnemonicParsing="false" onAction="#searchAction" text="Szukaj">
          <tooltip>
             <Tooltip text="Wybierz co chcesz wyszukać" />
          </tooltip></Button>
-      <CheckBox fx:id="checkBoxModel" layoutX="75.0" layoutY="52.0" mnemonicParsing="false" />
-      <CheckBox fx:id="checkBoxPower" layoutX="75.0" layoutY="100.0" mnemonicParsing="false" />
-      <CheckBox fx:id="checkBoxPrice" layoutX="75.0" layoutY="147.0" mnemonicParsing="false" />
+      <CheckBox fx:id="checkBoxModel" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
+      <CheckBox fx:id="checkBoxPower" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
+      <CheckBox fx:id="checkBoxPrice" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
+      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualna baza:" wrappingWidth="226.13671875">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
