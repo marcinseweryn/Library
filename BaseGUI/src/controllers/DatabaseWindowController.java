@@ -1,8 +1,6 @@
 package controllers;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +14,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
 public class DatabaseWindowController {
@@ -31,19 +31,33 @@ public class DatabaseWindowController {
 	public void setMainControler(MainController mainControler) {
 		this.mainControler = mainControler;
 	}
-
+	
+	public void setBaseTableview(ObservableList<Car> olist) {
+		tableColumnMark.setCellValueFactory(new PropertyValueFactory<>("mark"));
+		tableColumnPower.setCellValueFactory(new PropertyValueFactory<>("power"));
+		tableColumnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+		baseTable.setItems(olist);
+		baseTable.getColumns().clear();
+		baseTable.getColumns().addAll(tableColumnMark,tableColumnPower,tableColumnPrice);
+	}
+	
 	@FXML
 	private TextField text1, text2,text3;
 	@FXML
 	private Text saveInfo,editInfo,deleteInfo;
 	@FXML
-	private ListView<Car> list;
-	@FXML
 	private CheckBox checkBoxModel,checkBoxPower,checkBoxPrice;
 	@FXML
     private Text baseInfo;
-
-	  
+	
+    @FXML
+    private TableView<Car> baseTable;
+    @FXML
+    private TableColumn<Car,String> tableColumnMark;
+    @FXML
+    private TableColumn<Car,String> tableColumnPower;
+    @FXML
+    private TableColumn<Car,String> tableColumnPrice;
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException {
@@ -54,7 +68,7 @@ public class DatabaseWindowController {
 			baseInfo.setText("Baza danych: "+sr.getBaseName());
 			base=sr.getBase(sr.getBaseName());	
 			ObservableList<Car> olist=FXCollections.observableArrayList(base);
-			list.setItems(olist);
+			setBaseTableview(olist);
 		}catch(IOException e){
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("UWAGA");
@@ -76,16 +90,19 @@ public class DatabaseWindowController {
 		base=sr.getBase(sr.getBaseName());
 		Car car = new Car(text1.getText(), text2.getText(), text3.getText());
 		System.out.println(car.toString());
-
 		base.add(car);
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);
-		list.setItems(olist);
+			
+		ObservableList<Car> olist=FXCollections.observableArrayList(base);	
+		setBaseTableview(olist);
+		
 		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 	}
+
+
 	
 	@FXML
 	void deleteAction(ActionEvent event) throws ClassNotFoundException, IOException{
@@ -95,16 +112,16 @@ public class DatabaseWindowController {
 		base=sr.getBase(sr.getBaseName());
 		
 		if(indexlist.isEmpty()==true){
-			base.remove(list.getSelectionModel().getSelectedIndex());
+			base.remove(baseTable.getSelectionModel().getSelectedIndex());
 			}else{
-				int d=indexlist.get(list.getSelectionModel().getSelectedIndex());
+				int d=indexlist.get(baseTable.getSelectionModel().getSelectedIndex());
 				base.remove(d);
 				System.out.println(d);	
 				System.out.println(indexlist.toString());
 			}
 		System.out.println("kk");
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
-		list.setItems(olist);
+		setBaseTableview(olist);
 		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
 		
@@ -118,16 +135,16 @@ public class DatabaseWindowController {
 
 		base=sr.getBase(sr.getBaseName());
 		if(indexlist.isEmpty()==true){
-			base.get(list.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
-			base.get(list.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
-			base.get(list.getSelectionModel().getSelectedIndex()).setPrice(text3.getText());
+			base.get(baseTable.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
+			base.get(baseTable.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
+			base.get(baseTable.getSelectionModel().getSelectedIndex()).setPrice(text3.getText());
 		  }else{
-			  base.get(indexlist.get(list.getSelectionModel().getSelectedIndex())).setMark(text1.getText());
-			  base.get(indexlist.get(list.getSelectionModel().getSelectedIndex())).setPower(text2.getText());
-			  base.get(indexlist.get(list.getSelectionModel().getSelectedIndex())).setPrice(text3.getText());
+			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setMark(text1.getText());
+			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setPower(text2.getText());
+			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setPrice(text3.getText());
 		  }
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
-		list.setItems(olist);
+		setBaseTableview(olist);
 		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
 
@@ -205,14 +222,11 @@ public class DatabaseWindowController {
 			}							
 		}
 		ObservableList<Car> olist=FXCollections.observableArrayList(basee.values());
-		list.setItems(olist);
+		setBaseTableview(olist);
 		indexlist.addAll(basee.keySet());
 		
 	  }
-	 
-	 
-	 
-	
+	 	 	
 public	ArrayList<Car> getBase(){
 		return base;
 	}
