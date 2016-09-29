@@ -33,16 +33,19 @@ public class MysqlBase {
 	
 	public ArrayList<Car> getMysqlBase() throws SQLException, ClassNotFoundException{
 		Connection con=getConnection();
-		PreparedStatement getbase=con.prepareStatement("SELECT Marka,Moc,Cena FROM base");
+		PreparedStatement getbase=con.prepareStatement("SELECT ID,Marka,Moc,Cena FROM base"
+				+ " ORDER BY 'ID' ASC");
 		ResultSet rs=getbase.executeQuery();
 		
 		ArrayList<Car> list=new ArrayList<Car>();
 		String mark,power,price;
+		int ID;
 		while(rs.next()){
+			ID=rs.getInt("ID");
 			mark=rs.getString("Marka");
 			power=rs.getString("Moc");
 			price=rs.getString("Cena");
-			Car car=new Car(mark,power,price);
+			Car car=new Car(ID,mark,power,price);
 			list.add(car);
 		}
 		return list;		
@@ -57,10 +60,10 @@ public class MysqlBase {
 		delete.executeUpdate();	
 	}
 	
-	public void saveToMysqlBase(Car car,ArrayList<Car> list) throws ClassNotFoundException, SQLException{
+	public void saveToMysqlBase(Car car) throws ClassNotFoundException, SQLException{
 		Connection con=getConnection();
 		PreparedStatement save=con.prepareStatement("INSERT INTO base "
-				+ "VALUES('"+list.lastIndexOf(car)+"','"+car.getMark()+"','"+car.getPower()
+				+ "VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
 				+"','"+car.getPrice()+"')");
 		save.executeUpdate();				
 	}

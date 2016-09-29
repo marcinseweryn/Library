@@ -26,6 +26,7 @@ public class MysqlDatabaseWindowController {
 	private static ArrayList<Car> base;
 	private MainController mainControler;
 	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
+	private int ID;
 	
 	Save_Read sr = new Save_Read();
 	MysqlBase mysqlBase=new MysqlBase();
@@ -90,16 +91,15 @@ public class MysqlDatabaseWindowController {
 
 	@FXML
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException, SQLException {
-		base=mysqlBase.getMysqlBase();
-		int ID;
+		base=mysqlBase.getMysqlBase();	
 		int lastID;
-		if(base.isEmpty()){
-			ID=1;
-		}else{
+		try{
 			lastID=base.get(base.size()-1).getID();
 			ID=(1+lastID);
-			System.out.println(ID);
+		}catch(ArrayIndexOutOfBoundsException e){
+			ID=1;
 		}
+		
 		Car car = new Car(ID,text1.getText(), text2.getText(), text3.getText());
 		System.out.println(car.toString());
 		base.add(car);
@@ -107,7 +107,7 @@ public class MysqlDatabaseWindowController {
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);	
 		setBaseTableview(olist);
 		
-		mysqlBase.saveToMysqlBase(car,base);
+		mysqlBase.saveToMysqlBase(car);
 		text1.clear();text2.clear();text3.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
@@ -122,10 +122,12 @@ public class MysqlDatabaseWindowController {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(true);
 		editInfo.setVisible(false);
-		
-		
+			
 		if(indexlist.isEmpty()==true){
-			mysqlBase.deleteFromMysqlBase(baseTable.getSelectionModel().getSelectedItem().getID());
+			int getIndex=baseTable.getSelectionModel().getSelectedIndex();
+			base=mysqlBase.getMysqlBase();
+						
+			mysqlBase.deleteFromMysqlBase((base.get(getIndex).getID()));
 			}else{
 				int d=indexlist.get(baseTable.getSelectionModel().getSelectedIndex());
 				base.remove(d);
