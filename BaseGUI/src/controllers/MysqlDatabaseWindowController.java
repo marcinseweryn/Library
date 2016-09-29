@@ -22,11 +22,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
-public class DatabaseWindowController {
+public class MysqlDatabaseWindowController {
 	private static ArrayList<Car> base;
 	private MainController mainControler;
 	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
-
+	
 	Save_Read sr = new Save_Read();
 	MysqlBase mysqlBase=new MysqlBase();
 
@@ -68,7 +68,7 @@ public class DatabaseWindowController {
 		deleteInfo.setVisible(false);
 		try{
 			baseInfo.setText("Baza danych: "+sr.getBaseName());
-			base=sr.getBase(sr.getBaseName());	
+			base=mysqlBase.getMysqlBase();
 			ObservableList<Car> olist=FXCollections.observableArrayList(base);
 			setBaseTableview(olist);
 		}catch(IOException e){
@@ -79,6 +79,7 @@ public class DatabaseWindowController {
 			alert.showAndWait();
 			mainControler.loadMenu();
 		}
+		mysqlBase.closeConnection();
 	}
 
 	@FXML
@@ -88,33 +89,43 @@ public class DatabaseWindowController {
 	}
 
 	@FXML
-	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException {
-		base=sr.getBase(sr.getBaseName());
-		Car car = new Car(text1.getText(), text2.getText(), text3.getText());
+	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException, SQLException {
+		base=mysqlBase.getMysqlBase();
+		int ID;
+		int lastID;
+		if(base.isEmpty()){
+			ID=1;
+		}else{
+			lastID=base.get(base.size()-1).getID();
+			ID=(1+lastID);
+			System.out.println(ID);
+		}
+		Car car = new Car(ID,text1.getText(), text2.getText(), text3.getText());
 		System.out.println(car.toString());
 		base.add(car);
 			
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);	
 		setBaseTableview(olist);
 		
-		sr.saveList(sr.getBaseName());
+		mysqlBase.saveToMysqlBase(car,base);
 		text1.clear();text2.clear();text3.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
+		mysqlBase.closeConnection();
 	}
 
 
 	
 	@FXML
-	void deleteAction(ActionEvent event) throws ClassNotFoundException, IOException{
+	void deleteAction(ActionEvent event) throws ClassNotFoundException, IOException, SQLException{
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(true);
 		editInfo.setVisible(false);
-		base=sr.getBase(sr.getBaseName());
+		
 		
 		if(indexlist.isEmpty()==true){
-			base.remove(baseTable.getSelectionModel().getSelectedIndex());
+			mysqlBase.deleteFromMysqlBase(baseTable.getSelectionModel().getSelectedItem().getID());
 			}else{
 				int d=indexlist.get(baseTable.getSelectionModel().getSelectedIndex());
 				base.remove(d);
@@ -122,34 +133,33 @@ public class DatabaseWindowController {
 				System.out.println(indexlist.toString());
 			}
 		System.out.println("kk");
+		base=mysqlBase.getMysqlBase();
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
 		setBaseTableview(olist);
-		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
-		
+		mysqlBase.closeConnection();
 	}
 	
 	 @FXML
-	 void editAction(ActionEvent event) throws ClassNotFoundException, IOException {
+	 void editAction(ActionEvent event) throws ClassNotFoundException, IOException, SQLException {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		editInfo.setVisible(true);
 
-		base=sr.getBase(sr.getBaseName());
+
 		if(indexlist.isEmpty()==true){
-			base.get(baseTable.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
-			base.get(baseTable.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
-			base.get(baseTable.getSelectionModel().getSelectedIndex()).setPrice(text3.getText());
+			int ID=baseTable.getSelectionModel().getSelectedIndex();
+			mysqlBase.updateMysqlBaseRecord(ID,text1.getText(),text2.getText(),text3.getText());
 		  }else{
 			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setMark(text1.getText());
 			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setPower(text2.getText());
 			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setPrice(text3.getText());
 		  }
+		base=mysqlBase.getMysqlBase();
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);
 		setBaseTableview(olist);
-		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
-
+		mysqlBase.closeConnection();
 	}
 	 
 	  @FXML
