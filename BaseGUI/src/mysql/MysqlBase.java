@@ -48,6 +48,7 @@ public class MysqlBase {
 			Car car=new Car(ID,mark,power,price);
 			list.add(car);
 		}
+		closeConnection();
 		return list;		
 	}
 	
@@ -65,7 +66,8 @@ public class MysqlBase {
 		PreparedStatement save=con.prepareStatement("INSERT INTO base "
 				+ "VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
 				+"','"+car.getPrice()+"')");
-		save.executeUpdate();				
+		save.executeUpdate();	
+		closeConnection();
 	}
 	
 	public void updateMysqlBaseRecord(int ID,String mark,String power,String price) 
@@ -75,6 +77,7 @@ public class MysqlBase {
 				+ "SET Marka='"+mark+"',Moc='"+power+"',Cena='"+price
 				+ "' WHERE ID="+ID);
 		update.executeUpdate();
+		closeConnection();
 	}
 	
 	
@@ -86,6 +89,7 @@ public class MysqlBase {
 				+ "");
 		create.executeUpdate();
 		}catch(Exception e){System.out.println(e);}
+		closeConnection();
 	}
 		
 		
