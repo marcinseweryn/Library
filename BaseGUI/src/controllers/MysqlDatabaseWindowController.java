@@ -26,7 +26,6 @@ public class MysqlDatabaseWindowController {
 	private static ArrayList<Car> base;
 	private MainController mainControler;
 	private ArrayList<Car> indexlist= new ArrayList<Car>();
-	private int ID;
 	
 	Save_Read sr = new Save_Read();
 	MysqlBase mysqlBase=new MysqlBase();
@@ -95,13 +94,12 @@ public class MysqlDatabaseWindowController {
 		int lastID;
 		try{
 			lastID=base.get(base.size()-1).getID();
-			ID=(1+lastID);
+			lastID+=1;
 		}catch(ArrayIndexOutOfBoundsException e){
-			ID=1;
+			lastID=1;
 		}
-		
-		Car car = new Car(ID,text1.getText(), text2.getText(), text3.getText());
-		System.out.println(car.toString());
+		System.out.println(lastID);
+		Car car = new Car(lastID,text1.getText(), text2.getText(), text3.getText());
 		base.add(car);
 			
 		ObservableList<Car> olist=FXCollections.observableArrayList(base);	

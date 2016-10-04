@@ -2,25 +2,37 @@ package mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import com.sun.prism.ResourceFactoryListener;
-
 import base.Car;
-import javafx.scene.control.TableView;
+import controllers.MainController;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class MysqlBase {
 
 	private Connection con = null;
-	
+	private MainController mainControler;
 
-	public Connection getConnection() throws SQLException, ClassNotFoundException {
+	public Connection getConnection() throws ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
-		con= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/base"
-				+ "?autoReconnect=true&useSSL=false","root","1234");
+		try {
+			con= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/base"
+					+ "?autoReconnect=true&useSSL=false","root","1234");
+		} catch (SQLException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("UWAGA");
+			alert.setHeaderText("Brak polaczenia z baza danych!");
+			alert.showAndWait();
+			try {
+				mainControler.loadMenu();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 		System.out.println("connect");
 		
 		return con;
@@ -34,7 +46,7 @@ public class MysqlBase {
 	public ArrayList<Car> getMysqlBase() throws SQLException, ClassNotFoundException{
 		Connection con=getConnection();
 		PreparedStatement getbase=con.prepareStatement("SELECT ID,Marka,Moc,Cena FROM base"
-				+ " ORDER BY 'ID' ASC");
+				+ " ORDER BY ID ASC");
 		ResultSet rs=getbase.executeQuery();
 		
 		ArrayList<Car> list=new ArrayList<Car>();
@@ -56,18 +68,18 @@ public class MysqlBase {
 	{
 		System.out.println(ID);
 		Connection con=getConnection();
-		PreparedStatement delete=con.prepareStatement("DELETE FROM base "
-				+ "WHERE ID="+ID+"");
-		delete.executeUpdate();	
+		PreparedStatement delete = con.prepareStatement("DELETE FROM base "
+					+ "WHERE ID="+ID+"");
+			delete.executeUpdate();
 	}
 	
 	public void saveToMysqlBase(Car car) throws ClassNotFoundException, SQLException{
 		Connection con=getConnection();
-		PreparedStatement save=con.prepareStatement("INSERT INTO base "
-				+ "VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
-				+"','"+car.getPrice()+"')");
-		save.executeUpdate();	
-		closeConnection();
+		PreparedStatement save = con.prepareStatement("INSERT INTO base "
+					+ "VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
+					+"','"+car.getPrice()+"')");
+			save.executeUpdate();	
+			closeConnection();	
 	}
 	
 	public void updateMysqlBaseRecord(int ID,String mark,String power,String price) 
