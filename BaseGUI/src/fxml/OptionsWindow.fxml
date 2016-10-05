@@ -46,7 +46,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="24.0" layoutY="177.0" mnemonicParsing="false" onAction="#moveToMySqlAction" prefHeight="25.0" prefWidth="87.0" text="Przenieś " />
+      <Button layoutX="24.0" layoutY="177.0" mnemonicParsing="false" onAction="#copyToMySqlAction" prefHeight="25.0" prefWidth="87.0" text="Przenieś " />
       <Button layoutX="490.0" layoutY="177.0" mnemonicParsing="false" onAction="#copyMySqlBaseToLocalAction" prefHeight="25.0" prefWidth="87.0" text="Pobierz bazę" />
       <Button layoutX="24.0" layoutY="214.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Zaktualizuj" />
    </children>

@@ -179,19 +179,19 @@ public class OptionsWindowController {
     }
     
     @FXML
-    void moveToMySqlAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
-    	/*String tableName;
+    void copyToMySqlAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	String tableName;
 		Car car;
     	tableName=list.getSelectionModel().getSelectedItem();
     	mysqlBase.createTable(tableName);
     	base=sr.getBase(tableName);
-
+    	selectMySqlTable(tableName);
     	for(int i=0;i<base.size();i++){ 
     		car=base.get(i);
-    		car.setID(i+1);
+    		car=new Car(i+1,car.getMark(),car.getPower(),car.getPrice());
     		System.out.println(car.getID());
     		mysqlBase.saveToMysqlBase(car);	
-    	}*/
+    	}
     }
 
 	public void emptyDatabaseInfo() {
@@ -244,17 +244,20 @@ public class OptionsWindowController {
     	System.out.println(MySqlTableList.getSelectionModel().getSelectedItem());
     	showMysqlTables();
     }
-	
+/////////////////////////////////////////////////////////////////////////////////////	
     @FXML
     void selectMySqlTableAction(ActionEvent event) throws IOException {
-    	File file =new File("lastMySqlTable");
+    	selectMySqlTable(MySqlTableList.getSelectionModel().getSelectedItem()); 	
+    }
+
+	public void selectMySqlTable(String tableName) throws FileNotFoundException, IOException {
+		File file =new File("lastMySqlTable");
     	FileOutputStream fis=new FileOutputStream(file);
     	DataOutputStream dos=new DataOutputStream(fis);
-    	
-    	String name=MySqlTableList.getSelectionModel().getSelectedItem();
-    	dos.writeUTF(name); 	
-    }
-	
+  
+    	dos.writeUTF(tableName);
+	}
+/////////////////////////////////////////////////////////////////////////////////////	
     @FXML
     void copyMySqlBaseToLocalAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
     	base=mysqlBase.getMysqlBase();
