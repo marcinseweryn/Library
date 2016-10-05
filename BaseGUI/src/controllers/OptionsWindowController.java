@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
@@ -24,6 +27,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
+import mysql.MysqlBase;
 
 public class OptionsWindowController {
 
@@ -40,10 +44,9 @@ public class OptionsWindowController {
 	}
     
     @FXML
-    private Text selectBaseInfo;
-    
+    private Text selectBaseInfo;   
 	@FXML
-    private ListView<String> list;
+    private ListView<String> list; 
 
 	public void setMainControler(MainController mainControler) {
 		this.mainControler = mainControler;
@@ -174,6 +177,22 @@ public class OptionsWindowController {
 		    ObservableList<String> olist=FXCollections.observableArrayList(baseList);
 			list.setItems(olist);}
     }
+    
+    @FXML
+    void moveToMySqlAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	/*String tableName;
+		Car car;
+    	tableName=list.getSelectionModel().getSelectedItem();
+    	mysqlBase.createTable(tableName);
+    	base=sr.getBase(tableName);
+
+    	for(int i=0;i<base.size();i++){ 
+    		car=base.get(i);
+    		car.setID(i+1);
+    		System.out.println(car.getID());
+    		mysqlBase.saveToMysqlBase(car);	
+    	}*/
+    }
 
 	public void emptyDatabaseInfo() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -182,5 +201,73 @@ public class OptionsWindowController {
 		alert.setContentText("Brak baz danych!");
 		alert.showAndWait();
 	}
+	
+	//////////////////////////////////MySql tables//////////////////////////////////////////
+	
+	private static ArrayList<String> MySqlTablesList;
+	MysqlBase mysqlBase=new MysqlBase();
+	
+	public void showMysqlTables() throws SQLException, ClassNotFoundException {
+		MySqlTablesList=mysqlBase.getTables();
+    	ObservableList<String> olist=FXCollections.observableArrayList(MySqlTablesList);
+    	MySqlTableList.setItems(olist);
+	}
+	
+    @FXML
+    private ListView<String> MySqlTableList;
+	
+	
+    @FXML
+    void showMySqlTableListAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	showMysqlTables();
+    }
+	
+    @FXML
+    void newMySqlTableAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	
+    	TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Nowa tabela");
+		dialog.setHeaderText("Nowa tabela");
+		dialog.setContentText("Nazwa:");
+		Optional<String> result = dialog.showAndWait();
+    	
+		if (result.isPresent()) {
+			String name=result.get();
+			mysqlBase.createTable(name);
+			showMysqlTables();
+		}	
+    }
+    
+    @FXML
+    void deleteMySqlTableAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	mysqlBase.deleteTable(MySqlTableList.getSelectionModel().getSelectedItem());
+    	System.out.println(MySqlTableList.getSelectionModel().getSelectedItem());
+    	showMysqlTables();
+    }
+	
+    @FXML
+    void selectMySqlTableAction(ActionEvent event) throws IOException {
+    	File file =new File("lastMySqlTable");
+    	FileOutputStream fis=new FileOutputStream(file);
+    	DataOutputStream dos=new DataOutputStream(fis);
+    	
+    	String name=MySqlTableList.getSelectionModel().getSelectedItem();
+    	dos.writeUTF(name); 	
+    }
+	
+    @FXML
+    void copyMySqlBaseToLocalAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	base=mysqlBase.getMysqlBase();
+    	File file =new File(MySqlTableList.getSelectionModel().getSelectedItem());
+    	FileOutputStream fis=new FileOutputStream(file);
+    	ObjectOutputStream oos=new ObjectOutputStream(fis);
+    	oos.writeObject(base);	
+    	
+    	baseList=srbl.getBase();
+    	baseList.add(MySqlTableList.getSelectionModel().getSelectedItem());
+    	srbl.saveList();
+    }
+    
+	
 
 }

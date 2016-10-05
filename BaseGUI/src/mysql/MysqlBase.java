@@ -2,6 +2,9 @@ package mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -43,9 +46,9 @@ public class MysqlBase {
 		System.out.println("close");
 	}
 	
-	public ArrayList<Car> getMysqlBase() throws SQLException, ClassNotFoundException{
+	public ArrayList<Car> getMysqlBase() throws SQLException, ClassNotFoundException, IOException{
 		Connection con=getConnection();
-		PreparedStatement getbase=con.prepareStatement("SELECT ID,Marka,Moc,Cena FROM base"
+		PreparedStatement getbase=con.prepareStatement("SELECT ID,Marka,Moc,Cena FROM "+getMySqlTableName()
 				+ " ORDER BY ID ASC");
 		ResultSet rs=getbase.executeQuery();
 		
@@ -64,45 +67,88 @@ public class MysqlBase {
 		return list;		
 	}
 	
-	public void deleteFromMysqlBase(int ID) throws ClassNotFoundException, SQLException
+	public void deleteFromMysqlBase(int ID) throws ClassNotFoundException, SQLException, IOException
 	{
 		System.out.println(ID);
 		Connection con=getConnection();
-		PreparedStatement delete = con.prepareStatement("DELETE FROM base "
-					+ "WHERE ID="+ID+"");
-			delete.executeUpdate();
+		PreparedStatement delete = con.prepareStatement("DELETE FROM "+getMySqlTableName()
+			+ " WHERE ID="+ID+"");
+		delete.executeUpdate();
 	}
 	
-	public void saveToMysqlBase(Car car) throws ClassNotFoundException, SQLException{
+	public void saveToMysqlBase(Car car) throws ClassNotFoundException, SQLException, IOException{
 		Connection con=getConnection();
-		PreparedStatement save = con.prepareStatement("INSERT INTO base "
-					+ "VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
-					+"','"+car.getPrice()+"')");
-			save.executeUpdate();	
-			closeConnection();	
+		PreparedStatement save = con.prepareStatement("INSERT INTO "+getMySqlTableName()
+			+ " VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
+			+"','"+car.getPrice()+"')");
+		save.executeUpdate();	
+		closeConnection();	
 	}
 	
 	public void updateMysqlBaseRecord(int ID,String mark,String power,String price) 
-			throws ClassNotFoundException, SQLException{
+			throws ClassNotFoundException, SQLException, IOException{
 		Connection con=getConnection();
-		PreparedStatement update = con.prepareStatement("UPDATE base "
-				+ "SET Marka='"+mark+"',Moc='"+power+"',Cena='"+price
+		PreparedStatement update = con.prepareStatement("UPDATE "+getMySqlTableName()
+				+ " SET Marka='"+mark+"',Moc='"+power+"',Cena='"+price
 				+ "' WHERE ID="+ID);
 		update.executeUpdate();
 		closeConnection();
 	}
 	
 	
-	public void createTable() throws ClassNotFoundException, SQLException{
+	public void createTable(String tableName) throws ClassNotFoundException, SQLException{
+	
+			Connection con=getConnection();
 		try{
-		Connection con=getConnection();
-		PreparedStatement create=con.prepareStatement("CREATE TABLE IF NOT EXISTS base"
-				+ "(ID int,Marka varchar(20),Moc varchar(20),Cena varchar(20),PRIMARY KEY(ID))"
-				+ "");
-		create.executeUpdate();
-		}catch(Exception e){System.out.println(e);}
+			PreparedStatement create=con.prepareStatement("CREATE TABLE IF NOT EXISTS "+tableName
+					+ "(ID int,Marka varchar(20),Moc varchar(20),Cena varchar(20),PRIMARY KEY(ID))"
+					+ "");
+			create.executeUpdate();
+		}catch(Exception e){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("Nieprawid³owa nazwa!");
+			alert.showAndWait();
+		}
 		closeConnection();
 	}
+	
+	public ArrayList<String> getTables() throws SQLException, ClassNotFoundException{
+		ArrayList<String> tables=new ArrayList<String>();
+		Connection con=getConnection();
+		PreparedStatement show=con.prepareStatement("SHOW tables");
+		ResultSet rs=show.executeQuery();
 		
+		while(rs.next()){
+			tables.add(rs.getString(1));
+		}
+		closeConnection();
+		return tables;	
+	}
+	
+	public void deleteTable(String tableName) throws ClassNotFoundException{
+		Connection con = getConnection();
+		try {
+			PreparedStatement delete = con.prepareStatement("DROP TABLE "+tableName);
+			delete.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public String getMySqlTableName() throws IOException{
+		String name = null;
+		try {
+			FileInputStream fis = new FileInputStream("lastMySqlTable");
+			DataInputStream dis = new DataInputStream(fis);
+			name=dis.readUTF();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}		
+		return name;
+	}
+	
+	
+	
 		
 }

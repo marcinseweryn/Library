@@ -66,9 +66,8 @@ public class MysqlDatabaseWindowController {
 		saveInfo.setVisible(false);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
-		mysqlBase.createTable();
 		try{
-			baseInfo.setText("Baza danych: "+sr.getBaseName());
+			baseInfo.setText("Baza danych: "+mysqlBase.getMySqlTableName());
 			base=mysqlBase.getMysqlBase();
 			ObservableList<Car> olist=FXCollections.observableArrayList(base);
 			setBaseTableview(olist);
