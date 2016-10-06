@@ -47,6 +47,17 @@ public class MenuController {
 	}
 
 	@FXML
+    void mysqlBaseAction(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(this.getClass().getResource("/fxml/MysqlDatabaseWindow.fxml"));
+		Pane pane = loader.load();
+		mainControler.setScreen(pane);
+
+		MysqlDatabaseWindowController addController = loader.getController();
+		addController.setMainControler(mainControler);
+    }
+	
+	@FXML
 	void optionsAction(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(this.getClass().getResource("/fxml/OptionsWindow.fxml"));

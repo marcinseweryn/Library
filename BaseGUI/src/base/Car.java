@@ -7,12 +7,21 @@ public class Car implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String mark,price,power;
+	private int ID;
 	
+
 public Car(){
 	
 }
 public Car(String mark,String power,String price)
 {
+	this.mark=mark;
+	this.power=power;
+	this.price=price;
+}
+public Car(int ID,String mark,String power,String price)
+{
+	this.ID=ID;
 	this.mark=mark;
 	this.power=power;
 	this.price=price;
@@ -40,6 +49,13 @@ public Car(String mark,String power,String price)
 
 	public void setMark(String mark) {
 		this.mark = mark;
+	}
+	
+	public int getID() {
+		return ID;
+	}
+	public void setID(int iD) {
+		ID = iD;
 	}
 	
 	@Override

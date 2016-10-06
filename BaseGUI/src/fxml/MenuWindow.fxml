@@ -13,6 +13,7 @@
          </font>
       </Text>
       <Button layoutX="160.0" layoutY="89.0" mnemonicParsing="false" onAction="#addAction" prefHeight="25.0" prefWidth="86.0" text="Baza" />
-      <Button layoutX="160.0" layoutY="126.0" mnemonicParsing="false" onAction="#optionsAction" prefHeight="25.0" prefWidth="86.0" text="Opcje" />
+      <Button layoutX="161.0" layoutY="168.0" mnemonicParsing="false" onAction="#optionsAction" prefHeight="25.0" prefWidth="86.0" text="Opcje" />
+      <Button layoutX="161.0" layoutY="129.0" mnemonicParsing="false" onAction="#mysqlBaseAction" prefHeight="25.0" prefWidth="86.0" text="Baza mysql" />
    </children>
 </Pane>

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -9,30 +10,45 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OptionsWindowController">
    <children>
-      <Button layoutX="37.0" layoutY="66.0" mnemonicParsing="false" onAction="#newBaseAction" prefHeight="25.0" prefWidth="87.0" text="Nowa baza" />
-      <Button layoutX="38.0" layoutY="105.0" mnemonicParsing="false" onAction="#deleteBaseAction" prefHeight="25.0" prefWidth="87.0" text="Usuń bazę">
+      <Button layoutX="24.0" layoutY="66.0" mnemonicParsing="false" onAction="#newBaseAction" prefHeight="25.0" prefWidth="87.0" text="Nowa baza" />
+      <Button layoutX="24.0" layoutY="105.0" mnemonicParsing="false" onAction="#deleteBaseAction" prefHeight="25.0" prefWidth="87.0" text="Usuń bazę">
          <tooltip>
             <Tooltip text="Wybierz z listy bazę do usunięcia" />
          </tooltip></Button>
-      <Button layoutX="37.0" layoutY="143.0" mnemonicParsing="false" onAction="#selectBaseAction" text="Wybierz bazę">
+      <Button layoutX="24.0" layoutY="143.0" mnemonicParsing="false" onAction="#selectBaseAction" text="Wybierz bazę">
          <tooltip>
             <Tooltip text="Wybierz z listy bazę z której chcesz korzystać" />
          </tooltip></Button>
-      <ListView fx:id="list" layoutX="213.0" layoutY="49.0" prefHeight="200.0" prefWidth="308.0" />
-      <Text layoutX="37.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ustawienia:" wrappingWidth="104.376953125">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <Button layoutX="38.0" layoutY="181.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="25.0" prefWidth="87.0" text="Menu">
+      <ListView fx:id="list" layoutX="125.0" layoutY="56.0" prefHeight="267.0" prefWidth="170.0" />
+      <Button layoutX="12.0" layoutY="361.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="25.0" prefWidth="87.0" text="Menu">
          <tooltip>
             <Tooltip text="Powrót do menu" />
          </tooltip></Button>
-      <Button layoutX="213.0" layoutY="249.0" mnemonicParsing="false" onAction="#showDatabases" text="Wyświetl Bazy danych" />
-      <Text fx:id="selectBaseInfo" layoutX="23.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.13671875">
+      <Button layoutX="125.0" layoutY="323.0" mnemonicParsing="false" onAction="#showDatabases" prefHeight="25.0" prefWidth="170.0" text="Wyświetl Bazy danych" />
+      <Text fx:id="selectBaseInfo" layoutX="12.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.13671875">
          <font>
             <Font size="16.0" />
          </font>
       </Text>
+      <Separator layoutX="300.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="0.0" />
+      <ListView fx:id="MySqlTableList" layoutX="308.0" layoutY="56.0" prefHeight="267.0" prefWidth="170.0" />
+      <Button layoutX="490.0" layoutY="66.0" mnemonicParsing="false" onAction="#newMySqlTableAction" prefHeight="25.0" prefWidth="87.0" text="Nowa baza" />
+      <Button layoutX="490.0" layoutY="105.0" mnemonicParsing="false" onAction="#deleteMySqlTableAction" prefHeight="25.0" prefWidth="87.0" text="Usuń bazę" />
+      <Button layoutX="490.0" layoutY="143.0" mnemonicParsing="false" onAction="#selectMySqlTableAction" text="Wybierz bazę" />
+      <Button layoutX="308.0" layoutY="323.0" mnemonicParsing="false" onAction="#showMySqlTableListAction" prefHeight="25.0" prefWidth="170.0" text="Wyświetl bazy danych" />
+      <Text layoutX="100.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bazy lokalne" wrappingWidth="100.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="400.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bazy MySql" wrappingWidth="100.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button layoutX="24.0" layoutY="177.0" mnemonicParsing="false" onAction="#copyToMySqlAction" prefHeight="25.0" prefWidth="87.0" text="Przenieś " />
+      <Button layoutX="490.0" layoutY="177.0" mnemonicParsing="false" onAction="#copyMySqlBaseToLocalAction" prefHeight="25.0" prefWidth="87.0" text="Pobierz bazę" />
+      <Button layoutX="24.0" layoutY="214.0" mnemonicParsing="false" onAction="#joinToMySqlTableAction" prefHeight="25.0" prefWidth="87.0" text="Połącz" />
+      <Button layoutX="490.0" layoutY="214.0" mnemonicParsing="false" onAction="#joinToLocalTablesAction" prefHeight="25.0" prefWidth="87.0" text="Połącz" />
    </children>
 </Pane>
