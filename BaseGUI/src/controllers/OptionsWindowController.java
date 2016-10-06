@@ -94,13 +94,14 @@ public class OptionsWindowController {
 					file=new File(baseList.get(list.getSelectionModel().getSelectedIndex()));
 					baseList.remove(list.getSelectionModel().getSelectedIndex());
 					file.delete();
-					ObservableList<String> olist=FXCollections.observableArrayList(baseList);
-					list.setItems(olist);
+					refreshLocalList();
 					srbl.saveList();
 				}else{}
 			}
 		}
 	}
+
+
 
 	@FXML
 	void newBaseAction(ActionEvent event) throws IOException, ClassNotFoundException {
@@ -134,8 +135,7 @@ public class OptionsWindowController {
 			}
 			baseList.add(baseName);
 			srbl.saveList();
-			ObservableList<String> olist=FXCollections.observableArrayList(baseList);
-			list.setItems(olist);
+			refreshLocalList();
 		}
 	}
 
@@ -174,8 +174,7 @@ public class OptionsWindowController {
     	if(baseList.isEmpty()){
     		emptyDatabaseInfo();
     	}else{
-		    ObservableList<String> olist=FXCollections.observableArrayList(baseList);
-			list.setItems(olist);}
+		    refreshLocalList();}
     }
     
     @FXML
@@ -188,10 +187,27 @@ public class OptionsWindowController {
     	selectMySqlTable(tableName);
     	for(int i=0;i<base.size();i++){ 
     		car=base.get(i);
-    		car=new Car(i+1,car.getMark(),car.getPower(),car.getPrice());
+    		car.setID(i+1);
     		System.out.println(car.getID());
     		mysqlBase.saveToMysqlBase(car);	
     	}
+    	refreshMysqlList();
+    }
+    
+    @FXML
+    void joinToMySqlTableAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	int lastID;
+    	String tableName=list.getSelectionModel().getSelectedItem();
+    	String mySqlTableName=MySqlTableList.getSelectionModel().getSelectedItem();
+    	selectMySqlTable(mySqlTableName);
+    	base=mysqlBase.getMysqlBase();
+    	lastID=base.get(base.size()-1).getID();
+    	base=sr.getBase(tableName);
+    	for(Car car:base){
+    		car.setID(++lastID);
+    		mysqlBase.saveToMysqlBase(car);
+    	}
+    	refreshLocalList();
     }
 
 	public void emptyDatabaseInfo() {
@@ -202,12 +218,19 @@ public class OptionsWindowController {
 		alert.showAndWait();
 	}
 	
+	public void refreshLocalList() {
+		ObservableList<String> olist=FXCollections.observableArrayList(baseList);
+		list.setItems(olist);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////MySql tables//////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static ArrayList<String> MySqlTablesList;
 	MysqlBase mysqlBase=new MysqlBase();
 	
-	public void showMysqlTables() throws SQLException, ClassNotFoundException {
+	public void refreshMysqlList() throws SQLException, ClassNotFoundException {
 		MySqlTablesList=mysqlBase.getTables();
     	ObservableList<String> olist=FXCollections.observableArrayList(MySqlTablesList);
     	MySqlTableList.setItems(olist);
@@ -219,7 +242,7 @@ public class OptionsWindowController {
 	
     @FXML
     void showMySqlTableListAction(ActionEvent event) throws ClassNotFoundException, SQLException {
-    	showMysqlTables();
+    	refreshMysqlList();
     }
 	
     @FXML
@@ -234,7 +257,7 @@ public class OptionsWindowController {
 		if (result.isPresent()) {
 			String name=result.get();
 			mysqlBase.createTable(name);
-			showMysqlTables();
+			refreshMysqlList();
 		}	
     }
     
@@ -242,7 +265,7 @@ public class OptionsWindowController {
     void deleteMySqlTableAction(ActionEvent event) throws ClassNotFoundException, SQLException {
     	mysqlBase.deleteTable(MySqlTableList.getSelectionModel().getSelectedItem());
     	System.out.println(MySqlTableList.getSelectionModel().getSelectedItem());
-    	showMysqlTables();
+    	refreshMysqlList();
     }
 /////////////////////////////////////////////////////////////////////////////////////	
     @FXML
@@ -262,15 +285,28 @@ public class OptionsWindowController {
     void copyMySqlBaseToLocalAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
     	base=mysqlBase.getMysqlBase();
     	File file =new File(MySqlTableList.getSelectionModel().getSelectedItem());
-    	FileOutputStream fis=new FileOutputStream(file);
-    	ObjectOutputStream oos=new ObjectOutputStream(fis);
+    	FileOutputStream fos=new FileOutputStream(file);
+    	ObjectOutputStream oos=new ObjectOutputStream(fos);
     	oos.writeObject(base);	
-    	
+    	oos.close();
     	baseList=srbl.getBase();
     	baseList.add(MySqlTableList.getSelectionModel().getSelectedItem());
     	srbl.saveList();
+    	refreshLocalList();
     }
     
-	
-
+    @FXML
+    void joinToLocalTablesAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	int lastID;
+    	String tableName=list.getSelectionModel().getSelectedItem();
+    	String mySqlTableName=MySqlTableList.getSelectionModel().getSelectedItem();
+    	selectMySqlTable(mySqlTableName);
+    	base=sr.getBase(tableName);   			
+    	base.addAll(mysqlBase.getMysqlBase());  
+    	FileOutputStream fos=new FileOutputStream(tableName);
+    	ObjectOutputStream oos=new ObjectOutputStream(fos);
+    	oos.writeObject(base);
+    	oos.close();
+    	refreshMysqlList();
+    }	
 }
