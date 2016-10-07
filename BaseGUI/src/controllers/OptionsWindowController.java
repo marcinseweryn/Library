@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import base.Car;
+import base.Excel;
 import base.Save_Read;
 import base.Save_Read_BaseList;
 import javafx.collections.FXCollections;
@@ -209,6 +210,13 @@ public class OptionsWindowController {
     	}
     	refreshLocalList();
     }
+    
+    @FXML
+    void createLocalTableExcelFileAction(ActionEvent event) throws IOException, ClassNotFoundException {
+    	Excel excel=new Excel();
+    	base=sr.getBase(list.getSelectionModel().getSelectedItem());
+    	excel.createExelFile(base,list.getSelectionModel().getSelectedItem());
+    }
 
 	public void emptyDatabaseInfo() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -309,4 +317,13 @@ public class OptionsWindowController {
     	oos.close();
     	refreshMysqlList();
     }	
+    
+    @FXML
+    void createMySqlTableExcelFileAction(ActionEvent event) throws FileNotFoundException, IOException, ClassNotFoundException, SQLException {
+    	Excel excel=new Excel();
+    	String tableName=MySqlTableList.getSelectionModel().getSelectedItem();
+    	selectMySqlTable(tableName);
+    	base=mysqlBase.getMysqlBase();
+    	excel.createExelFile(base,tableName);
+    }
 }
