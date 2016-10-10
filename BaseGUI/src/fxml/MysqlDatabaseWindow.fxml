@@ -20,8 +20,14 @@
       <Text layoutX="31.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moc" />
       <Text layoutX="31.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena" />
       <Button layoutX="86.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAction" text="Zapisz" />
-      <Button layoutX="204.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Usuń" />
-      <Button layoutX="31.0" layoutY="252.0" mnemonicParsing="false" onAction="#menuAction" text="Menu" />
+      <Button layoutX="204.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Usuń">
+         <tooltip>
+            <Tooltip text="Wybierz z tabeli rekord który chcesz usunąć" />
+         </tooltip></Button>
+      <Button layoutX="31.0" layoutY="252.0" mnemonicParsing="false" onAction="#menuAction" text="Menu">
+         <tooltip>
+            <Tooltip text="Powrót do menu" />
+         </tooltip></Button>
       <Separator layoutX="251.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="419.0" prefWidth="15.0" />
       <Text fx:id="saveInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zapisane" wrappingWidth="237.34959506988525">
          <font>
@@ -38,7 +44,10 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="145.0" layoutY="252.0" mnemonicParsing="false" onAction="#editAction" text="Edytuj" />
+      <Button layoutX="145.0" layoutY="252.0" mnemonicParsing="false" onAction="#editAction" text="Edytuj">
+         <tooltip>
+            <Tooltip text="Wybierz z tabeli rekord który chcesz edytować" />
+         </tooltip></Button>
       <Button layoutX="25.0" layoutY="61.0" mnemonicParsing="false" onAction="#searchAction" text="Szukaj">
          <tooltip>
             <Tooltip text="Wybierz co chcesz wyszukać" />
@@ -46,7 +55,7 @@
       <CheckBox fx:id="checkBoxModel" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
       <CheckBox fx:id="checkBoxPower" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
       <CheckBox fx:id="checkBoxPrice" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
-      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualna baza:" wrappingWidth="226.13671875">
+      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualna tabela:" wrappingWidth="226.13671875">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
