@@ -6,13 +6,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import base.Car;
+import base.Book;
 import base.Save_Read;
 import mysql.MysqlBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
@@ -21,26 +25,23 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class MysqlDatabaseWindowController {
-	private static ArrayList<Car> base;
-	private MainController mainControler;
-	private ArrayList<Car> indexlist= new ArrayList<Car>();
+	private static ArrayList<Book> base;
+	private ArrayList<Book> indexlist= new ArrayList<Book>();
 	
 	Save_Read sr = new Save_Read();
 	MysqlBase mysqlBase=new MysqlBase();
 
-	public void setMainControler(MainController mainControler) {
-		this.mainControler = mainControler;
-	}
 	
-	public void setBaseTableview(ObservableList<Car> olist) {
-		tableColumnMark.setCellValueFactory(new PropertyValueFactory<>("mark"));
-		tableColumnPower.setCellValueFactory(new PropertyValueFactory<>("power"));
-		tableColumnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+	public void setBaseTableview(ObservableList<Book> olist) {
+		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+		tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+		tableColumnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		baseTable.setItems(olist);
 		baseTable.getColumns().clear();
-		baseTable.getColumns().addAll(tableColumnMark,tableColumnPower,tableColumnPrice);
+		baseTable.getColumns().addAll(tableColumnTitle,tableColumnAuthor,tableColumnISBN);
 	}
 	
 	@FXML
@@ -48,42 +49,40 @@ public class MysqlDatabaseWindowController {
 	@FXML
 	private Text saveInfo,editInfo,deleteInfo;
 	@FXML
-	private CheckBox checkBoxModel,checkBoxPower,checkBoxPrice;
+	private CheckBox checkBoxTitle,checkBoxAuthor,checkBoxISBN;
 	@FXML
     private Text baseInfo;
 	
     @FXML
-    private TableView<Car> baseTable;
+    private TableView<Book> baseTable;
     @FXML
-    private TableColumn<Car,String> tableColumnMark;
+    private TableColumn<Book,String> tableColumnTitle;
     @FXML
-    private TableColumn<Car,String> tableColumnPower;
+    private TableColumn<Book,String> tableColumnAuthor;
     @FXML
-    private TableColumn<Car,String> tableColumnPrice;
+    private TableColumn<Book,String> tableColumnISBN;
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
 		saveInfo.setVisible(false);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
-		try{
+		
 			baseInfo.setText("Baza danych: "+mysqlBase.getMySqlTableName());
 			base=mysqlBase.getMysqlBase();
-			ObservableList<Car> olist=FXCollections.observableArrayList(base);
+			ObservableList<Book> olist=FXCollections.observableArrayList(base);
 			setBaseTableview(olist);
-		}catch(IOException e){
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("UWAGA");
-			alert.setHeaderText("Brak bazy danych!");
-			alert.setContentText("PrzejdŸ do opcji aby wybraæ bazê danych lub utworzyæ now¹");
-			alert.showAndWait();
-			mainControler.loadMenu();
-		}
+
 	}
 
 	@FXML
 	void menuAction(ActionEvent event) throws IOException {
-		mainControler.loadMenu();
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
 
 	}
 
@@ -98,10 +97,10 @@ public class MysqlDatabaseWindowController {
 			lastID=1;
 		}
 		System.out.println(lastID);
-		Car car = new Car(lastID,text1.getText(), text2.getText(), text3.getText());
+		Book car = new Book(lastID,text1.getText(), text2.getText(), text3.getText());
 		base.add(car);
 			
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);	
+		ObservableList<Book> olist=FXCollections.observableArrayList(base);	
 		setBaseTableview(olist);
 		
 		mysqlBase.saveToMysqlBase(car);
@@ -132,7 +131,7 @@ public class MysqlDatabaseWindowController {
 			}
 		System.out.println("kk");
 		base=mysqlBase.getMysqlBase();
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);
+		ObservableList<Book> olist=FXCollections.observableArrayList(base);
 		setBaseTableview(olist);
 		text1.clear();text2.clear();text3.clear();
 	}
@@ -152,14 +151,14 @@ public class MysqlDatabaseWindowController {
 			mysqlBase.updateMysqlBaseRecord(ID,text1.getText(),text2.getText(),text3.getText());
 		  }
 		base=mysqlBase.getMysqlBase();
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);
+		ObservableList<Book> olist=FXCollections.observableArrayList(base);
 		setBaseTableview(olist);
 		text1.clear();text2.clear();text3.clear();
 	}
 	 
 	  @FXML
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
-		  Map<Integer,Car> basee=new HashMap<Integer,Car>();
+		  Map<Integer,Book> basee=new HashMap<Integer,Book>();
 		try {
 			base=mysqlBase.getMysqlBase();
 		} catch (SQLException e) {
@@ -167,59 +166,59 @@ public class MysqlDatabaseWindowController {
 		}
 		indexlist.removeAll(indexlist);
 		
-		if(checkBoxModel.isSelected()==false && checkBoxPower.isSelected()==false && checkBoxPrice.isSelected()==false)
+		if(checkBoxTitle.isSelected()==false && checkBoxAuthor.isSelected()==false && checkBoxISBN.isSelected()==false)
 		{	
 			
 		}else{
-			for(Car car:base)
+			for(Book book:base)
 			{
-				if(checkBoxModel.isSelected()==true && checkBoxPower.isSelected()==true && checkBoxPrice.isSelected()==true)
+				if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
 				{
-					if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()) && car.getPrice().equals(text3.getText()) )
+					if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()) && book.getISBN().equals(text3.getText()) )
 					{
-						basee.put(base.get(base.indexOf(car)).getID(),car);
+						basee.put(base.get(base.indexOf(book)).getID(),book);
 					}else{}
 				}else{
-					if(checkBoxModel.isSelected()==true && checkBoxPower.isSelected()==true)
+					if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true)
 					{
-						if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()))
+						if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()))
 						{
-							basee.put(base.get(base.indexOf(car)).getID(),car);
+							basee.put(base.get(base.indexOf(book)).getID(),book);
 						}else{}
 					}else{
-						if(checkBoxModel.isSelected()==true && checkBoxPrice.isSelected()==true)
+						if(checkBoxTitle.isSelected()==true && checkBoxISBN.isSelected()==true)
 						{
-							if(car.getMark().equals(text1.getText()) && car.getPrice().equals(text3.getText()))
+							if(book.getTitle().equals(text1.getText()) && book.getISBN().equals(text3.getText()))
 							{
-								basee.put(base.indexOf(car),car);
+								basee.put(base.indexOf(book),book);
 							}else{}
 						}else{
-							if(checkBoxPower.isSelected()==true && checkBoxPrice.isSelected()==true)
+							if(checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
 							{
-								if(car.getPrice().equals(text3.getText()) && car.getPower().equals(text2.getText()))
+								if(book.getISBN().equals(text3.getText()) && book.getAuthor().equals(text2.getText()))
 								{
-									basee.put(base.get(base.indexOf(car)).getID(),car);
+									basee.put(base.get(base.indexOf(book)).getID(),book);
 								}else{}
 							}else{
-								if(checkBoxModel.isSelected()==true)
+								if(checkBoxTitle.isSelected()==true)
 								{
-									if(car.getMark().equals(text1.getText()))
+									if(book.getTitle().equals(text1.getText()))
 									{
-										basee.put(base.get(base.indexOf(car)).getID(),car);
+										basee.put(base.get(base.indexOf(book)).getID(),book);
 									}else{}	
 								}else{
-									if(checkBoxPower.isSelected()==true)
+									if(checkBoxAuthor.isSelected()==true)
 									{
-										if(car.getPower().equals(text2.getText()))
+										if(book.getAuthor().equals(text2.getText()))
 										{
-											basee.put(base.get(base.indexOf(car)).getID(),car);
+											basee.put(base.get(base.indexOf(book)).getID(),book);
 										}else{}
 									}else{
-										if(checkBoxPrice.isSelected()==true)
+										if(checkBoxISBN.isSelected()==true)
 										{
-											if(car.getPrice().equals(text3.getText()))
+											if(book.getISBN().equals(text3.getText()))
 											{
-												basee.put(base.get(base.indexOf(car)).getID(),car);
+												basee.put(base.get(base.indexOf(book)).getID(),book);
 											}else{}
 										}else{
 											
@@ -232,13 +231,13 @@ public class MysqlDatabaseWindowController {
 				}											
 			}							
 		}
-		ObservableList<Car> olist=FXCollections.observableArrayList(basee.values());
+		ObservableList<Book> olist=FXCollections.observableArrayList(basee.values());
 		setBaseTableview(olist);
 		indexlist.addAll(basee.values());
 		
 	  }
 	 	 	
-public	ArrayList<Car> getBase(){
+public	ArrayList<Book> getBase(){
 		return base;
 	}
 

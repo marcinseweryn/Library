@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import base.Car;
+import base.Book;
 import controllers.MainController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -46,21 +46,21 @@ public class MysqlBase {
 		System.out.println("close");
 	}
 	
-	public ArrayList<Car> getMysqlBase() throws SQLException, ClassNotFoundException, IOException{
+	public ArrayList<Book> getMysqlBase() throws SQLException, ClassNotFoundException, IOException{
 		Connection con=getConnection();
-		PreparedStatement getbase=con.prepareStatement("SELECT ID,Marka,Moc,Cena FROM "+getMySqlTableName()
+		PreparedStatement getbase=con.prepareStatement("SELECT ID,Title,Author,ISBN FROM "+getMySqlTableName()
 				+ " ORDER BY ID ASC");
 		ResultSet rs=getbase.executeQuery();
 		
-		ArrayList<Car> list=new ArrayList<Car>();
-		String mark,power,price;
+		ArrayList<Book> list=new ArrayList<Book>();
+		String title,author,ISBN;
 		int ID;
 		while(rs.next()){
 			ID=rs.getInt("ID");
-			mark=rs.getString("Marka");
-			power=rs.getString("Moc");
-			price=rs.getString("Cena");
-			Car car=new Car(ID,mark,power,price);
+			title=rs.getString("Title");
+			author=rs.getString("Author");
+			ISBN=rs.getString("ISBN");
+			Book car=new Book(ID,title,author,ISBN);
 			list.add(car);
 		}
 		closeConnection();
@@ -76,20 +76,20 @@ public class MysqlBase {
 		delete.executeUpdate();
 	}
 	
-	public void saveToMysqlBase(Car car) throws ClassNotFoundException, SQLException, IOException{
+	public void saveToMysqlBase(Book book) throws ClassNotFoundException, SQLException, IOException{
 		Connection con=getConnection();
 		PreparedStatement save = con.prepareStatement("INSERT INTO "+getMySqlTableName()
-			+ " VALUES('"+car.getID()+"','"+car.getMark()+"','"+car.getPower()
-			+"','"+car.getPrice()+"')");
+			+ " VALUES('"+book.getID()+"','"+book.getTitle()+"','"+book.getAuthor()
+			+"','"+book.getISBN()+"')");
 		save.executeUpdate();	
 		closeConnection();	
 	}
 	
-	public void updateMysqlBaseRecord(int ID,String mark,String power,String price) 
+	public void updateMysqlBaseRecord(int ID,String title,String author,String ISBN) 
 			throws ClassNotFoundException, SQLException, IOException{
 		Connection con=getConnection();
 		PreparedStatement update = con.prepareStatement("UPDATE "+getMySqlTableName()
-				+ " SET Marka='"+mark+"',Moc='"+power+"',Cena='"+price
+				+ " SET Title='"+title+"',Author='"+author+"',ISBN='"+ISBN
 				+ "' WHERE ID="+ID);
 		update.executeUpdate();
 		closeConnection();
@@ -101,7 +101,7 @@ public class MysqlBase {
 			Connection con=getConnection();
 		try{
 			PreparedStatement create=con.prepareStatement("CREATE TABLE IF NOT EXISTS "+tableName
-					+ "(ID int,Marka varchar(20),Moc varchar(20),Cena varchar(20),PRIMARY KEY(ID))"
+					+ "(ID int,Title varchar(20),Author varchar(20),ISBN varchar(20),PRIMARY KEY(ID))"
 					+ "");
 			create.executeUpdate();
 		}catch(Exception e){

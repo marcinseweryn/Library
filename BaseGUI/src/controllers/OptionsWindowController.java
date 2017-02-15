@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
-import base.Car;
+import base.Book;
 import base.Excel;
 import base.Save_Read;
 import base.Save_Read_BaseList;
@@ -23,17 +23,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import mysql.MysqlBase;
 
 public class OptionsWindowController {
 
 	private MainController mainControler;
-	private static ArrayList<Car> base;
+	private static ArrayList<Book> base;
 	Save_Read sr = new Save_Read();
 	private static ArrayList<String> baseList;
 	Save_Read_BaseList srbl= new Save_Read_BaseList();
@@ -64,7 +69,12 @@ public class OptionsWindowController {
 	
 	@FXML
 	void menuAction(ActionEvent event) throws IOException {
-		mainControler.loadMenu();
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
 
 	}
 
@@ -116,7 +126,7 @@ public class OptionsWindowController {
 		if (result.isPresent()) {
 			String baseName = result.get();
 			file = new File(baseName);
-			base = new ArrayList<Car>();
+			base = new ArrayList<Book>();
 			FileOutputStream fos = new FileOutputStream(baseName);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(base);
@@ -181,7 +191,7 @@ public class OptionsWindowController {
     @FXML
     void copyToMySqlAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
     	String tableName;
-		Car car;
+		Book car;
     	tableName=list.getSelectionModel().getSelectedItem();
     	mysqlBase.createTable(tableName);
     	base=sr.getBase(tableName);
@@ -204,7 +214,7 @@ public class OptionsWindowController {
     	base=mysqlBase.getMysqlBase();
     	lastID=base.get(base.size()-1).getID();
     	base=sr.getBase(tableName);
-    	for(Car car:base){
+    	for(Book car:base){
     		car.setID(++lastID);
     		mysqlBase.saveToMysqlBase(car);
     	}

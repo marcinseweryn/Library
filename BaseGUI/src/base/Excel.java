@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class Excel {
 
-	public void createExelFile(ArrayList<Car> list,String tableName) throws IOException{
+	public void createExelFile(ArrayList<Book> list,String tableName) throws IOException{
 		
 		
 		HSSFWorkbook workbook=new HSSFWorkbook();
@@ -36,15 +36,15 @@ public class Excel {
 		}
 		
 		int index=1;
-		for(Car car:list){
+		for(Book car:list){
 			Row row=sheet.createRow(index);
 			
 			Cell cellMark=row.createCell(0);
-			cellMark.setCellValue(car.getMark());
+			cellMark.setCellValue(car.getTitle());
 			Cell cellPower=row.createCell(1);
-			cellPower.setCellValue(car.getPower());
+			cellPower.setCellValue(car.getAuthor());
 			Cell cellPrice=row.createCell(2);
-			cellPrice.setCellValue(car.getPrice());
+			cellPrice.setCellValue(car.getISBN());
 			
 			index++;
 		}

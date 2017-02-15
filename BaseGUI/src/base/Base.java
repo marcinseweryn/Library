@@ -20,11 +20,11 @@ public class Base extends Application {
 		loader.setLocation(this.getClass().getResource("/fxml/StackPaneWindow.fxml"));
 		StackPane stackPane = loader.load();
 		
-		Scene scene = new Scene(stackPane,600,400);
+		Scene scene = new Scene(stackPane);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		primaryStage.setTitle("Baza");
+		primaryStage.setTitle("Library");
 		
 	}
 

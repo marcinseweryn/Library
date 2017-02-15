@@ -16,56 +16,60 @@
       <TextField fx:id="text1" layoutX="101.0" layoutY="97.0" />
       <TextField fx:id="text2" layoutX="101.0" layoutY="147.0" />
       <TextField fx:id="text3" layoutX="101.0" layoutY="197.0" />
-      <Text layoutX="31.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Model " />
-      <Text layoutX="31.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moc" />
-      <Text layoutX="31.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena" />
-      <Button layoutX="86.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAction" text="Zapisz" />
-      <Button layoutX="204.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Usuń">
+      <Text layoutX="31.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
+      <Text layoutX="31.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author" />
+      <Text layoutX="31.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN" />
+      <Button layoutX="86.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="25.0" prefWidth="47.0" text="Save" />
+      <Button layoutX="199.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Delete">
          <tooltip>
             <Tooltip text="Wybierz z tabeli rekord który chcesz usunąć" />
-         </tooltip></Button>
+         </tooltip>
+      </Button>
       <Button layoutX="31.0" layoutY="252.0" mnemonicParsing="false" onAction="#menuAction" text="Menu">
          <tooltip>
             <Tooltip text="Powrót do menu" />
-         </tooltip></Button>
+         </tooltip>
+      </Button>
       <Separator layoutX="251.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="419.0" prefWidth="15.0" />
-      <Text fx:id="saveInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zapisane" wrappingWidth="237.34959506988525">
+      <Text fx:id="saveInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data have been saved" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="deleteInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały usuniete" wrappingWidth="237.34959506988525">
+      <Text fx:id="deleteInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data has been removed" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="editInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane zostały zmodyfikowane" wrappingWidth="237.34959506988525">
+      <Text fx:id="editInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data has been modified" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="145.0" layoutY="252.0" mnemonicParsing="false" onAction="#editAction" text="Edytuj">
+      <Button layoutX="140.0" layoutY="252.0" mnemonicParsing="false" onAction="#editAction" prefHeight="25.0" prefWidth="50.0" text="Edit">
          <tooltip>
             <Tooltip text="Wybierz z tabeli rekord który chcesz edytować" />
-         </tooltip></Button>
-      <Button layoutX="25.0" layoutY="61.0" mnemonicParsing="false" onAction="#searchAction" text="Szukaj">
+         </tooltip>
+      </Button>
+      <Button layoutX="25.0" layoutY="61.0" mnemonicParsing="false" onAction="#searchAction" text="Search">
          <tooltip>
             <Tooltip text="Wybierz co chcesz wyszukać" />
-         </tooltip></Button>
-      <CheckBox fx:id="checkBoxModel" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
-      <CheckBox fx:id="checkBoxPower" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
-      <CheckBox fx:id="checkBoxPrice" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
-      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualna tabela:" wrappingWidth="226.13671875">
+         </tooltip>
+      </Button>
+      <CheckBox fx:id="checkBoxTitle" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
+      <CheckBox fx:id="checkBoxAuthor" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
+      <CheckBox fx:id="checkBoxISBN" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
+      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current table:" wrappingWidth="226.13671875">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="323.0">
-        <columns>
-          <TableColumn fx:id="tableColumnMark" minWidth="8.0" prefWidth="107.0" text="Model" />
-          <TableColumn fx:id="tableColumnPower" minWidth="0.0" prefWidth="107.0" text="Moc" />
-            <TableColumn fx:id="tableColumnPrice" prefWidth="107.0" text="Cena" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="tableColumnTitle" minWidth="8.0" prefWidth="107.0" text="Title" />
+            <TableColumn fx:id="tableColumnAuthor" minWidth="0.0" prefWidth="107.0" text="Author" />
+            <TableColumn fx:id="tableColumnISBN" prefWidth="107.0" text="ISBN" />
+         </columns>
       </TableView>
    </children>
 </Pane>

@@ -10,23 +10,28 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import base.Car;
+import base.Book;
 import base.Save_Read;
 import base.Save_Read_BaseList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import mysql.MysqlBase;
 
 public class MenuController {
 
-	private MainController mainControler;
-	Save_Read_BaseList srbl= new Save_Read_BaseList();
-	public void setMainControler(MainController mainControler) {
-		this.mainControler = mainControler;
-	}
+	private static ArrayList<Book> base;
+	Save_Read sr = new Save_Read();
+	MysqlBase mysqlBase = new MysqlBase();
 
 	
 	@FXML
@@ -35,36 +40,53 @@ public class MenuController {
 	}
 
 	@FXML
-	void addAction(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/fxml/DatabaseWindow.fxml"));
-		Pane pane = loader.load();
-		mainControler.setScreen(pane);
-
-		DatabaseWindowController addController = loader.getController();
-		addController.setMainControler(mainControler);
+	void addAction(ActionEvent event){
+		try{
+		///////////////////////////////////
+		base=sr.getBase(sr.getBaseName());	//check before action
+		///////////////////////////////////
+		Parent parent = FXMLLoader.load(getClass().getResource("/fxml/DatabaseWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	stage.setScene(scene);
+    	stage.show();
+		}catch(Exception e){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Lack table!");
+			alert.setContentText("Go do the option to select a table or create a new one");
+			alert.showAndWait();  
+		}
 
 	}
 
 	@FXML
-    void mysqlBaseAction(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/fxml/MysqlDatabaseWindow.fxml"));
-		Pane pane = loader.load();
-		mainControler.setScreen(pane);
-
-		MysqlDatabaseWindowController addController = loader.getController();
-		addController.setMainControler(mainControler);
+    void mysqlBaseAction(ActionEvent event){
+		try{
+		///////////////////////////////	
+		base=mysqlBase.getMysqlBase();	//check before action
+		////////////////////////////////
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MysqlDatabaseWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();	
+    	stage.setScene(scene);
+    	stage.show();
+		}catch(Exception e){
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Lack table!");
+			alert.setContentText("Go do the option to select a table or create a new one");
+			alert.showAndWait();  
+		}
     }
 	
 	@FXML
 	void optionsAction(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(this.getClass().getResource("/fxml/OptionsWindow.fxml"));
-		Pane pane = loader.load();
-		mainControler.setScreen(pane);
-
-		OptionsWindowController addController = loader.getController();
-		addController.setMainControler(mainControler);
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/OptionsWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
 	}	    
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 import controllers.DatabaseWindowController;
 public class Save_Read{
 	
-private static ArrayList<Car> base;
+private static ArrayList<Book> base;
 
 public void saveList(String fileName) throws IOException{
 	FileOutputStream fos=new FileOutputStream(fileName);
@@ -27,16 +27,16 @@ public void readList(String baseName) throws IOException, ClassNotFoundException
 	
 	FileInputStream fis=new FileInputStream(baseName);
 	ObjectInputStream ois=new ObjectInputStream(fis);
-	base=(ArrayList<Car>) ois.readObject();
+	base=(ArrayList<Book>) ois.readObject();
 	ois.close();
 }
 
 
 
-public ArrayList<Car> getBase(String baseName) throws IOException, ClassNotFoundException{
+public ArrayList<Book> getBase(String baseName) throws IOException, ClassNotFoundException{
 	FileInputStream fis=new FileInputStream(baseName);
 	ObjectInputStream ois=new ObjectInputStream(fis);
-	base=(ArrayList<Car>) ois.readObject();
+	base=(ArrayList<Book>) ois.readObject();
 	ois.close();
 	return base;
 }

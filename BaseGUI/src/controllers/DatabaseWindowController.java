@@ -6,13 +6,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import base.Car;
+import base.Book;
 import base.Save_Read;
 import mysql.MysqlBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
@@ -21,9 +25,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class DatabaseWindowController {
-	private static ArrayList<Car> base;
+	private static ArrayList<Book> base;
 	private MainController mainControler;
 	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
 
@@ -34,13 +39,13 @@ public class DatabaseWindowController {
 		this.mainControler = mainControler;
 	}
 	
-	public void setBaseTableview(ObservableList<Car> olist) {
-		tableColumnMark.setCellValueFactory(new PropertyValueFactory<>("mark"));
-		tableColumnPower.setCellValueFactory(new PropertyValueFactory<>("power"));
-		tableColumnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+	public void setBaseTableview(ObservableList<Book> olist) {
+		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+		tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+		tableColumnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		baseTable.setItems(olist);
 		baseTable.getColumns().clear();
-		baseTable.getColumns().addAll(tableColumnMark,tableColumnPower,tableColumnPrice);
+		baseTable.getColumns().addAll(tableColumnTitle,tableColumnAuthor,tableColumnISBN);
 	}
 	
 	@FXML
@@ -53,48 +58,45 @@ public class DatabaseWindowController {
     private Text baseInfo;
 	
     @FXML
-    private TableView<Car> baseTable;
+    private TableView<Book> baseTable;
     @FXML
-    private TableColumn<Car,String> tableColumnMark;
+    private TableColumn<Book,String> tableColumnTitle;
     @FXML
-    private TableColumn<Car,String> tableColumnPower;
+    private TableColumn<Book,String> tableColumnAuthor;
     @FXML
-    private TableColumn<Car,String> tableColumnPrice;
+    private TableColumn<Book,String> tableColumnISBN;
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
 		saveInfo.setVisible(false);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
-		try{
+		
 			baseInfo.setText("Baza danych: "+sr.getBaseName());
 			base=sr.getBase(sr.getBaseName());	
-			ObservableList<Car> olist=FXCollections.observableArrayList(base);
+			ObservableList<Book> olist=FXCollections.observableArrayList(base);
 			setBaseTableview(olist);
-		}catch(IOException e){
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("UWAGA");
-			alert.setHeaderText("Brak bazy danych!");
-			alert.setContentText("PrzejdŸ do opcji aby wybraæ bazê danych lub utworzyæ now¹");
-			alert.showAndWait();
-			mainControler.loadMenu();
-		}
 	}
 
 	@FXML
 	void menuAction(ActionEvent event) throws IOException {
-		mainControler.loadMenu();
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
 
 	}
 
 	@FXML
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException {
 		base=sr.getBase(sr.getBaseName());
-		Car car = new Car(text1.getText(), text2.getText(), text3.getText());
+		Book car = new Book(text1.getText(), text2.getText(), text3.getText());
 		System.out.println(car.toString());
 		base.add(car);
 			
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);	
+		ObservableList<Book> olist=FXCollections.observableArrayList(base);	
 		setBaseTableview(olist);
 		
 		sr.saveList(sr.getBaseName());
@@ -122,7 +124,7 @@ public class DatabaseWindowController {
 				System.out.println(indexlist.toString());
 			}
 		System.out.println("kk");
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);
+		ObservableList<Book> olist=FXCollections.observableArrayList(base);
 		setBaseTableview(olist);
 		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
@@ -137,15 +139,15 @@ public class DatabaseWindowController {
 
 		base=sr.getBase(sr.getBaseName());
 		if(indexlist.isEmpty()==true){
-			base.get(baseTable.getSelectionModel().getSelectedIndex()).setMark(text1.getText());
-			base.get(baseTable.getSelectionModel().getSelectedIndex()).setPower(text2.getText());
-			base.get(baseTable.getSelectionModel().getSelectedIndex()).setPrice(text3.getText());
+			base.get(baseTable.getSelectionModel().getSelectedIndex()).setTitle(text1.getText());
+			base.get(baseTable.getSelectionModel().getSelectedIndex()).setAuthor(text2.getText());
+			base.get(baseTable.getSelectionModel().getSelectedIndex()).setISBN(text3.getText());
 		  }else{
-			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setMark(text1.getText());
-			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setPower(text2.getText());
-			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setPrice(text3.getText());
+			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setTitle(text1.getText());
+			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setAuthor(text2.getText());
+			  base.get(indexlist.get(baseTable.getSelectionModel().getSelectedIndex())).setISBN(text3.getText());
 		  }
-		ObservableList<Car> olist=FXCollections.observableArrayList(base);
+		ObservableList<Book> olist=FXCollections.observableArrayList(base);
 		setBaseTableview(olist);
 		sr.saveList(sr.getBaseName());
 		text1.clear();text2.clear();text3.clear();
@@ -154,7 +156,7 @@ public class DatabaseWindowController {
 	 
 	  @FXML
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
-		  Map<Integer,Car> basee=new HashMap<Integer,Car>();
+		  Map<Integer,Book> basee=new HashMap<Integer,Book>();
 		base=sr.getBase(sr.getBaseName());
 		indexlist.removeAll(indexlist);
 		
@@ -162,53 +164,53 @@ public class DatabaseWindowController {
 		{	
 			
 		}else{
-			for(Car car:base)
+			for(Book car:base)
 			{
 				if(checkBoxModel.isSelected()==true && checkBoxPower.isSelected()==true && checkBoxPrice.isSelected()==true)
 				{
-					if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()) && car.getPrice().equals(text3.getText()) )
+					if(car.getTitle().equals(text1.getText()) && car.getAuthor().equals(text2.getText()) && car.getISBN().equals(text3.getText()) )
 					{
 						basee.put(base.indexOf(car),car);
 					}else{}
 				}else{
 					if(checkBoxModel.isSelected()==true && checkBoxPower.isSelected()==true)
 					{
-						if(car.getMark().equals(text1.getText()) && car.getPower().equals(text2.getText()))
+						if(car.getTitle().equals(text1.getText()) && car.getAuthor().equals(text2.getText()))
 						{
 							basee.put(base.indexOf(car),car);
 						}else{}
 					}else{
 						if(checkBoxModel.isSelected()==true && checkBoxPrice.isSelected()==true)
 						{
-							if(car.getMark().equals(text1.getText()) && car.getPrice().equals(text3.getText()))
+							if(car.getTitle().equals(text1.getText()) && car.getISBN().equals(text3.getText()))
 							{
 								basee.put(base.indexOf(car),car);
 							}else{}
 						}else{
 							if(checkBoxPower.isSelected()==true && checkBoxPrice.isSelected()==true)
 							{
-								if(car.getPrice().equals(text3.getText()) && car.getPower().equals(text2.getText()))
+								if(car.getISBN().equals(text3.getText()) && car.getAuthor().equals(text2.getText()))
 								{
 									basee.put(base.indexOf(car),car);
 								}else{}
 							}else{
 								if(checkBoxModel.isSelected()==true)
 								{
-									if(car.getMark().equals(text1.getText()))
+									if(car.getTitle().equals(text1.getText()))
 									{
 										basee.put(base.indexOf(car),car);
 									}else{}	
 								}else{
 									if(checkBoxPower.isSelected()==true)
 									{
-										if(car.getPower().equals(text2.getText()))
+										if(car.getAuthor().equals(text2.getText()))
 										{
 											basee.put(base.indexOf(car),car);
 										}else{}
 									}else{
 										if(checkBoxPrice.isSelected()==true)
 										{
-											if(car.getPrice().equals(text3.getText()))
+											if(car.getISBN().equals(text3.getText()))
 											{
 												basee.put(base.indexOf(car),car);
 											}else{}
@@ -223,13 +225,13 @@ public class DatabaseWindowController {
 				}											
 			}							
 		}
-		ObservableList<Car> olist=FXCollections.observableArrayList(basee.values());
+		ObservableList<Book> olist=FXCollections.observableArrayList(basee.values());
 		setBaseTableview(olist);
 		indexlist.addAll(basee.keySet());
 		
 	  }
 	 	 	
-public	ArrayList<Car> getBase(){
+public	ArrayList<Book> getBase(){
 		return base;
 	}
 
