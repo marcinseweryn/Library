@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.UsersWindowController">
+   <children>
+      <Text layoutX="314.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
+         <font>
+            <Font name="Arial Bold" size="26.0" />
+         </font>
+      </Text>
+      <TextField layoutX="92.0" layoutY="44.0" />
+      <Text layoutX="19.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="19.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="19.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+      <TextField layoutX="92.0" layoutY="84.0" />
+      <TextField layoutX="92.0" layoutY="121.0" />
+      <Button layoutX="189.0" layoutY="153.0" mnemonicParsing="false" onAction="#searchAction" text="Search" />
+      <Button layoutX="186.0" layoutY="230.0" mnemonicParsing="false" onAction="#submitAction" text="Submit" />
+      <TextField layoutX="24.0" layoutY="230.0" />
+      <Text layoutX="28.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password change">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+      </Text>
+      <Button layoutX="21.0" layoutY="348.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="25.0" prefWidth="51.0" text="Menu" />
+      <Button layoutX="19.0" layoutY="284.0" mnemonicParsing="false" onAction="#deleteAction" prefHeight="25.0" prefWidth="54.0" text="Delete" />
+      <Button layoutX="88.0" layoutY="284.0" mnemonicParsing="false" onAction="#banAction" prefHeight="25.0" prefWidth="54.0" text="Ban" />
+      <TableView layoutX="248.0" layoutY="50.0" prefHeight="338.0" prefWidth="449.0">
+        <columns>
+          <TableColumn prefWidth="90.0" text="Library card &#10;    number" />
+          <TableColumn prefWidth="90.0" text="Name" />
+            <TableColumn prefWidth="90.0" text="Surname" />
+            <TableColumn prefWidth="90.0" text="Borrows" />
+            <TableColumn prefWidth="90.0" text="Banned" />
+        </columns>
+      </TableView>
+      <Button layoutX="157.0" layoutY="284.0" mnemonicParsing="false" onAction="#unbanAction" prefHeight="25.0" prefWidth="54.0" text="Unban" />
+   </children>
+</Pane>

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.admin;
 
 
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import base.Book;
 import base.Save_Read;
+import controllers.MainController;
 import mysql.MysqlBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class DatabaseWindowController {
+public class BooksOfflineWindowController {
 	private static ArrayList<Book> base;
 	private MainController mainControler;
 	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
@@ -80,7 +81,7 @@ public class DatabaseWindowController {
 
 	@FXML
 	void menuAction(ActionEvent event) throws IOException {
-    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/MenuWindow.fxml"));
     	Scene scene = new Scene(parent);
     	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     	

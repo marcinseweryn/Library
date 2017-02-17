@@ -39,7 +39,7 @@ public class LoginWindowController {
     @FXML
     void loginInAction(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
     	if(passwordField.getText().equals("1234") && loginField.getText().equals("1111")){
-        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/MenuWindow.fxml"));
         	Scene scene = new Scene(parent);
         	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         	
@@ -60,7 +60,7 @@ public class LoginWindowController {
     			password=rs.getString("Password");
     			
     			if(ID==Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
-    	        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+    	        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/UserMenuWindow.fxml"));
     	        	Scene scene = new Scene(parent);
     	        	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     	        	

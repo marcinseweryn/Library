@@ -8,7 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
-import controllers.DatabaseWindowController;
+
+import controllers.admin.BooksOfflineWindowController;
 public class Save_Read{
 	
 private static ArrayList<Book> base;
@@ -16,7 +17,7 @@ private static ArrayList<Book> base;
 public void saveList(String fileName) throws IOException{
 	FileOutputStream fos=new FileOutputStream(fileName);
 	ObjectOutputStream oos=new ObjectOutputStream(fos);
-	DatabaseWindowController add=new DatabaseWindowController();
+	BooksOfflineWindowController add=new BooksOfflineWindowController();
 	oos.writeObject(add.getBase());
 	oos.flush();
 	oos.close();

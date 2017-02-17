@@ -7,8 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import controllers.DatabaseWindowController;
-import controllers.OptionsWindowController;
+import controllers.admin.BooksOfflineWindowController;
+import controllers.admin.ReportsListWindowController;
 
 public class Save_Read_BaseList {
 
@@ -17,7 +17,7 @@ public class Save_Read_BaseList {
 	public void saveList() throws IOException{
 		FileOutputStream fos=new FileOutputStream("baseList");
 		ObjectOutputStream oos=new ObjectOutputStream(fos);
-		OptionsWindowController add=new OptionsWindowController();
+		ReportsListWindowController add=new ReportsListWindowController();
 		oos.writeObject(add.getBaseList());
 		oos.flush();
 		oos.close();

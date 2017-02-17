@@ -1,4 +1,4 @@
-package controllers;
+package controllers.admin;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,12 +40,12 @@ public class MenuController {
 	}
 
 	@FXML
-	void addAction(ActionEvent event){
+	void booksOfflineAction(ActionEvent event){
 		try{
 		///////////////////////////////////
 		base=sr.getBase(sr.getBaseName());	//check before action
 		///////////////////////////////////
-		Parent parent = FXMLLoader.load(getClass().getResource("/fxml/DatabaseWindow.fxml"));
+		Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/BooksOfflineWindow.fxml"));
     	Scene scene = new Scene(parent);
     	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     	stage.setScene(scene);
@@ -61,17 +61,18 @@ public class MenuController {
 	}
 
 	@FXML
-    void mysqlBaseAction(ActionEvent event){
+    void booksAction(ActionEvent event){
 		try{
 		///////////////////////////////	
 		base=mysqlBase.getMysqlBase();	//check before action
 		////////////////////////////////
-    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MysqlDatabaseWindow.fxml"));
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/BooksWindow.fxml"));
     	Scene scene = new Scene(parent);
     	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();	
     	stage.setScene(scene);
     	stage.show();
 		}catch(Exception e){
+			System.out.println(e);
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("WARNING");
 			alert.setHeaderText("Lack table!");
@@ -81,12 +82,69 @@ public class MenuController {
     }
 	
 	@FXML
-	void optionsAction(ActionEvent event) throws IOException {
-    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/OptionsWindow.fxml"));
+	void listOfReportsAction(ActionEvent event) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/ReportsListWindow.fxml"));
     	Scene scene = new Scene(parent);
     	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     	
     	stage.setScene(scene);
     	stage.show();
-	}	    
+	}	
+	
+
+
+
+    @FXML
+    void usersAction(ActionEvent event) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/UsersWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
+    }
+
+    @FXML
+    void borrowedBooksAction(ActionEvent event) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/BorrowedBooksWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
+    }
+
+    @FXML
+    void logOffAction(ActionEvent event) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/StartWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
+
+    }
+
+    @FXML
+    void reportAction(ActionEvent event) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/ReportWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
+
+    }
+
+    @FXML
+    void reservationsAction(ActionEvent event) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/ReservationsWindow.fxml"));
+    	Scene scene = new Scene(parent);
+    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	
+    	stage.setScene(scene);
+    	stage.show();
+
+    }
+	
 }

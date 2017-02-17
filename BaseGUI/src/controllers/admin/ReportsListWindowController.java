@@ -1,4 +1,4 @@
-package controllers;
+package controllers.admin;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -19,6 +19,7 @@ import base.Book;
 import base.Excel;
 import base.Save_Read;
 import base.Save_Read_BaseList;
+import controllers.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,7 +36,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mysql.MysqlBase;
 
-public class OptionsWindowController {
+public class ReportsListWindowController {
 
 	private MainController mainControler;
 	private static ArrayList<Book> base;
@@ -69,7 +70,7 @@ public class OptionsWindowController {
 	
 	@FXML
 	void menuAction(ActionEvent event) throws IOException {
-    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MenuWindow.fxml"));
+    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/MenuWindow.fxml"));
     	Scene scene = new Scene(parent);
     	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     	
