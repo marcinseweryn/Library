@@ -27,8 +27,8 @@ public class MysqlBase {
 					+ "?autoReconnect=true&useSSL=false","root","1234");
 		} catch (SQLException e) {
 			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("UWAGA");
-			alert.setHeaderText("Brak polaczenia z baza danych!");
+			alert.setTitle("WARNING");
+			alert.setHeaderText("Lost connection!");
 			alert.showAndWait();
 			try {
 				mainControler.loadMenu();

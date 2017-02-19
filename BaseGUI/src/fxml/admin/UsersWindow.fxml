@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.UsersWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.UsersWindowController">
    <children>
-      <Text layoutX="314.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
+      <Text layoutX="503.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
          <font>
             <Font name="Arial Bold" size="26.0" />
          </font>
@@ -44,13 +44,19 @@
       <Button layoutX="21.0" layoutY="348.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="25.0" prefWidth="51.0" text="Menu" />
       <Button layoutX="19.0" layoutY="284.0" mnemonicParsing="false" onAction="#deleteAction" prefHeight="25.0" prefWidth="54.0" text="Delete" />
       <Button layoutX="88.0" layoutY="284.0" mnemonicParsing="false" onAction="#banAction" prefHeight="25.0" prefWidth="54.0" text="Ban" />
-      <TableView layoutX="248.0" layoutY="50.0" prefHeight="338.0" prefWidth="449.0">
+      <TableView layoutX="249.0" layoutY="54.0" prefHeight="341.0" prefWidth="826.0">
         <columns>
-          <TableColumn prefWidth="90.0" text="Library card &#10;    number" />
-          <TableColumn prefWidth="90.0" text="Name" />
-            <TableColumn prefWidth="90.0" text="Surname" />
-            <TableColumn prefWidth="90.0" text="Borrows" />
-            <TableColumn prefWidth="90.0" text="Banned" />
+          <TableColumn prefWidth="75.0" text="Library card &#10;    number" />
+          <TableColumn prefWidth="75.0" text="Name" />
+            <TableColumn prefWidth="75.0" text="Surname" />
+            <TableColumn prefWidth="75.0" text="City" />
+            <TableColumn prefWidth="75.0" text="Address" />
+            <TableColumn prefWidth="75.0" text="Postal code" />
+            <TableColumn prefWidth="75.0" text="Telephone" />
+            <TableColumn prefWidth="75.0" text="E-mail" />
+            <TableColumn prefWidth="75.0" text="Borrows" />
+            <TableColumn prefWidth="75.0" text="Expiration &#10;    dates" />
+            <TableColumn prefWidth="75.0" text="Banned" />
         </columns>
       </TableView>
       <Button layoutX="157.0" layoutY="284.0" mnemonicParsing="false" onAction="#unbanAction" prefHeight="25.0" prefWidth="54.0" text="Unban" />

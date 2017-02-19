@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Separator?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.BooksOfflineWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.BooksOfflineWindowController">
    <children>
       <TextField fx:id="text1" layoutX="101.0" layoutY="97.0" />
       <TextField fx:id="text2" layoutX="101.0" layoutY="147.0" />
@@ -64,12 +65,16 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Text>
-      <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="323.0">
+      <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="428.0">
          <columns>
             <TableColumn fx:id="tableColumnTitle" minWidth="8.0" prefWidth="107.0" text="Title" />
             <TableColumn fx:id="tableColumnAuthor" minWidth="0.0" prefWidth="107.0" text="Author" />
             <TableColumn fx:id="tableColumnISBN" prefWidth="107.0" text="ISBN" />
+            <TableColumn prefWidth="107.0" text="Available" />
          </columns>
       </TableView>
    </children>
+   <padding>
+      <Insets left="400.0" />
+   </padding>
 </Pane>
