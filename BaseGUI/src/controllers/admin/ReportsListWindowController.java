@@ -199,9 +199,9 @@ public class ReportsListWindowController {
     	selectMySqlTable(tableName);
     	for(int i=0;i<base.size();i++){ 
     		car=base.get(i);
-    		car.setID(i+1);
-    		System.out.println(car.getID());
-    		mysqlBase.saveToMysqlBase(car);	
+    		car.setBookID(i+1);
+    		System.out.println(car.getBookID());
+    		mysqlBase.saveToBooks(car);	
     	}
     	refreshMysqlList();
     }
@@ -212,12 +212,12 @@ public class ReportsListWindowController {
     	String tableName=list.getSelectionModel().getSelectedItem();
     	String mySqlTableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(mySqlTableName);
-    	base=mysqlBase.getMysqlBase();
-    	lastID=base.get(base.size()-1).getID();
+    	base=mysqlBase.getBooks();
+    	lastID=base.get(base.size()-1).getBookID();
     	base=sr.getBase(tableName);
     	for(Book car:base){
-    		car.setID(++lastID);
-    		mysqlBase.saveToMysqlBase(car);
+    		car.setBookID(++lastID);
+    		mysqlBase.saveToBooks(car);
     	}
     	refreshLocalList();
     }
@@ -302,7 +302,7 @@ public class ReportsListWindowController {
 /////////////////////////////////////////////////////////////////////////////////////	
     @FXML
     void copyMySqlBaseToLocalAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
-    	base=mysqlBase.getMysqlBase();
+    	base=mysqlBase.getBooks();
     	File file =new File(MySqlTableList.getSelectionModel().getSelectedItem());
     	FileOutputStream fos=new FileOutputStream(file);
     	ObjectOutputStream oos=new ObjectOutputStream(fos);
@@ -321,7 +321,7 @@ public class ReportsListWindowController {
     	String mySqlTableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(mySqlTableName);
     	base=sr.getBase(tableName);   			
-    	base.addAll(mysqlBase.getMysqlBase());  
+    	base.addAll(mysqlBase.getBooks());  
     	FileOutputStream fos=new FileOutputStream(tableName);
     	ObjectOutputStream oos=new ObjectOutputStream(fos);
     	oos.writeObject(base);
@@ -334,7 +334,7 @@ public class ReportsListWindowController {
     	Excel excel=new Excel();
     	String tableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(tableName);
-    	base=mysqlBase.getMysqlBase();
+    	base=mysqlBase.getBooks();
     	excel.createExelFile(base,tableName);
     }
 }

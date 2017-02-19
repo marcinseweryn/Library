@@ -29,12 +29,14 @@ public class FirstStart {
 		////////////////////////////////////////////////////////////////////////////////////
 		
 		
+		
 		/////////////BOOKS/////////////////////////////////////////////////////////////////
 		 create = con.prepareStatement("CREATE TABLE IF NOT EXISTS Books("+
 					"BookID INT NOT NULL auto_increment,"+
 					"Title varchar(100),"+
 					"Author varchar(100),"+
 					"ISBN varchar(100),"+
+					"Available varchar(3) default 'Yes',"+
 					"PRIMARY KEY(BookID)"+
 					")");
 		create.executeUpdate();
@@ -55,8 +57,21 @@ public class FirstStart {
 		create.executeUpdate();
 		/////////////////////////////////////////////////////////////////////////////////
 		
-		mysqlBase.closeConnection();
 		
+		
+		/////////RESERVATIONS////////////////////////////////////////////////////////////
+		 create = con.prepareStatement("CREATE TABLE IF NOT EXISTS Reservations("+
+					"ReservationID INT NOT NULL auto_increment,"+
+					"BookID INT NOT NULL,"+
+					"LibraryCardNumber INT NOT NULL,"+
+					"ReservationDate timestamp default CURRENT_TIMESTAMP,"+
+					"ExpirationDate timestamp default current_timestamp,"+
+					"PRIMARY KEY(ReservationID)"+
+					")");
+		create.executeUpdate();
+		////////////////////////////////////////////////////////////////////////////////////
+		
+		mysqlBase.closeConnection();
 		
 	}
 }

@@ -6,25 +6,28 @@ public class Book implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String title,ISBN,author;
-	private int ID;
+	private String title,ISBN,author,available;
+
+	private int BookID;
 	
 
 public Book(){
 	
 }
-public Book(String mark,String power,String price)
+public Book(String title,String author,String ISBN,String available)
 {
-	this.title=mark;
-	this.author=power;
-	this.ISBN=price;
+	this.title=title;
+	this.author=author;
+	this.ISBN=ISBN;
+	this.available=available;
 }
-public Book(int ID,String mark,String power,String price)
+public Book(int ID,String title,String author,String ISBN,String available )
 {
-	this.ID=ID;
-	this.title=mark;
-	this.author=power;
-	this.ISBN=price;
+	this.BookID=ID;
+	this.title=title;
+	this.author=author;
+	this.ISBN=ISBN;
+	this.available=available;
 }
 
 	public String getISBN() {
@@ -51,11 +54,18 @@ public Book(int ID,String mark,String power,String price)
 		this.title = title;
 	}
 	
-	public int getID() {
-		return ID;
+	public int getBookID() {
+		return BookID;
 	}
-	public void setID(int ID) {
-		ID = ID;
+	public void setBookID(int BookID) {
+		this.BookID = BookID;
+	}
+	
+	public String getAvailable() {
+		return available;
+	}
+	public void setAvailable(String available) {
+		this.available = available;
 	}
 	
 	@Override

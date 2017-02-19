@@ -6,8 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 import base.Book;
 import base.Save_Read;
+import mysql.BorrowsTable;
 import mysql.MysqlBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,12 +26,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class BooksWindowController {
-	private static ArrayList<Book> base;
+	private static ArrayList<Book> booksTable;
 	private ArrayList<Book> indexlist= new ArrayList<Book>();
 	
 	Save_Read sr = new Save_Read();
@@ -39,9 +43,10 @@ public class BooksWindowController {
 		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 		tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
 		tableColumnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+		tableColumnAvailable.setCellValueFactory(new PropertyValueFactory<>("Available"));
 		baseTable.setItems(olist);
 		baseTable.getColumns().clear();
-		baseTable.getColumns().addAll(tableColumnTitle,tableColumnAuthor,tableColumnISBN);
+		baseTable.getColumns().addAll(tableColumnTitle,tableColumnAuthor,tableColumnISBN,tableColumnAvailable);
 	}
 	
 	@FXML
@@ -50,8 +55,7 @@ public class BooksWindowController {
 	private Text saveInfo,editInfo,deleteInfo;
 	@FXML
 	private CheckBox checkBoxTitle,checkBoxAuthor,checkBoxISBN;
-	@FXML
-    private Text baseInfo;
+
 	
     @FXML
     private TableView<Book> baseTable;
@@ -61,6 +65,8 @@ public class BooksWindowController {
     private TableColumn<Book,String> tableColumnAuthor;
     @FXML
     private TableColumn<Book,String> tableColumnISBN;
+    @FXML
+    private TableColumn<Book,String> tableColumnAvailable;
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
@@ -68,9 +74,8 @@ public class BooksWindowController {
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		
-			baseInfo.setText("Baza danych: "+mysqlBase.getMySqlTableName());
-			base=mysqlBase.getMysqlBase();
-			ObservableList<Book> olist=FXCollections.observableArrayList(base);
+			booksTable=mysqlBase.getBooks();
+			ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
 			setBaseTableview(olist);
 
 	}
@@ -88,22 +93,14 @@ public class BooksWindowController {
 
 	@FXML
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException, SQLException {
-		base=mysqlBase.getMysqlBase();	
-		int lastID;
-		try{
-			lastID=base.get(base.size()-1).getID();
-			lastID+=1;
-		}catch(ArrayIndexOutOfBoundsException e){
-			lastID=1;
-		}
-		System.out.println(lastID);
-		Book car = new Book(lastID,text1.getText(), text2.getText(), text3.getText());
-		base.add(car);
+	
+		Book book = new Book(text1.getText(), text2.getText(), text3.getText(),"Yes");
+		booksTable.add(book);
 			
-		ObservableList<Book> olist=FXCollections.observableArrayList(base);	
+		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);	
 		setBaseTableview(olist);
 		
-		mysqlBase.saveToMysqlBase(car);
+		mysqlBase.saveToBooks(book);
 		text1.clear();text2.clear();text3.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
@@ -117,21 +114,21 @@ public class BooksWindowController {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(true);
 		editInfo.setVisible(false);
-		base=mysqlBase.getMysqlBase();
+		booksTable=mysqlBase.getBooks();
 
 		if(indexlist.isEmpty()==true){
 			int getIndex=baseTable.getSelectionModel().getSelectedIndex();
 						
-			mysqlBase.deleteFromMysqlBase((base.get(getIndex).getID()));
+			mysqlBase.deleteFromBooks((booksTable.get(getIndex).getBookID()));
 			}else{
-				int d=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getID();
-				mysqlBase.deleteFromMysqlBase(d);
+				int d=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
+				mysqlBase.deleteFromBooks(d);
 				System.out.println(d);	
 				System.out.println(indexlist.toString());
 			}
 		System.out.println("kk");
-		base=mysqlBase.getMysqlBase();
-		ObservableList<Book> olist=FXCollections.observableArrayList(base);
+		booksTable=mysqlBase.getBooks();
+		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
 		setBaseTableview(olist);
 		text1.clear();text2.clear();text3.clear();
 	}
@@ -142,25 +139,51 @@ public class BooksWindowController {
 		deleteInfo.setVisible(false);
 		editInfo.setVisible(true);
 		
-		base=mysqlBase.getMysqlBase();
+		booksTable=mysqlBase.getBooks();
 		if(indexlist.isEmpty()==true){
-			int ID=base.get(baseTable.getSelectionModel().getSelectedIndex()).getID();
-			mysqlBase.updateMysqlBaseRecord(ID,text1.getText(),text2.getText(),text3.getText());
+			int ID=booksTable.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
+			mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
 		  }else{
-			int ID=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getID();
-			mysqlBase.updateMysqlBaseRecord(ID,text1.getText(),text2.getText(),text3.getText());
+			int ID=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
+			mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
 		  }
-		base=mysqlBase.getMysqlBase();
-		ObservableList<Book> olist=FXCollections.observableArrayList(base);
+		booksTable=mysqlBase.getBooks();
+		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
 		setBaseTableview(olist);
 		text1.clear();text2.clear();text3.clear();
 	}
 	 
 	  @FXML
+	  void borrowAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+		  BorrowsTable borrowsTable = new BorrowsTable();
+		  TextInputDialog dialog = new TextInputDialog();
+			dialog.setTitle("BORROW");
+			dialog.setHeaderText("You want borrow this book?\n Enter user library card number");
+			dialog.setContentText("Library card number:");
+			Optional<String> result = dialog.showAndWait();
+			if (result.isPresent()){
+				String b=result.get();
+				int LibraryCardNumber=Integer.parseInt(b);
+								
+				booksTable=mysqlBase.getBooks();
+				if(indexlist.isEmpty()==true){				
+					int BookID=booksTable.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
+					mysqlBase.updateBookStatus(BookID,"No");
+					borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
+				  }else{
+					int BookID=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
+					mysqlBase.updateBookStatus(BookID,"No");
+					borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
+				  }
+				
+				}
+	  }
+	 
+	  @FXML
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
 		  Map<Integer,Book> basee=new HashMap<Integer,Book>();
 		try {
-			base=mysqlBase.getMysqlBase();
+			booksTable=mysqlBase.getBooks();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -170,55 +193,55 @@ public class BooksWindowController {
 		{	
 			
 		}else{
-			for(Book book:base)
+			for(Book book:booksTable)
 			{
 				if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
 				{
 					if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()) && book.getISBN().equals(text3.getText()) )
 					{
-						basee.put(base.get(base.indexOf(book)).getID(),book);
+						basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
 					}else{}
 				}else{
 					if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true)
 					{
 						if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()))
 						{
-							basee.put(base.get(base.indexOf(book)).getID(),book);
+							basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
 						}else{}
 					}else{
 						if(checkBoxTitle.isSelected()==true && checkBoxISBN.isSelected()==true)
 						{
 							if(book.getTitle().equals(text1.getText()) && book.getISBN().equals(text3.getText()))
 							{
-								basee.put(base.indexOf(book),book);
+								basee.put(booksTable.indexOf(book),book);
 							}else{}
 						}else{
 							if(checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
 							{
 								if(book.getISBN().equals(text3.getText()) && book.getAuthor().equals(text2.getText()))
 								{
-									basee.put(base.get(base.indexOf(book)).getID(),book);
+									basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
 								}else{}
 							}else{
 								if(checkBoxTitle.isSelected()==true)
 								{
 									if(book.getTitle().equals(text1.getText()))
 									{
-										basee.put(base.get(base.indexOf(book)).getID(),book);
+										basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
 									}else{}	
 								}else{
 									if(checkBoxAuthor.isSelected()==true)
 									{
 										if(book.getAuthor().equals(text2.getText()))
 										{
-											basee.put(base.get(base.indexOf(book)).getID(),book);
+											basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
 										}else{}
 									}else{
 										if(checkBoxISBN.isSelected()==true)
 										{
 											if(book.getISBN().equals(text3.getText()))
 											{
-												basee.put(base.get(base.indexOf(book)).getID(),book);
+												basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
 											}else{}
 										}else{
 											
@@ -238,7 +261,7 @@ public class BooksWindowController {
 	  }
 	 	 	
 public	ArrayList<Book> getBase(){
-		return base;
+		return booksTable;
 	}
 
 }

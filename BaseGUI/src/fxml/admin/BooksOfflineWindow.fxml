@@ -60,11 +60,6 @@
       <CheckBox fx:id="checkBoxTitle" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
       <CheckBox fx:id="checkBoxAuthor" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
       <CheckBox fx:id="checkBoxISBN" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
-      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current table:" wrappingWidth="226.13671875">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Text>
       <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="428.0">
          <columns>
             <TableColumn fx:id="tableColumnTitle" minWidth="8.0" prefWidth="107.0" text="Title" />
@@ -73,6 +68,12 @@
             <TableColumn prefWidth="107.0" text="Available" />
          </columns>
       </TableView>
+      <Text layoutX="95.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Books" wrappingWidth="75.998046875">
+         <font>
+            <Font name="Arial Bold" size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="borrowAction" layoutX="106.0" layoutY="289.0" mnemonicParsing="false" text="Borrow" />
    </children>
    <padding>
       <Insets left="400.0" />

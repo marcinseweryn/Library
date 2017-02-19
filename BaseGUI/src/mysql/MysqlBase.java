@@ -46,51 +46,62 @@ public class MysqlBase {
 		System.out.println("close");
 	}
 	
-	public ArrayList<Book> getMysqlBase() throws SQLException, ClassNotFoundException, IOException{
+	public ArrayList<Book> getBooks() throws SQLException, ClassNotFoundException, IOException{
 		Connection con=getConnection();
-		PreparedStatement getbase=con.prepareStatement("SELECT ID,Title,Author,ISBN FROM "+getMySqlTableName()
-				+ " ORDER BY ID ASC");
+		PreparedStatement getbase=con.prepareStatement("SELECT * FROM Books"+
+				 " ORDER BY BookID ASC");
 		ResultSet rs=getbase.executeQuery();
 		
 		ArrayList<Book> list=new ArrayList<Book>();
-		String title,author,ISBN;
+		String title,author,ISBN,available;
 		int ID;
 		while(rs.next()){
-			ID=rs.getInt("ID");
+			ID=rs.getInt("BookID");
 			title=rs.getString("Title");
 			author=rs.getString("Author");
 			ISBN=rs.getString("ISBN");
-			Book car=new Book(ID,title,author,ISBN);
-			list.add(car);
+			available=rs.getString("Available");
+			Book book=new Book(ID,title,author,ISBN,available);
+			list.add(book);
 		}
 		closeConnection();
 		return list;		
 	}
 	
-	public void deleteFromMysqlBase(int ID) throws ClassNotFoundException, SQLException, IOException
+	public void deleteFromBooks(int BookID) throws ClassNotFoundException, SQLException, IOException
 	{
-		System.out.println(ID);
+		System.out.println(BookID);
 		Connection con=getConnection();
-		PreparedStatement delete = con.prepareStatement("DELETE FROM "+getMySqlTableName()
-			+ " WHERE ID="+ID+"");
+		PreparedStatement delete = con.prepareStatement("DELETE FROM Books "
+			+ " WHERE BookID="+BookID+"");
 		delete.executeUpdate();
 	}
 	
-	public void saveToMysqlBase(Book book) throws ClassNotFoundException, SQLException, IOException{
+	public void saveToBooks(Book book) throws ClassNotFoundException, SQLException, IOException{
 		Connection con=getConnection();
-		PreparedStatement save = con.prepareStatement("INSERT INTO "+getMySqlTableName()
-			+ " VALUES('"+book.getID()+"','"+book.getTitle()+"','"+book.getAuthor()
+		PreparedStatement save = con.prepareStatement("INSERT INTO Books(Title,Author,ISBN)"
+			+ " VALUES('"+book.getTitle()+"','"+book.getAuthor()
 			+"','"+book.getISBN()+"')");
 		save.executeUpdate();	
 		closeConnection();	
 	}
 	
-	public void updateMysqlBaseRecord(int ID,String title,String author,String ISBN) 
+	public void updateBooksRecord(int ID,String title,String author,String ISBN) 
 			throws ClassNotFoundException, SQLException, IOException{
 		Connection con=getConnection();
-		PreparedStatement update = con.prepareStatement("UPDATE "+getMySqlTableName()
+		PreparedStatement update = con.prepareStatement("UPDATE  Books"
 				+ " SET Title='"+title+"',Author='"+author+"',ISBN='"+ISBN
-				+ "' WHERE ID="+ID);
+				+ "' WHERE BookID="+ID);
+		update.executeUpdate();
+		closeConnection();
+	}
+	
+	public void updateBookStatus(int ID,String status) 
+			throws ClassNotFoundException, SQLException, IOException{
+		Connection con=getConnection();
+		PreparedStatement update = con.prepareStatement("UPDATE  Books"
+				+ " SET Available='"+status
+				+ "' WHERE BookID="+ID);
 		update.executeUpdate();
 		closeConnection();
 	}

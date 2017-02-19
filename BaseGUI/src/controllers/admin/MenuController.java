@@ -61,24 +61,14 @@ public class MenuController {
 	}
 
 	@FXML
-    void booksAction(ActionEvent event){
-		try{
-		///////////////////////////////	
-		base=mysqlBase.getMysqlBase();	//check before action
-		////////////////////////////////
+    void booksAction(ActionEvent event) throws IOException{
+
     	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/BooksWindow.fxml"));
     	Scene scene = new Scene(parent);
     	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();	
     	stage.setScene(scene);
     	stage.show();
-		}catch(Exception e){
-			System.out.println(e);
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("WARNING");
-			alert.setHeaderText("Lack table!");
-			alert.setContentText("Go do the option to select a table or create a new one");
-			alert.showAndWait();  
-		}
+	
     }
 	
 	@FXML

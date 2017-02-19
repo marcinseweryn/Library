@@ -14,23 +14,23 @@
       <Button layoutX="161.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="78.0" text="Search" />
       <Button layoutX="24.0" layoutY="300.0" mnemonicParsing="false" onAction="#reservationAction" text="Reservation" />
       <Button layoutX="24.0" layoutY="349.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="25.0" prefWidth="78.0" text="Menu" />
-      <TextField layoutX="90.0" layoutY="113.0" />
-      <TextField layoutX="90.0" layoutY="71.0" />
-      <TextField layoutX="90.0" layoutY="162.0" />
-      <CheckBox layoutX="14.0" layoutY="75.0" mnemonicParsing="false" text="Title" />
-      <CheckBox layoutX="14.0" layoutY="117.0" mnemonicParsing="false" text="Author" />
-      <CheckBox layoutX="14.0" layoutY="166.0" mnemonicParsing="false" text="ISBN" />
+      <TextField fx:id="authorTextField" layoutX="90.0" layoutY="113.0" />
+      <TextField fx:id="titleTextField" layoutX="90.0" layoutY="71.0" />
+      <TextField fx:id="ISBNtextField" layoutX="90.0" layoutY="162.0" />
+      <CheckBox fx:id="checkBoxTitle" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" text="Title" />
+      <CheckBox fx:id="checkBoxAuthor" layoutX="14.0" layoutY="117.0" mnemonicParsing="false" text="Author" />
+      <CheckBox fx:id="checkBoxISBN" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" text="ISBN" />
       <Text layoutX="260.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Books">
          <font>
             <Font name="Arial Bold" size="26.0" />
          </font>
       </Text>
-      <TableView layoutX="274.0" layoutY="62.0" prefHeight="327.0" prefWidth="301.0">
+      <TableView fx:id="booksTableView" layoutX="274.0" layoutY="62.0" prefHeight="327.0" prefWidth="301.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Title" />
-          <TableColumn prefWidth="75.0" text="Author" />
-            <TableColumn prefWidth="75.0" text="ISBN" />
-            <TableColumn prefWidth="75.0" text="Available" />
+          <TableColumn fx:id="tableColumnTitle" prefWidth="75.0" text="Title" />
+          <TableColumn fx:id="tableColumnAuthor" prefWidth="75.0" text="Author" />
+            <TableColumn fx:id="tableColumnISBN" prefWidth="75.0" text="ISBN" />
+            <TableColumn fx:id="tableColumnAvailable" prefWidth="75.0" text="Available" />
         </columns>
       </TableView>
    </children>

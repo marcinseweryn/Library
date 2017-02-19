@@ -93,7 +93,7 @@ public class BooksOfflineWindowController {
 	@FXML
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException {
 		base=sr.getBase(sr.getBaseName());
-		Book car = new Book(text1.getText(), text2.getText(), text3.getText());
+		Book car = new Book(text1.getText(), text2.getText(), text3.getText(),"Yes");
 		System.out.println(car.toString());
 		base.add(car);
 			

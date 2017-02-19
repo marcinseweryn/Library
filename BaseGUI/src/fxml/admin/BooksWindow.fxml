@@ -55,18 +55,19 @@
       <CheckBox fx:id="checkBoxTitle" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
       <CheckBox fx:id="checkBoxAuthor" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
       <CheckBox fx:id="checkBoxISBN" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
-      <Text fx:id="baseInfo" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current table:" wrappingWidth="226.13671875">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Text>
-      <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="418.0">
+      <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="419.0">
         <columns>
           <TableColumn fx:id="tableColumnTitle" minWidth="8.0" prefWidth="107.0" text="Title" />
           <TableColumn fx:id="tableColumnAuthor" minWidth="0.0" prefWidth="107.0" text="Author" />
             <TableColumn fx:id="tableColumnISBN" prefWidth="107.0" text="ISBN" />
-            <TableColumn prefWidth="96.0" text="Available" />
+            <TableColumn fx:id="tableColumnAvailable" prefWidth="96.0" text="Available" />
         </columns>
       </TableView>
+      <Text layoutX="98.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Books">
+         <font>
+            <Font name="Arial Bold" size="26.0" />
+         </font>
+      </Text>
+      <Button layoutX="106.0" layoutY="289.0" mnemonicParsing="false" onAction="#borrowAction" text="Borrow" />
    </children>
 </Pane>
