@@ -23,7 +23,7 @@ public class BorrowsTable {
 	
 	public ArrayList<Borrows> getBorrowsList() throws ClassNotFoundException, SQLException{
 		Connection con=mysqlBase.getConnection();
-		PreparedStatement get=con.prepareStatement("SELECT books.Title,books.Author,books.ISBN,"
+		PreparedStatement get=con.prepareStatement("SELECT books.BookID,books.Title,books.Author,books.ISBN,"
 				+ "users.LibraryCardNumber,users.FirstName,users.LastName,borrows.BorrowDate,"
 				+ "borrows.ExpirationDate,borrows.BorrowID "+
 					"FROM borrows "+
@@ -36,7 +36,7 @@ public class BorrowsTable {
 		
 		ArrayList<Borrows> borrowsList=new ArrayList<>();
 		 String Title,Author,ISBN,Name,Surname;
-		 Integer LibraryCardNumber,BorrowID;
+		 Integer LibraryCardNumber,BorrowID,BookID;
 		 Date BorrowDate,ExpirationDate;
 		 
 		 while(rs.next()){
@@ -49,8 +49,9 @@ public class BorrowsTable {
 			BorrowDate=rs.getDate("BorrowDate");
 			ExpirationDate=rs.getDate("ExpirationDate");
 			BorrowID=rs.getInt("BorrowID");
-			Borrows borrows = new Borrows(Title, Author, ISBN, Name, Surname, LibraryCardNumber, BorrowID,
-					BorrowDate, ExpirationDate);
+			BookID=rs.getInt("BookID");
+			Borrows borrows = new Borrows(Title, Author, ISBN, Name, Surname, LibraryCardNumber, 
+					BorrowID,BookID,BorrowDate, ExpirationDate);
 			borrowsList.add(borrows);
 		 }
 		mysqlBase.closeConnection();

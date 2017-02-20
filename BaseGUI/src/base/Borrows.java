@@ -9,7 +9,7 @@ public class Borrows {
 	private Date BorrowDate,ExpirationDate;
 	
 	public Borrows(String title, String author, String iSBN, String name, String surname, Integer libraryCardNumber,
-			Integer borrowID, Date borrowDate, Date expirationDate) {
+			Integer borrowID, Integer bookID, Date borrowDate, Date expirationDate) {
 		super();
 		Title = title;
 		Author = author;
@@ -18,6 +18,7 @@ public class Borrows {
 		Surname = surname;
 		LibraryCardNumber = libraryCardNumber;
 		BorrowID = borrowID;
+		BookID = bookID;
 		BorrowDate = borrowDate;
 		ExpirationDate = expirationDate;
 	}

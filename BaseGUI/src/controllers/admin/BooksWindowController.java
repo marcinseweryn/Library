@@ -33,20 +33,27 @@ import javafx.stage.Stage;
 
 public class BooksWindowController {
 	private static ArrayList<Book> booksTable;
-	private ArrayList<Book> indexlist= new ArrayList<Book>();
 	
 	Save_Read sr = new Save_Read();
 	MysqlBase mysqlBase=new MysqlBase();
 
 	
 	public void setBaseTableview(ObservableList<Book> olist) {
+		tableColumnBookID.setCellValueFactory(new PropertyValueFactory<>("BookID"));
 		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 		tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
 		tableColumnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
 		tableColumnAvailable.setCellValueFactory(new PropertyValueFactory<>("Available"));
 		baseTable.setItems(olist);
 		baseTable.getColumns().clear();
-		baseTable.getColumns().addAll(tableColumnTitle,tableColumnAuthor,tableColumnISBN,tableColumnAvailable);
+		baseTable.getColumns().addAll(tableColumnBookID,tableColumnTitle,tableColumnAuthor,
+				tableColumnISBN,tableColumnAvailable);
+	}
+	
+	void getBooksTableView() throws ClassNotFoundException, SQLException, IOException{
+		booksTable=mysqlBase.getBooks();
+		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
+		setBaseTableview(olist);
 	}
 	
 	@FXML
@@ -60,13 +67,10 @@ public class BooksWindowController {
     @FXML
     private TableView<Book> baseTable;
     @FXML
-    private TableColumn<Book,String> tableColumnTitle;
+    private TableColumn<Book,String> tableColumnTitle, tableColumnAuthor, tableColumnISBN,
+    tableColumnAvailable;
     @FXML
-    private TableColumn<Book,String> tableColumnAuthor;
-    @FXML
-    private TableColumn<Book,String> tableColumnISBN;
-    @FXML
-    private TableColumn<Book,String> tableColumnAvailable;
+    private TableColumn<Book,Integer> tableColumnBookID;
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
@@ -74,10 +78,7 @@ public class BooksWindowController {
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		
-			booksTable=mysqlBase.getBooks();
-			ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
-			setBaseTableview(olist);
-
+		getBooksTableView();
 	}
 
 	@FXML
@@ -114,22 +115,11 @@ public class BooksWindowController {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(true);
 		editInfo.setVisible(false);
-		booksTable=mysqlBase.getBooks();
 
-		if(indexlist.isEmpty()==true){
-			int getIndex=baseTable.getSelectionModel().getSelectedIndex();
-						
-			mysqlBase.deleteFromBooks((booksTable.get(getIndex).getBookID()));
-			}else{
-				int d=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
-				mysqlBase.deleteFromBooks(d);
-				System.out.println(d);	
-				System.out.println(indexlist.toString());
-			}
-		System.out.println("kk");
-		booksTable=mysqlBase.getBooks();
-		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
-		setBaseTableview(olist);
+		int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();				
+		mysqlBase.deleteFromBooks(BookID);
+
+		getBooksTableView();
 		text1.clear();text2.clear();text3.clear();
 	}
 	
@@ -139,44 +129,41 @@ public class BooksWindowController {
 		deleteInfo.setVisible(false);
 		editInfo.setVisible(true);
 		
-		booksTable=mysqlBase.getBooks();
-		if(indexlist.isEmpty()==true){
-			int ID=baseTable.getSelectionModel().getSelectedItem().getBookID();
-			mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
-		  }else{
-			int ID=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
-			mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
-		  }
-		booksTable=mysqlBase.getBooks();
-		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
-		setBaseTableview(olist);
+		int ID=baseTable.getSelectionModel().getSelectedItem().getBookID();
+		mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
+	
+		  
+		getBooksTableView();
 		text1.clear();text2.clear();text3.clear();
 	}
 	 
 	  @FXML
-	  void borrowAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+	  void borrowAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {		  		  
 		  BorrowsTable borrowsTable = new BorrowsTable();
 		  TextInputDialog dialog = new TextInputDialog();
-			dialog.setTitle("BORROW");
-			dialog.setHeaderText("You want borrow this book?\n Enter user library card number");
-			dialog.setContentText("Library card number:");
-			Optional<String> result = dialog.showAndWait();
-			if (result.isPresent()){
-				String b=result.get();
-				int LibraryCardNumber=Integer.parseInt(b);
-								
-				booksTable=mysqlBase.getBooks();
-				if(indexlist.isEmpty()==true){				
-					int BookID=booksTable.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
-					mysqlBase.updateBookStatus(BookID,"No");
-					borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
-				  }else{
-					int BookID=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
-					mysqlBase.updateBookStatus(BookID,"No");
-					borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
-				  }
-				
-				}
+		  
+		  String available = baseTable.getSelectionModel().getSelectedItem().getAvailable();
+		  if(available.equals("Yes")){
+				dialog.setTitle("BORROW");
+				dialog.setHeaderText("You want borrow this book?\n Enter user library card number");
+				dialog.setContentText("Library card number:");
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()){
+					String b=result.get();
+					int LibraryCardNumber=Integer.parseInt(b);
+												
+						int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();
+						mysqlBase.updateBookStatus(BookID,"No");
+						borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
+						
+						getBooksTableView();
+					}
+		  }else{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("WARNING");
+				alert.setHeaderText("You cannot borrow a borrowed book!");
+				alert.showAndWait();
+		  }
 	  }
 	 
 	  @FXML
@@ -187,7 +174,6 @@ public class BooksWindowController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		indexlist.removeAll(indexlist);
 		
 		if(checkBoxTitle.isSelected()==false && checkBoxAuthor.isSelected()==false && checkBoxISBN.isSelected()==false)
 		{	
@@ -255,9 +241,7 @@ public class BooksWindowController {
 			}							
 		}
 		ObservableList<Book> olist=FXCollections.observableArrayList(basee.values());
-		setBaseTableview(olist);
-		indexlist.addAll(basee.values());
-		
+		setBaseTableview(olist);		
 	  }
 	 	 	
 public	ArrayList<Book> getBase(){

@@ -20,11 +20,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import mysql.BorrowsTable;
+import mysql.MysqlBase;
 
 public class BorrowedBooksWindowController {
 
 	private static ArrayList<Borrows> borrowsList;
 	BorrowsTable borrowsTable = new BorrowsTable();
+	MysqlBase mysqlBase = new MysqlBase();
 
 	@FXML
 	private TextField textFieldLibraryCardNumber;
@@ -62,9 +64,12 @@ public class BorrowedBooksWindowController {
 	}
 
 	@FXML
-	void deleteAction(ActionEvent event) throws ClassNotFoundException, SQLException {
-		int BorrowID = borrowsTableView.getSelectionModel().getSelectedItem().getBorrowID();
+	void deleteAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+		int BorrowID = borrowsTableView.getSelectionModel().getSelectedItem().getBorrowID();	
 		borrowsTable.deleteFromBorrows(BorrowID);
+		
+		int BookID = borrowsTableView.getSelectionModel().getSelectedItem().getBookID();
+		mysqlBase.updateBookStatus(BookID,"Yes");
 		
 		borrowsList = borrowsTable.getBorrowsList();
 		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
@@ -83,9 +88,12 @@ public class BorrowedBooksWindowController {
 	}
 
 	@FXML
-	void returnedAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+	void returnedAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {		
 		int BorrowID = borrowsTableView.getSelectionModel().getSelectedItem().getBorrowID();
 		borrowsTable.returnBorrow(BorrowID);
+		
+		int BookID = borrowsTableView.getSelectionModel().getSelectedItem().getBookID();
+		mysqlBase.updateBookStatus(BookID,"Yes");
 		
 		borrowsList = borrowsTable.getBorrowsList();
 		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
