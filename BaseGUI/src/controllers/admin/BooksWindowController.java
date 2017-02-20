@@ -141,7 +141,7 @@ public class BooksWindowController {
 		
 		booksTable=mysqlBase.getBooks();
 		if(indexlist.isEmpty()==true){
-			int ID=booksTable.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();
+			int ID=baseTable.getSelectionModel().getSelectedItem().getBookID();
 			mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
 		  }else{
 			int ID=indexlist.get(baseTable.getSelectionModel().getSelectedIndex()).getBookID();

@@ -21,7 +21,7 @@
          </font>
       </Button>
       <Button layoutX="339.0" layoutY="73.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="65.0" text="Search" />
-      <TextField layoutX="174.0" layoutY="73.0" />
+      <TextField fx:id="textFieldLibraryCardNumber" layoutX="174.0" layoutY="73.0" />
       <Text layoutX="19.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Library card number">
          <font>
             <Font name="Arial Bold" size="15.0" />
@@ -37,16 +37,16 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Button>
-      <TableView layoutX="139.0" layoutY="117.0" prefHeight="274.0" prefWidth="651.0">
+      <TableView fx:id="borrowsTableView" layoutX="139.0" layoutY="117.0" prefHeight="274.0" prefWidth="651.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Title" />
-          <TableColumn prefWidth="75.0" text="Author" />
-            <TableColumn prefWidth="75.0" text="ISBN" />
-            <TableColumn prefWidth="75.0" text="Library card &#10;    number" />
-            <TableColumn prefWidth="75.0" text="Name" />
-            <TableColumn prefWidth="75.0" text="Surname" />
-            <TableColumn prefWidth="100.0" text="Borrow date" />
-            <TableColumn prefWidth="100.0" text="Expiration date" />
+          <TableColumn fx:id="tableColumnTitle" prefWidth="75.0" text="Title" />
+          <TableColumn fx:id="tableColumnAuthor" prefWidth="75.0" text="Author" />
+            <TableColumn fx:id="tableColumnISBN" prefWidth="75.0" text="ISBN" />
+            <TableColumn fx:id="tableColumnLibraryCardNumber" prefWidth="75.0" text="Library card &#10;    number" />
+            <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="tableColumnSurname" prefWidth="75.0" text="Surname" />
+            <TableColumn fx:id="tableColumnBorrowDate" prefWidth="100.0" text="Borrow date" />
+            <TableColumn fx:id="tableColumnExpirationDate" prefWidth="100.0" text="Expiration date" />
         </columns>
       </TableView>
    </children>
