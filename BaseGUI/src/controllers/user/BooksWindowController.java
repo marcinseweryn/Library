@@ -21,13 +21,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import mysql.MysqlBase;
+import mysql.BooksTable;
 
 public class BooksWindowController {
 	
-	MysqlBase mysqlBase = new MysqlBase();
+	BooksTable booksTable = new BooksTable();
 	
-	private static ArrayList<Book> booksTable;
+	private static ArrayList<Book> booksArrayList;
 	private ArrayList<Book> indexlist= new ArrayList<Book>();
 	
     @FXML
@@ -58,8 +58,8 @@ public class BooksWindowController {
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
 		
-			booksTable=mysqlBase.getBooks();
-			ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
+			booksArrayList=booksTable.getBooks();
+			ObservableList<Book> olist=FXCollections.observableArrayList(booksArrayList);
 			setBaseTableview(olist);
 
 	}
@@ -85,7 +85,7 @@ public class BooksWindowController {
     void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
     	  Map<Integer,Book> basee=new HashMap<Integer,Book>();
   		try {
-  			booksTable=mysqlBase.getBooks();
+  			booksArrayList=booksTable.getBooks();
   		} catch (SQLException e) {
   			e.printStackTrace();
   		}
@@ -95,55 +95,55 @@ public class BooksWindowController {
   		{	
   			
   		}else{
-  			for(Book book:booksTable)
+  			for(Book book:booksArrayList)
   			{
   				if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
   				{
   					if(book.getTitle().equals(titleTextField.getText()) && book.getAuthor().equals(authorTextField.getText()) && book.getISBN().equals(ISBNtextField.getText()) )
   					{
-  						basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+  						basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
   					}else{}
   				}else{
   					if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true)
   					{
   						if(book.getTitle().equals(titleTextField.getText()) && book.getAuthor().equals(authorTextField.getText()))
   						{
-  							basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+  							basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
   						}else{}
   					}else{
   						if(checkBoxTitle.isSelected()==true && checkBoxISBN.isSelected()==true)
   						{
   							if(book.getTitle().equals(titleTextField.getText()) && book.getISBN().equals(ISBNtextField.getText()))
   							{
-  								basee.put(booksTable.indexOf(book),book);
+  								basee.put(booksArrayList.indexOf(book),book);
   							}else{}
   						}else{
   							if(checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
   							{
   								if(book.getISBN().equals(ISBNtextField.getText()) && book.getAuthor().equals(authorTextField.getText()))
   								{
-  									basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+  									basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
   								}else{}
   							}else{
   								if(checkBoxTitle.isSelected()==true)
   								{
   									if(book.getTitle().equals(titleTextField.getText()))
   									{
-  										basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+  										basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
   									}else{}	
   								}else{
   									if(checkBoxAuthor.isSelected()==true)
   									{
   										if(book.getAuthor().equals(authorTextField.getText()))
   										{
-  											basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+  											basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
   										}else{}
   									}else{
   										if(checkBoxISBN.isSelected()==true)
   										{
   											if(book.getISBN().equals(ISBNtextField.getText()))
   											{
-  												basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+  												basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
   											}else{}
   										}else{
   											

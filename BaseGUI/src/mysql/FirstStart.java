@@ -7,10 +7,10 @@ import java.sql.SQLException;
 
 public class FirstStart {
 
-	MysqlBase mysqlBase = new MysqlBase();
+	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
 	public void CreateTables() throws SQLException, ClassNotFoundException{
-		Connection con = mysqlBase.getConnection();
+		Connection con = connectionToDatabase.getConnection();
 		
 		///////////////USERS////////////////////////////////////////////////////////////////
 		PreparedStatement create = con.prepareStatement("CREATE TABLE IF NOT EXISTS Users(" +
@@ -71,7 +71,7 @@ public class FirstStart {
 		create.executeUpdate();
 		////////////////////////////////////////////////////////////////////////////////////
 		
-		mysqlBase.closeConnection();
+		con.close();
 		
 	}
 }

@@ -16,7 +16,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import mysql.MysqlBase;
+import mysql.BooksTable;
+import mysql.ConnectionToDatabase;
 
 public class LoginWindowController {
 
@@ -47,8 +48,8 @@ public class LoginWindowController {
         	stage.show();
     		
     	}else{
-    		MysqlBase mysqlBase = new MysqlBase();
-    		Connection con=mysqlBase.getConnection();
+    		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
+    		Connection con=connectionToDatabase.getConnection();
     		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password FROM Users ");
     		ResultSet rs=getUsers.executeQuery();
     		
@@ -76,7 +77,7 @@ public class LoginWindowController {
     			alert.setHeaderText("Wrong password!");
     			alert.showAndWait();
     		}
-    		mysqlBase.closeConnection();
+    		con.close();
     	}
     }
 	

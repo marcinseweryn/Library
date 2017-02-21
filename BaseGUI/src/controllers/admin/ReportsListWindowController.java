@@ -34,7 +34,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import mysql.MysqlBase;
+import mysql.BooksTable;
 
 public class ReportsListWindowController {
 
@@ -194,14 +194,14 @@ public class ReportsListWindowController {
     	String tableName;
 		Book car;
     	tableName=list.getSelectionModel().getSelectedItem();
-    	mysqlBase.createTable(tableName);
+    	booksTable.createTable(tableName);
     	base=sr.getBase(tableName);
     	selectMySqlTable(tableName);
     	for(int i=0;i<base.size();i++){ 
     		car=base.get(i);
     		car.setBookID(i+1);
     		System.out.println(car.getBookID());
-    		mysqlBase.saveToBooks(car);	
+    		booksTable.saveToBooks(car);	
     	}
     	refreshMysqlList();
     }
@@ -212,12 +212,12 @@ public class ReportsListWindowController {
     	String tableName=list.getSelectionModel().getSelectedItem();
     	String mySqlTableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(mySqlTableName);
-    	base=mysqlBase.getBooks();
+    	base=booksTable.getBooks();
     	lastID=base.get(base.size()-1).getBookID();
     	base=sr.getBase(tableName);
     	for(Book car:base){
     		car.setBookID(++lastID);
-    		mysqlBase.saveToBooks(car);
+    		booksTable.saveToBooks(car);
     	}
     	refreshLocalList();
     }
@@ -247,10 +247,10 @@ public class ReportsListWindowController {
 	////////////////////////////////////////////////////////////////////////////////////////
 	
 	private static ArrayList<String> MySqlTablesList;
-	MysqlBase mysqlBase=new MysqlBase();
+	BooksTable booksTable=new BooksTable();
 	
 	public void refreshMysqlList() throws SQLException, ClassNotFoundException {
-		MySqlTablesList=mysqlBase.getTables();
+		MySqlTablesList=booksTable.getTables();
     	ObservableList<String> olist=FXCollections.observableArrayList(MySqlTablesList);
     	MySqlTableList.setItems(olist);
 	}
@@ -275,14 +275,14 @@ public class ReportsListWindowController {
     	
 		if (result.isPresent()) {
 			String name=result.get();
-			mysqlBase.createTable(name);
+			booksTable.createTable(name);
 			refreshMysqlList();
 		}	
     }
     
     @FXML
     void deleteMySqlTableAction(ActionEvent event) throws ClassNotFoundException, SQLException {
-    	mysqlBase.deleteTable(MySqlTableList.getSelectionModel().getSelectedItem());
+    	booksTable.deleteTable(MySqlTableList.getSelectionModel().getSelectedItem());
     	System.out.println(MySqlTableList.getSelectionModel().getSelectedItem());
     	refreshMysqlList();
     }
@@ -302,7 +302,7 @@ public class ReportsListWindowController {
 /////////////////////////////////////////////////////////////////////////////////////	
     @FXML
     void copyMySqlBaseToLocalAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
-    	base=mysqlBase.getBooks();
+    	base=booksTable.getBooks();
     	File file =new File(MySqlTableList.getSelectionModel().getSelectedItem());
     	FileOutputStream fos=new FileOutputStream(file);
     	ObjectOutputStream oos=new ObjectOutputStream(fos);
@@ -321,7 +321,7 @@ public class ReportsListWindowController {
     	String mySqlTableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(mySqlTableName);
     	base=sr.getBase(tableName);   			
-    	base.addAll(mysqlBase.getBooks());  
+    	base.addAll(booksTable.getBooks());  
     	FileOutputStream fos=new FileOutputStream(tableName);
     	ObjectOutputStream oos=new ObjectOutputStream(fos);
     	oos.writeObject(base);
@@ -334,7 +334,7 @@ public class ReportsListWindowController {
     	Excel excel=new Excel();
     	String tableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(tableName);
-    	base=mysqlBase.getBooks();
+    	base=booksTable.getBooks();
     	excel.createExelFile(base,tableName);
     }
 }

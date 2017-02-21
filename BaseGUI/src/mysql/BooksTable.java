@@ -15,39 +15,14 @@ import controllers.MainController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class MysqlBase {
+public class BooksTable {
 
-	private Connection con = null;
+
 	private MainController mainControler;
-
-	public Connection getConnection() throws ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.Driver");
-		try {
-			con= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/base"
-					+ "?autoReconnect=true&useSSL=false","root","1234");
-		} catch (SQLException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("WARNING");
-			alert.setHeaderText("Lost connection!");
-			alert.showAndWait();
-			try {
-				mainControler.loadMenu();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		System.out.println("connect");
-		
-		return con;
-	}
-
-	public void closeConnection() throws SQLException{
-		con.close();
-		System.out.println("close");
-	}
+	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
 	public ArrayList<Book> getBooks() throws SQLException, ClassNotFoundException, IOException{
-		Connection con=getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement getbase=con.prepareStatement("SELECT * FROM Books"+
 				 " ORDER BY BookID ASC");
 		ResultSet rs=getbase.executeQuery();
@@ -64,52 +39,52 @@ public class MysqlBase {
 			Book book=new Book(ID,title,author,ISBN,available);
 			list.add(book);
 		}
-		closeConnection();
+		con.close();
 		return list;		
 	}
 	
 	public void deleteFromBooks(int BookID) throws ClassNotFoundException, SQLException, IOException
 	{
 		System.out.println(BookID);
-		Connection con=getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement delete = con.prepareStatement("DELETE FROM Books "
 			+ " WHERE BookID="+BookID+"");
 		delete.executeUpdate();
 	}
 	
 	public void saveToBooks(Book book) throws ClassNotFoundException, SQLException, IOException{
-		Connection con=getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement save = con.prepareStatement("INSERT INTO Books(Title,Author,ISBN)"
 			+ " VALUES('"+book.getTitle()+"','"+book.getAuthor()
 			+"','"+book.getISBN()+"')");
 		save.executeUpdate();	
-		closeConnection();	
+		con.close();	
 	}
 	
 	public void updateBooksRecord(int ID,String title,String author,String ISBN) 
 			throws ClassNotFoundException, SQLException, IOException{
-		Connection con=getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement update = con.prepareStatement("UPDATE  Books"
 				+ " SET Title='"+title+"',Author='"+author+"',ISBN='"+ISBN
 				+ "' WHERE BookID="+ID);
 		update.executeUpdate();
-		closeConnection();
+		con.close();
 	}
 	
 	public void updateBookStatus(int ID,String status) 
 			throws ClassNotFoundException, SQLException, IOException{
-		Connection con=getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement update = con.prepareStatement("UPDATE  Books"
 				+ " SET Available='"+status
 				+ "' WHERE BookID="+ID);
 		update.executeUpdate();
-		closeConnection();
+		con.close();
 	}
 	
 	
 	public void createTable(String tableName) throws ClassNotFoundException, SQLException{
 	
-			Connection con=getConnection();
+			Connection con=connectionToDatabase.getConnection();
 		try{
 			PreparedStatement create=con.prepareStatement("CREATE TABLE IF NOT EXISTS "+tableName
 					+ "(ID int,Title varchar(20),Author varchar(20),ISBN varchar(20),PRIMARY KEY(ID))"
@@ -121,24 +96,24 @@ public class MysqlBase {
 			alert.setHeaderText("Nieprawid³owa nazwa!");
 			alert.showAndWait();
 		}
-		closeConnection();
+		con.close();
 	}
 	
 	public ArrayList<String> getTables() throws SQLException, ClassNotFoundException{
 		ArrayList<String> tables=new ArrayList<String>();
-		Connection con=getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement show=con.prepareStatement("SHOW tables");
 		ResultSet rs=show.executeQuery();
 		
 		while(rs.next()){
 			tables.add(rs.getString(1));
 		}
-		closeConnection();
+		con.close();
 		return tables;	
 	}
 	
 	public void deleteTable(String tableName) throws ClassNotFoundException{
-		Connection con = getConnection();
+		Connection con = connectionToDatabase.getConnection();
 		try {
 			PreparedStatement delete = con.prepareStatement("DROP TABLE "+tableName);
 			delete.executeUpdate();

@@ -11,18 +11,18 @@ import base.Borrows;
 
 public class BorrowsTable {
 
-	MysqlBase mysqlBase = new MysqlBase();
+	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
 	public void seveToBorrows(Integer BookID,Integer LibraryCardNumber ) throws SQLException, ClassNotFoundException{
-		Connection con=mysqlBase.getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement save = con.prepareStatement("INSERT INTO borrows(BookID,LibraryCardNumber,ExpirationDate)"
 			+ " VALUES("+BookID+","+LibraryCardNumber+",date_add(now(),interval 30 day))");
 		save.executeUpdate();	
-		mysqlBase.closeConnection();
+		con.close();
 	}
 	
 	public ArrayList<Borrows> getBorrowsList() throws ClassNotFoundException, SQLException{
-		Connection con=mysqlBase.getConnection();
+		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement get=con.prepareStatement("SELECT books.BookID,books.Title,books.Author,books.ISBN,"
 				+ "users.LibraryCardNumber,users.FirstName,users.LastName,borrows.BorrowDate,"
 				+ "borrows.ExpirationDate,borrows.BorrowID "+
@@ -54,19 +54,19 @@ public class BorrowsTable {
 					BorrowID,BookID,BorrowDate, ExpirationDate);
 			borrowsList.add(borrows);
 		 }
-		mysqlBase.closeConnection();
+		con.close();
 		return borrowsList;
 	}
 	
 	public void deleteFromBorrows(Integer BorrowID) throws SQLException, ClassNotFoundException{
-		Connection con = mysqlBase.getConnection();
+		Connection con = connectionToDatabase.getConnection();
 		PreparedStatement delete = con.prepareStatement("DELETE FROM borrows WHERE BorrowID="+BorrowID);
 		delete.executeUpdate();
 		con.close();
 	}
 	
 	public void returnBorrow(Integer BorrowID) throws SQLException, ClassNotFoundException{
-		Connection con = mysqlBase.getConnection();
+		Connection con = connectionToDatabase.getConnection();
 		PreparedStatement ret = con.prepareStatement("UPDATE borrows SET ReturnDate=current_timestamp()"
 				+ " WHERE BorrowID="+BorrowID);
 		ret.executeUpdate();

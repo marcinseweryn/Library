@@ -20,13 +20,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import mysql.BorrowsTable;
-import mysql.MysqlBase;
+import mysql.BooksTable;
 
 public class BorrowedBooksWindowController {
 
 	private static ArrayList<Borrows> borrowsList;
 	BorrowsTable borrowsTable = new BorrowsTable();
-	MysqlBase mysqlBase = new MysqlBase();
+	BooksTable booksTable = new BooksTable();
 
 	@FXML
 	private TextField textFieldLibraryCardNumber;
@@ -69,7 +69,7 @@ public class BorrowedBooksWindowController {
 		borrowsTable.deleteFromBorrows(BorrowID);
 		
 		int BookID = borrowsTableView.getSelectionModel().getSelectedItem().getBookID();
-		mysqlBase.updateBookStatus(BookID,"Yes");
+		booksTable.updateBookStatus(BookID,"Yes");
 		
 		borrowsList = borrowsTable.getBorrowsList();
 		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
@@ -93,7 +93,7 @@ public class BorrowedBooksWindowController {
 		borrowsTable.returnBorrow(BorrowID);
 		
 		int BookID = borrowsTableView.getSelectionModel().getSelectedItem().getBookID();
-		mysqlBase.updateBookStatus(BookID,"Yes");
+		booksTable.updateBookStatus(BookID,"Yes");
 		
 		borrowsList = borrowsTable.getBorrowsList();
 		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);

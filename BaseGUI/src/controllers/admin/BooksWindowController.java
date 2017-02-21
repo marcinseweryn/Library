@@ -11,7 +11,7 @@ import java.util.Optional;
 import base.Book;
 import base.Save_Read;
 import mysql.BorrowsTable;
-import mysql.MysqlBase;
+import mysql.BooksTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,10 +32,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class BooksWindowController {
-	private static ArrayList<Book> booksTable;
+	private static ArrayList<Book> booksArrayList;
 	
 	Save_Read sr = new Save_Read();
-	MysqlBase mysqlBase=new MysqlBase();
+	BooksTable booksTable=new BooksTable();
 
 	
 	public void setBaseTableview(ObservableList<Book> olist) {
@@ -51,8 +51,8 @@ public class BooksWindowController {
 	}
 	
 	void getBooksTableView() throws ClassNotFoundException, SQLException, IOException{
-		booksTable=mysqlBase.getBooks();
-		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);
+		booksArrayList=booksTable.getBooks();
+		ObservableList<Book> olist=FXCollections.observableArrayList(booksArrayList);
 		setBaseTableview(olist);
 	}
 	
@@ -96,12 +96,11 @@ public class BooksWindowController {
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException, SQLException {
 	
 		Book book = new Book(text1.getText(), text2.getText(), text3.getText(),"Yes");
-		booksTable.add(book);
-			
-		ObservableList<Book> olist=FXCollections.observableArrayList(booksTable);	
-		setBaseTableview(olist);
+		booksArrayList.add(book);
+					
+		booksTable.saveToBooks(book);
+		getBooksTableView();
 		
-		mysqlBase.saveToBooks(book);
 		text1.clear();text2.clear();text3.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
@@ -117,7 +116,7 @@ public class BooksWindowController {
 		editInfo.setVisible(false);
 
 		int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();				
-		mysqlBase.deleteFromBooks(BookID);
+		booksTable.deleteFromBooks(BookID);
 
 		getBooksTableView();
 		text1.clear();text2.clear();text3.clear();
@@ -130,7 +129,7 @@ public class BooksWindowController {
 		editInfo.setVisible(true);
 		
 		int ID=baseTable.getSelectionModel().getSelectedItem().getBookID();
-		mysqlBase.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
+		booksTable.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
 	
 		  
 		getBooksTableView();
@@ -153,7 +152,7 @@ public class BooksWindowController {
 					int LibraryCardNumber=Integer.parseInt(b);
 												
 						int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();
-						mysqlBase.updateBookStatus(BookID,"No");
+						booksTable.updateBookStatus(BookID,"No");
 						borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
 						
 						getBooksTableView();
@@ -170,7 +169,7 @@ public class BooksWindowController {
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
 		  Map<Integer,Book> basee=new HashMap<Integer,Book>();
 		try {
-			booksTable=mysqlBase.getBooks();
+			booksArrayList=booksTable.getBooks();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -179,55 +178,55 @@ public class BooksWindowController {
 		{	
 			
 		}else{
-			for(Book book:booksTable)
+			for(Book book:booksArrayList)
 			{
 				if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
 				{
 					if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()) && book.getISBN().equals(text3.getText()) )
 					{
-						basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+						basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
 					}else{}
 				}else{
 					if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true)
 					{
 						if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()))
 						{
-							basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+							basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
 						}else{}
 					}else{
 						if(checkBoxTitle.isSelected()==true && checkBoxISBN.isSelected()==true)
 						{
 							if(book.getTitle().equals(text1.getText()) && book.getISBN().equals(text3.getText()))
 							{
-								basee.put(booksTable.indexOf(book),book);
+								basee.put(booksArrayList.indexOf(book),book);
 							}else{}
 						}else{
 							if(checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
 							{
 								if(book.getISBN().equals(text3.getText()) && book.getAuthor().equals(text2.getText()))
 								{
-									basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+									basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
 								}else{}
 							}else{
 								if(checkBoxTitle.isSelected()==true)
 								{
 									if(book.getTitle().equals(text1.getText()))
 									{
-										basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+										basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
 									}else{}	
 								}else{
 									if(checkBoxAuthor.isSelected()==true)
 									{
 										if(book.getAuthor().equals(text2.getText()))
 										{
-											basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+											basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
 										}else{}
 									}else{
 										if(checkBoxISBN.isSelected()==true)
 										{
 											if(book.getISBN().equals(text3.getText()))
 											{
-												basee.put(booksTable.get(booksTable.indexOf(book)).getBookID(),book);
+												basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
 											}else{}
 										}else{
 											
@@ -245,7 +244,7 @@ public class BooksWindowController {
 	  }
 	 	 	
 public	ArrayList<Book> getBase(){
-		return booksTable;
+		return booksArrayList;
 	}
 
 }

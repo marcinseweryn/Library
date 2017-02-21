@@ -9,7 +9,6 @@ import java.util.Map;
 import base.Book;
 import base.Save_Read;
 import controllers.MainController;
-import mysql.MysqlBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,7 +31,6 @@ public class BooksOfflineWindowController {
 	private ArrayList<Integer> indexlist= new ArrayList<Integer>();
 
 	Save_Read sr = new Save_Read();
-	MysqlBase mysqlBase=new MysqlBase();
 
 	public void setMainControler(MainController mainControler) {
 		this.mainControler = mainControler;

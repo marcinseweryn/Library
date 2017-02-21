@@ -16,7 +16,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import mysql.MysqlBase;
+import mysql.BooksTable;
+import mysql.ConnectionToDatabase;
 import javafx.scene.Node;
 
 public class RegistrationWindowController {
@@ -52,8 +53,8 @@ public class RegistrationWindowController {
 			alert.showAndWait();
     		
     	}else{
-    		MysqlBase mysqlBase = new MysqlBase();
-    		Connection con=mysqlBase.getConnection();
+    		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
+    		Connection con=connectionToDatabase.getConnection();
     		PreparedStatement save = con.prepareStatement("INSERT INTO users(FirstName,LastName,"
     				+ "Password,City,Address,PostalCode,Telephone,Email) VALUES"
     				+ "('"+firstNameField.getText()+"','"+lastNameField.getText()+"','"+
@@ -74,7 +75,7 @@ public class RegistrationWindowController {
 			alert.setHeaderText("Your library card number:"+ID);
 			alert.showAndWait();
     		
-    		mysqlBase.closeConnection();	
+    		con.close();
     		
     	}
 
