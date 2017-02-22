@@ -15,13 +15,13 @@
             <Font name="Arial Bold" size="26.0" />
          </font>
       </Text>
-      <TextField layoutX="92.0" layoutY="44.0" />
-      <Text layoutX="19.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+      <TextField fx:id="textFieldID" layoutX="92.0" layoutY="44.0" />
+      <Text layoutX="19.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
          <font>
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <Text layoutX="19.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname">
+      <Text layoutX="19.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname">
          <font>
             <Font name="Arial Bold" size="15.0" />
          </font>
@@ -31,11 +31,11 @@
             <Font name="Arial Bold" size="15.0" />
          </font>
       </Text>
-      <TextField layoutX="92.0" layoutY="84.0" />
-      <TextField layoutX="92.0" layoutY="121.0" />
+      <TextField fx:id="textFieldName" layoutX="92.0" layoutY="84.0" />
+      <TextField fx:id="textFieldSurname" layoutX="92.0" layoutY="121.0" />
       <Button layoutX="189.0" layoutY="153.0" mnemonicParsing="false" onAction="#searchAction" text="Search" />
       <Button layoutX="186.0" layoutY="230.0" mnemonicParsing="false" onAction="#submitAction" text="Submit" />
-      <TextField layoutX="24.0" layoutY="230.0" />
+      <TextField fx:id="textFieldPasswordChange" layoutX="24.0" layoutY="230.0" />
       <Text layoutX="28.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password change">
          <font>
             <Font name="Arial Bold" size="15.0" />
@@ -44,19 +44,19 @@
       <Button layoutX="21.0" layoutY="348.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="25.0" prefWidth="51.0" text="Menu" />
       <Button layoutX="19.0" layoutY="284.0" mnemonicParsing="false" onAction="#deleteAction" prefHeight="25.0" prefWidth="54.0" text="Delete" />
       <Button layoutX="88.0" layoutY="284.0" mnemonicParsing="false" onAction="#banAction" prefHeight="25.0" prefWidth="54.0" text="Ban" />
-      <TableView layoutX="249.0" layoutY="54.0" prefHeight="341.0" prefWidth="826.0">
+      <TableView fx:id="usersTableView" layoutX="249.0" layoutY="54.0" prefHeight="341.0" prefWidth="826.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Library card &#10;    number" />
-          <TableColumn prefWidth="75.0" text="Name" />
-            <TableColumn prefWidth="75.0" text="Surname" />
-            <TableColumn prefWidth="75.0" text="City" />
-            <TableColumn prefWidth="75.0" text="Address" />
-            <TableColumn prefWidth="75.0" text="Postal code" />
-            <TableColumn prefWidth="75.0" text="Telephone" />
-            <TableColumn prefWidth="75.0" text="E-mail" />
-            <TableColumn prefWidth="75.0" text="Borrows" />
-            <TableColumn prefWidth="75.0" text="Expiration &#10;    dates" />
-            <TableColumn prefWidth="75.0" text="Banned" />
+          <TableColumn fx:id="tableColumnLibraryCardNumber" prefWidth="75.0" text="Library card &#10;    number" />
+          <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="tableColumnSurname" prefWidth="75.0" text="Surname" />
+            <TableColumn fx:id="tableColumnCity" prefWidth="75.0" text="City" />
+            <TableColumn fx:id="tableColumnAddress" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="tableColumnPostalCode" prefWidth="75.0" text="Postal code" />
+            <TableColumn fx:id="tableColumnTelephone" prefWidth="75.0" text="Telephone" />
+            <TableColumn fx:id="tableColumnEmail" prefWidth="75.0" text="E-mail" />
+            <TableColumn fx:id="tableColumnBorrows" prefWidth="75.0" text="Borrows" />
+            <TableColumn fx:id="tableColumnExpirationDates" prefWidth="75.0" text="Expiration &#10;    dates" />
+            <TableColumn fx:id="tableColumnBanned" prefWidth="75.0" text="Banned" />
         </columns>
       </TableView>
       <Button layoutX="157.0" layoutY="284.0" mnemonicParsing="false" onAction="#unbanAction" prefHeight="25.0" prefWidth="54.0" text="Unban" />
