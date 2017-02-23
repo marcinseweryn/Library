@@ -1,26 +1,94 @@
 package controllers.admin;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
+import base.Reservations;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import mysql.BooksTable;
+import mysql.BorrowsTable;
+import mysql.ReservationsTable;
 
 public class ReservationsWindowController {
 	
-
+	private ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
+	ReservationsTable reservationsTable = new ReservationsTable();	
+	
     @FXML
-    void confirmAction(ActionEvent event) {
-
+    private TableView<Reservations> tableViewReservations;
+	
+    @FXML
+    private TableColumn<Reservations, Integer> tableColumnLibraryCardNumber;
+    @FXML
+    private TableColumn<Reservations, String> tableColumnExpirationDate;
+    @FXML
+    private TableColumn<Reservations, String> tableColumnTitle, tableColumnAuthor, tableColumnISBN,
+    tableColumnName, tableColumnSurname;
+    @FXML
+    private TextField textFieldLibraryCardNumber;
+    
+    void setReservationsTableView(ObservableList<Reservations> olist){
+    	tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+    	tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
+    	tableColumnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
+    	tableColumnLibraryCardNumber.setCellValueFactory(new PropertyValueFactory<>("LibraryCardNumber"));
+    	tableColumnName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+    	tableColumnSurname.setCellValueFactory(new PropertyValueFactory<>("Surname"));
+    	tableColumnExpirationDate.setCellValueFactory(new PropertyValueFactory<>("ExpirationDate"));
+    	tableViewReservations.setItems(olist);
+    	tableViewReservations.getColumns().clear();
+    	tableViewReservations.getColumns().addAll(tableColumnTitle, tableColumnAuthor, tableColumnISBN,
+    			tableColumnLibraryCardNumber, tableColumnName, tableColumnSurname, tableColumnExpirationDate);
+    }
+    
+    void getReservationsTable() throws ClassNotFoundException, SQLException{
+    	reservationsArrayList = reservationsTable.getReservationsTable(); 
+		ObservableList<Reservations> olist = FXCollections.observableArrayList(reservationsArrayList);
+		setReservationsTableView(olist);
+    }
+		
+	@FXML
+	void initialize() throws ClassNotFoundException, SQLException{	
+		reservationsTable.deleteExpiredReservations();
+		getReservationsTable();
+	}
+    
+    @FXML
+    void confirmAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	BorrowsTable borrowsTable = new BorrowsTable();
+    	
+    	Integer BookID = tableViewReservations.getSelectionModel().getSelectedItem().getBookID();
+    	Integer LibraryCardNumber = tableViewReservations.getSelectionModel().getSelectedItem().getLibraryCardNumber();
+    	Integer ReservationID = tableViewReservations.getSelectionModel().getSelectedItem().getReservationID();
+    	
+    	borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
+    	reservationsTable.deleteFromReservations(ReservationID);
+    	getReservationsTable();
     }
 
     @FXML
-    void deleteAction(ActionEvent event) {
-
+    void deleteAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	BooksTable booksTable = new BooksTable();
+    	Integer ReservationID = tableViewReservations.getSelectionModel().getSelectedItem().getReservationID();
+    	Integer BookID = tableViewReservations.getSelectionModel().getSelectedItem().getBookID();
+    	
+    	reservationsTable.deleteFromReservations(ReservationID);
+    	booksTable.updateBookStatus(BookID,"Yes");
+    	getReservationsTable();
     }
 
     @FXML
@@ -35,8 +103,18 @@ public class ReservationsWindowController {
     }
 
     @FXML
-    void searchAction(ActionEvent event) {
-
+    void searchAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	reservationsArrayList = reservationsTable.getReservationsTable();
+    	ArrayList<Reservations> searchResult = new ArrayList<>();
+    	
+    	for(Reservations reservation:reservationsArrayList){
+    		if(reservation.getLibraryCardNumber()==Integer.parseInt(textFieldLibraryCardNumber.getText())){
+    			searchResult.add(reservation);
+    		}else{}
+    	}
+    	
+		ObservableList<Reservations> olist = FXCollections.observableArrayList(searchResult);
+		setReservationsTableView(olist);
     }
 
 }

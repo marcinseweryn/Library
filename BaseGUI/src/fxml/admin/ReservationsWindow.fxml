@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.ReservationsWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.ReservationsWindowController">
    <children>
-      <Text layoutX="218.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservations">
+      <Text layoutX="288.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservations">
          <font>
             <Font name="Arial Bold" size="26.0" />
          </font>
@@ -26,17 +26,18 @@
          </font>
       </Button>
       <Button layoutX="340.0" layoutY="67.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="58.0" text="Search" />
-      <TableView layoutX="133.0" layoutY="111.0" prefHeight="264.0" prefWidth="452.0">
+      <TableView fx:id="tableViewReservations" layoutX="133.0" layoutY="111.0" prefHeight="264.0" prefWidth="600.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Title" />
-          <TableColumn prefWidth="75.0" text="Author" />
-            <TableColumn prefWidth="75.0" text="ISBN" />
-            <TableColumn prefWidth="75.0" text="Library card&#10;   number&#10;" />
-            <TableColumn prefWidth="75.0" text="Name" />
-            <TableColumn prefWidth="75.0" text="Surename" />
+          <TableColumn fx:id="tableColumnTitle" prefWidth="75.0" text="Title" />
+          <TableColumn fx:id="tableColumnAuthor" prefWidth="75.0" text="Author" />
+            <TableColumn fx:id="tableColumnISBN" prefWidth="75.0" text="ISBN" />
+            <TableColumn fx:id="tableColumnLibraryCardNumber" prefWidth="75.0" text="Library card&#10;   number&#10;" />
+            <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="tableColumnSurname" prefWidth="75.0" text="Surname" />
+            <TableColumn fx:id="tableColumnExpirationDate" prefWidth="149.0" text="Expiration date" />
         </columns>
       </TableView>
-      <TextField layoutX="175.0" layoutY="67.0" />
+      <TextField fx:id="textFieldLibraryCardNumber" layoutX="175.0" layoutY="67.0" />
       <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Library card number">
          <font>
             <Font name="Arial Bold" size="15.0" />

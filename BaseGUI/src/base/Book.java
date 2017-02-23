@@ -14,13 +14,15 @@ public class Book implements Serializable {
 public Book(){
 	
 }
-public Book(String title,String author,String ISBN,String available)
+
+public Book(String title,String author,String ISBN,String available )
 {
 	this.title=title;
 	this.author=author;
 	this.ISBN=ISBN;
 	this.available=available;
 }
+
 public Book(int ID,String title,String author,String ISBN,String available )
 {
 	this.BookID=ID;

@@ -11,6 +11,7 @@ import java.util.Optional;
 import base.Book;
 import base.Save_Read;
 import mysql.BorrowsTable;
+import mysql.ReservationsTable;
 import mysql.BooksTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,6 +37,7 @@ public class BooksWindowController {
 	
 	Save_Read sr = new Save_Read();
 	BooksTable booksTable=new BooksTable();
+	ReservationsTable reservationsTable = new ReservationsTable();
 
 	
 	public void setBaseTableview(ObservableList<Book> olist) {
@@ -78,6 +80,7 @@ public class BooksWindowController {
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		
+		reservationsTable.deleteExpiredReservations();
 		getBooksTableView();
 	}
 
@@ -153,7 +156,7 @@ public class BooksWindowController {
 												
 						int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();
 						booksTable.updateBookStatus(BookID,"No");
-						borrowsTable.seveToBorrows(BookID, LibraryCardNumber);
+						borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
 						
 						getBooksTableView();
 					}

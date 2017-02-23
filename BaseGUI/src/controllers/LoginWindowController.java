@@ -21,7 +21,14 @@ import mysql.ConnectionToDatabase;
 
 public class LoginWindowController {
 
-    @FXML
+	private static Integer LibraryCardNumber;
+	
+	
+    public Integer getLibraryCardNumber() {
+		return LibraryCardNumber;
+	}
+
+	@FXML
     private PasswordField passwordField;
 
     @FXML
@@ -54,13 +61,13 @@ public class LoginWindowController {
     		ResultSet rs=getUsers.executeQuery();
     		
     		String password;
-    		int ID;
+    		
     		boolean passwordOK=false;
     		while(rs.next()){
-    			ID=rs.getInt("LibraryCardNumber");
+    			LibraryCardNumber=rs.getInt("LibraryCardNumber");
     			password=rs.getString("Password");
     			
-    			if(ID==Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
+    			if(LibraryCardNumber==Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
     	        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/UserMenuWindow.fxml"));
     	        	Scene scene = new Scene(parent);
     	        	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

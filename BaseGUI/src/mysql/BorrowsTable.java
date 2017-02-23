@@ -13,7 +13,7 @@ public class BorrowsTable {
 
 	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
-	public void seveToBorrows(Integer BookID,Integer LibraryCardNumber ) throws SQLException, ClassNotFoundException{
+	public void saveToBorrows(Integer BookID,Integer LibraryCardNumber ) throws SQLException, ClassNotFoundException{
 		Connection con=connectionToDatabase.getConnection();
 		PreparedStatement save = con.prepareStatement("INSERT INTO borrows(BookID,LibraryCardNumber,ExpirationDate)"
 			+ " VALUES("+BookID+","+LibraryCardNumber+",date_add(now(),interval 30 day))");

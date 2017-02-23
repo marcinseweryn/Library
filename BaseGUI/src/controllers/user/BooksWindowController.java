@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import base.Book;
+import controllers.LoginWindowController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,17 +16,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import mysql.BooksTable;
+import mysql.ReservationsTable;
 
 public class BooksWindowController {
 	
 	BooksTable booksTable = new BooksTable();
+	ReservationsTable reservationsTable = new ReservationsTable();
 	
 	private static ArrayList<Book> booksArrayList;
 	private ArrayList<Book> indexlist= new ArrayList<Book>();
@@ -57,11 +62,15 @@ public class BooksWindowController {
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
-		
-			booksArrayList=booksTable.getBooks();
-			ObservableList<Book> olist=FXCollections.observableArrayList(booksArrayList);
-			setBaseTableview(olist);
+			reservationsTable.deleteExpiredReservations();
+			getBooksTableView();
+	}
 
+
+	private void getBooksTableView() throws SQLException, ClassNotFoundException, IOException {
+		booksArrayList=booksTable.getBooks();
+		ObservableList<Book> olist=FXCollections.observableArrayList(booksArrayList);
+		setBaseTableview(olist);
 	}
 		
 	
@@ -77,8 +86,32 @@ public class BooksWindowController {
     }
 
     @FXML
-    void reservationAction(ActionEvent event) {
-
+    void reservationAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	ReservationsTable reservationsTable = new ReservationsTable();
+    	LoginWindowController loginWindowController =new LoginWindowController();
+    	
+		String available = booksTableView.getSelectionModel().getSelectedItem().getAvailable();
+		if(available.equals("Yes")){
+    	
+	    	Integer BookID = booksTableView.getSelectionModel().getSelectedItem().getBookID();
+			Integer LibraryCardNumber = loginWindowController.getLibraryCardNumber();
+			
+			reservationsTable.saveReservation(LibraryCardNumber, BookID);
+			booksTable.updateBookStatus(BookID,"No");
+			
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("INFORMATION");
+			alert.setHeaderText("You have two days to borrow this book");
+			alert.showAndWait();
+			
+			getBooksTableView();
+		}else{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("You cannot borrow a borrowed book!");
+			alert.showAndWait();
+		}
     }
 
     @FXML
