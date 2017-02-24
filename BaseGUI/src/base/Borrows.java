@@ -1,15 +1,14 @@
 package base;
 
-import java.sql.Date;
 
 public class Borrows {
 	
 	private String Title,Author,ISBN,Name,Surname;
 	private Integer LibraryCardNumber,BookID,BorrowID;
-	private Date BorrowDate,ExpirationDate;
+	private String BorrowDate,ExpirationDate;
 	
 	public Borrows(String title, String author, String iSBN, String name, String surname, Integer libraryCardNumber,
-			Integer borrowID, Integer bookID, Date borrowDate, Date expirationDate) {
+			Integer borrowID, Integer bookID, String borrowDate, String expirationDate) {
 		super();
 		Title = title;
 		Author = author;
@@ -25,6 +24,15 @@ public class Borrows {
 
 	public Borrows() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Borrows(String title, String author, String iSBN, String borrowDate, String expirationDate) {
+		super();
+		Title = title;
+		Author = author;
+		ISBN = iSBN;
+		BorrowDate = borrowDate;
+		ExpirationDate = expirationDate;
 	}
 
 	public String getTitle() {
@@ -79,16 +87,16 @@ public class Borrows {
 	public void setBorrowID(Integer borrowID) {
 		BorrowID = borrowID;
 	}	
-	public Date getBorrowDate() {
+	public String getBorrowDate() {
 		return BorrowDate;
 	}
-	public void setBorrowDate(Date borrowDate) {
+	public void setBorrowDate(String borrowDate) {
 		BorrowDate = borrowDate;
 	}
-	public Date getExpirationDate() {
+	public String getExpirationDate() {
 		return ExpirationDate;
 	}
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(String expirationDate) {
 		ExpirationDate = expirationDate;
 	}
 

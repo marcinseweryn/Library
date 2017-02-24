@@ -1,7 +1,6 @@
 package base;
 
 
-import java.sql.Timestamp;
 
 public class Reservations {
 
@@ -29,6 +28,16 @@ public class Reservations {
 	}
 	
 	
+	public Reservations(Integer reservationID, Integer bookID,String title, String author, String iSBN, String reservationDate,String expirationDate) {
+		super();
+		ReservationID = reservationID;
+		BookID = bookID;
+		Title = title;
+		Author = author;
+		ISBN = iSBN;
+		ReservationDate = reservationDate;
+		ExpirationDate = expirationDate;
+	}
 	public Integer getReservationID() {
 		return ReservationID;
 	}

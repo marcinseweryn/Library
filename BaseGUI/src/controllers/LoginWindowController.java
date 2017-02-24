@@ -22,9 +22,14 @@ import mysql.ConnectionToDatabase;
 public class LoginWindowController {
 
 	private static Integer LibraryCardNumber;
+	private static String Name;
 	
 	
-    public Integer getLibraryCardNumber() {
+    public static String getName() {
+		return Name;
+	}
+
+	public static Integer getLibraryCardNumber() {
 		return LibraryCardNumber;
 	}
 
@@ -57,7 +62,7 @@ public class LoginWindowController {
     	}else{
     		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
     		Connection con=connectionToDatabase.getConnection();
-    		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password FROM Users ");
+    		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password,FirstName FROM Users ");
     		ResultSet rs=getUsers.executeQuery();
     		
     		String password;
@@ -66,6 +71,7 @@ public class LoginWindowController {
     		while(rs.next()){
     			LibraryCardNumber=rs.getInt("LibraryCardNumber");
     			password=rs.getString("Password");
+    			Name = rs.getString("FirstName");
     			
     			if(LibraryCardNumber==Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
     	        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/UserMenuWindow.fxml"));

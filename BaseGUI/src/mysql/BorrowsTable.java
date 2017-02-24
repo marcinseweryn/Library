@@ -1,10 +1,10 @@
 package mysql;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import base.Borrows;
@@ -37,7 +37,7 @@ public class BorrowsTable {
 		ArrayList<Borrows> borrowsList=new ArrayList<>();
 		 String Title,Author,ISBN,Name,Surname;
 		 Integer LibraryCardNumber,BorrowID,BookID;
-		 Date BorrowDate,ExpirationDate;
+		 Timestamp BorrowDate,ExpirationDate;
 		 
 		 while(rs.next()){
 			Title=rs.getString("Title");
@@ -46,12 +46,13 @@ public class BorrowsTable {
 			Name=rs.getString("FirstName");
 			Surname=rs.getString("LastName");
 			LibraryCardNumber=rs.getInt("LibraryCardNumber");
-			BorrowDate=rs.getDate("BorrowDate");
-			ExpirationDate=rs.getDate("ExpirationDate");
+			BorrowDate=rs.getTimestamp("BorrowDate");
+			ExpirationDate=rs.getTimestamp("ExpirationDate");
 			BorrowID=rs.getInt("BorrowID");
 			BookID=rs.getInt("BookID");
+			@SuppressWarnings("deprecation")
 			Borrows borrows = new Borrows(Title, Author, ISBN, Name, Surname, LibraryCardNumber, 
-					BorrowID,BookID,BorrowDate, ExpirationDate);
+					BorrowID,BookID,BorrowDate.toGMTString(), ExpirationDate.toGMTString());
 			borrowsList.add(borrows);
 		 }
 		con.close();
@@ -71,6 +72,36 @@ public class BorrowsTable {
 				+ " WHERE BorrowID="+BorrowID);
 		ret.executeUpdate();
 		con.close();
+	}
+	
+	public ArrayList<Borrows> getUserBorrowsList(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException{
+		Connection con=connectionToDatabase.getConnection();
+		PreparedStatement get=con.prepareStatement("SELECT books.Title,books.Author,books.ISBN,"
+				+ "borrows.BorrowDate,borrows.ExpirationDate "+
+					"FROM borrows "+
+					"Join users on users.LibraryCardNumber=borrows.LibraryCardNumber "+
+					"Join books on books.BookID=borrows.BookID "+
+					"WHERE borrows.ReturnDate is null and users.LibraryCardNumber="+LibraryCardNumber+
+					" ORDER BY BorrowDate DESC");
+		ResultSet rs=get.executeQuery();
+		
+		
+		ArrayList<Borrows> borrowsList=new ArrayList<>();
+		 String Title,Author,ISBN;
+		 Timestamp BorrowDate,ExpirationDate;
+		 
+		 while(rs.next()){
+			Title=rs.getString("Title");
+			Author=rs.getString("Author"); 
+			ISBN=rs.getString("ISBN");
+			BorrowDate=rs.getTimestamp("BorrowDate");
+			ExpirationDate=rs.getTimestamp("ExpirationDate");
+			@SuppressWarnings("deprecation")
+			Borrows borrows = new Borrows(Title, Author, ISBN,BorrowDate.toGMTString(), ExpirationDate.toGMTString());
+			borrowsList.add(borrows);
+		 }
+		con.close();
+		return borrowsList;
 	}
 	
 }

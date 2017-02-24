@@ -42,6 +42,7 @@ public class ReservationsTable {
 			ReservationDate = rs.getTimestamp("ReservationDate");
 			ExpirationDate = rs.getTimestamp("ExpirationDate");
 			
+			@SuppressWarnings("deprecation")
 			Reservations reservations = new Reservations(ReservationID, BookID, LibraryCardNumber, Title, Author,
 					ISBN, Name, Surname, ReservationDate.toGMTString(),ExpirationDate.toGMTString());
 			reservationsArrayList.add(reservations);
@@ -77,6 +78,41 @@ public class ReservationsTable {
 				+ "WHERE ExpirationDate<current_timestamp() ");
 		delete.executeUpdate();
 		con.close();	
+	}
+	
+	public ArrayList<Reservations> getUserReservationsTable(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException{
+		Connection con = connectionToDatabase.getConnection();
+		PreparedStatement get = con.prepareStatement("SELECT r.ReservationID,b.BookID,b.Title,b.Author,b.ISBN,"
+				+ "ReservationDate,r.ExpirationDate "
+					+"FROM reservations as r "
+					+"JOIN users as u ON u.LibraryCardNumber=r.LibraryCardNumber "
+					+"JOIN books as b ON b.BookID=r.BookID "
+					+ "WHERE u.LibraryCardNumber="+LibraryCardNumber);
+		ResultSet rs=get.executeQuery();
+		
+		ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
+		Integer ReservationID,BookID;
+		String Title,Author,ISBN;
+		Timestamp ReservationDate, ExpirationDate;
+		
+		while(rs.next()){
+			ReservationID = rs.getInt("ReservationID");
+			BookID = rs.getInt("BookID");
+			Title = rs.getString("Title");
+			Author = rs.getString("Author");
+			ISBN = rs.getString("ISBN");
+			ReservationDate = rs.getTimestamp("ReservationDate");
+			ExpirationDate = rs.getTimestamp("ExpirationDate");
+			
+			@SuppressWarnings("deprecation")
+			Reservations reservations = new Reservations(ReservationID, BookID, Title, Author,ISBN, ReservationDate.toGMTString(),
+					ExpirationDate.toGMTString());
+			reservationsArrayList.add(reservations);
+		}
+		
+		con.close();
+		return reservationsArrayList;
+		
 	}
 	
 	
