@@ -3,7 +3,7 @@ package base;
 public class Users {
 	
 	private Integer LibraryCardNumber,Borrows,ExpirationDates;
-	private String Name,Surname,City,Address,PostalCode,Telephone,Email,Banned;
+	private String Name,Surname,City,Address,PostalCode,Telephone,Email,Banned,Password;
 	
 	
 	public Users() {
@@ -24,6 +24,18 @@ public class Users {
 		Email = email;
 		Banned = banned;
 	}
+	public Users( String name, String surname,String city, String address, String postalCode,
+			String telephone, String email, String password) {
+		Password = password;
+		Name = name;
+		Surname = surname;
+		City = city;
+		Address = address;
+		PostalCode = postalCode;
+		Telephone = telephone;
+		Email = email;
+	}
+	
 	public Integer getLibraryCardNumber() {
 		return LibraryCardNumber;
 	}
@@ -90,5 +102,11 @@ public class Users {
 	public void setBanned(String banned) {
 		Banned = banned;
 	}
-
+	public String getPassword() {
+		return Password;
+	}
+	public void setPassword(String password) {
+		Password = password;
+	}
+	
 }
