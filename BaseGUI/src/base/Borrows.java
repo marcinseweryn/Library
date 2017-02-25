@@ -5,7 +5,7 @@ public class Borrows {
 	
 	private String Title,Author,ISBN,Name,Surname;
 	private Integer LibraryCardNumber,BookID,BorrowID;
-	private String BorrowDate,ExpirationDate;
+	private String BorrowDate,ExpirationDate,ReturnDate;
 	
 	public Borrows(String title, String author, String iSBN, String name, String surname, Integer libraryCardNumber,
 			Integer borrowID, Integer bookID, String borrowDate, String expirationDate) {
@@ -33,6 +33,17 @@ public class Borrows {
 		ISBN = iSBN;
 		BorrowDate = borrowDate;
 		ExpirationDate = expirationDate;
+	}
+	
+	public Borrows(String title, String author, String iSBN, String borrowDate, String expirationDate,
+			String returnDate) {
+		super();
+		Title = title;
+		Author = author;
+		ISBN = iSBN;
+		BorrowDate = borrowDate;
+		ExpirationDate = expirationDate;
+		ReturnDate = returnDate;
 	}
 
 	public String getTitle() {
@@ -100,4 +111,12 @@ public class Borrows {
 		ExpirationDate = expirationDate;
 	}
 
+	public String getReturnDate() {
+		return ReturnDate;
+	}
+
+	public void setReturnDate(String returnDate) {
+		ReturnDate = returnDate;
+	}
+	
 }

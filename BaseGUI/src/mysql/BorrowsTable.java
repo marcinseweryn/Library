@@ -104,4 +104,37 @@ public class BorrowsTable {
 		return borrowsList;
 	}
 	
+	public ArrayList<Borrows> getUserHistory(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException{
+		Connection con=connectionToDatabase.getConnection();
+		PreparedStatement get=con.prepareStatement("SELECT books.Title,books.Author,books.ISBN,"
+				+ "borrows.BorrowDate,borrows.ExpirationDate,borrows.ReturnDate "+
+					"FROM borrows "+
+					"Join users on users.LibraryCardNumber=borrows.LibraryCardNumber "+
+					"Join books on books.BookID=borrows.BookID "+
+					"WHERE borrows.ReturnDate is not null and users.LibraryCardNumber="+LibraryCardNumber+
+					" ORDER BY BorrowDate DESC");
+		ResultSet rs=get.executeQuery();
+		
+		
+		ArrayList<Borrows> borrowsList=new ArrayList<>();
+		 String Title,Author,ISBN;
+		 Timestamp BorrowDate,ExpirationDate,ReturnDate;
+		 
+		 while(rs.next()){
+			Title=rs.getString("Title");
+			Author=rs.getString("Author"); 
+			ISBN=rs.getString("ISBN");
+			BorrowDate=rs.getTimestamp("BorrowDate");
+			ExpirationDate=rs.getTimestamp("ExpirationDate");
+			ReturnDate=rs.getTimestamp("ReturnDate");
+			@SuppressWarnings("deprecation")
+			Borrows borrows = new Borrows(Title, Author, ISBN,BorrowDate.toGMTString(), ExpirationDate.toGMTString(),
+					ReturnDate.toGMTString());
+			borrowsList.add(borrows);
+		 }
+		con.close();
+		return borrowsList;
+		
+	}
+	
 }
