@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
+import base.Ban;
 import base.Users;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,14 +23,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import mysql.Bans;
 import mysql.UsersTable;
 
 public class UsersWindowController {
 	
 	private ArrayList<Users> usersArrayList = new ArrayList<>();
 	UsersTable usersTable = new UsersTable();
+	Bans ban = new Bans();   
 	
     @FXML
     private TableView<Users> usersTableView;
@@ -44,6 +48,7 @@ public class UsersWindowController {
 
      
 
+	@SuppressWarnings("unchecked")
 	public void setUsersTableView(ObservableList<Users> olist){
     	tableColumnName.setCellValueFactory(new PropertyValueFactory<>("Name"));
     	tableColumnSurname.setCellValueFactory(new PropertyValueFactory<>("Surname"));
@@ -76,8 +81,84 @@ public class UsersWindowController {
     
     
     @FXML
-    void banAction(ActionEvent event) {
+    void banAction(ActionEvent event) throws NumberFormatException, ClassNotFoundException, SQLException, IOException {	
+    	Integer LibraryCardNumber = usersTableView.getSelectionModel().getSelectedItem().getLibraryCardNumber();
+    	String banned = usersTableView.getSelectionModel().getSelectedItem().getBanned();
+		TextInputDialog dialog = new TextInputDialog();
+		TextInputDialog timeDialog = new TextInputDialog(); 
+		
+		if(banned.equals("No")){
+			
+			dialog.setTitle("BAN");
+			dialog.setHeaderText("Are you sure? You really want ban this user?"
+					+ "\nEnter reason: ");
+			dialog.setContentText("Reason:");
+			Optional<String> reason = dialog.showAndWait();
+			if(reason.isPresent()){
+				timeDialog.setTitle("BAN");
+				timeDialog.setHeaderText("Enter ban time in days");
+				timeDialog.setContentText("Days:");
+				Optional<String> time = timeDialog.showAndWait();
+				if(time.isPresent()){
+					ban.banUser(LibraryCardNumber, reason.get(), Integer.parseInt(time.get()));
+					getUsersTableView();
+				}else{}
+			}	
+		}else{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("You cannot ban already banned user!");
+			alert.showAndWait();		
+		}
 
+		
+    }
+    
+    @FXML
+    void unbanAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	Integer LibraryCardNumber = usersTableView.getSelectionModel().getSelectedItem().getLibraryCardNumber();	
+    	String banned = usersTableView.getSelectionModel().getSelectedItem().getBanned();
+    	
+    	if(banned.equals("Yes")){
+	    	Alert alert = new Alert(AlertType.CONFIRMATION);
+	    	alert.setTitle("UNBAN");
+	    	alert.setHeaderText("Are you sure? You really want unban this user?");
+	
+	    	Optional<ButtonType> result = alert.showAndWait();
+	    	if (result.get() == ButtonType.OK){
+	    	    ban.unbanUser(LibraryCardNumber);
+	    	    getUsersTableView();
+	    	}
+    	}else{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("You cannot unban not banned user!");
+			alert.showAndWait();	
+    	}
+    }
+    
+    @FXML
+    void banInformationAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	Integer LibraryCardNumber = usersTableView.getSelectionModel().getSelectedItem().getLibraryCardNumber();	
+    	String banned = usersTableView.getSelectionModel().getSelectedItem().getBanned();
+    	
+    	if(banned.equals("Yes")){
+    		Bans bans = new Bans();
+    		Ban ban = bans.banInformation(LibraryCardNumber);
+    		
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setTitle("BAN INFORMATION");
+    		alert.setHeaderText("Ban date: "+ban.getBanDate()
+    				+"\nExpiration date: "+ban.getExpirationDate()
+    				+"\nReason: "+ban.getReason());
+    		alert.showAndWait();
+    		
+    	}else{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("ERROR");
+			alert.setHeaderText("You cannot get information about ban not banned user!");
+			alert.showAndWait();	
+    	}
     }
 
     @FXML
@@ -183,8 +264,5 @@ public class UsersWindowController {
 		alert.showAndWait();
     }
 
-    @FXML
-    void unbanAction(ActionEvent event) {
 
-    }
 }

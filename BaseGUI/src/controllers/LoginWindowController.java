@@ -16,16 +16,24 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import mysql.BooksTable;
+import mysql.Bans;
 import mysql.ConnectionToDatabase;
 
 public class LoginWindowController {
 
 	private static Integer LibraryCardNumber;
-	private static String Name;
+	private static String Name,bannedInfo;
 	
 	
-    public static String getName() {
+	public static String getBannedInfo() {
+		return bannedInfo;
+	}
+
+	public static void setBannedInfo(String bannedInfo) {
+		LoginWindowController.bannedInfo = bannedInfo;
+	}
+
+	public static String getName() {
 		return Name;
 	}
 
@@ -39,6 +47,13 @@ public class LoginWindowController {
     @FXML
     private TextField loginField;
 
+    @FXML
+    void initialize() throws ClassNotFoundException, SQLException{
+    	Bans bans = new Bans();
+    	bans.deleteExpiretBans();
+    }
+    
+    
     @FXML
     void backToStartAction(ActionEvent event) throws IOException {
     	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/StartWindow.fxml"));
@@ -62,7 +77,7 @@ public class LoginWindowController {
     	}else{
     		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
     		Connection con=connectionToDatabase.getConnection();
-    		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password,FirstName FROM Users ");
+    		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password,FirstName,Banned FROM Users ");
     		ResultSet rs=getUsers.executeQuery();
     		
     		String password;
@@ -72,6 +87,7 @@ public class LoginWindowController {
     			LibraryCardNumber=rs.getInt("LibraryCardNumber");
     			password=rs.getString("Password");
     			Name = rs.getString("FirstName");
+    			bannedInfo = rs.getString("Banned");
     			
     			if(LibraryCardNumber==Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
     	        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/UserMenuWindow.fxml"));

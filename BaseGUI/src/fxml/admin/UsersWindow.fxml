@@ -60,5 +60,6 @@
         </columns>
       </TableView>
       <Button layoutX="157.0" layoutY="284.0" mnemonicParsing="false" onAction="#unbanAction" prefHeight="25.0" prefWidth="54.0" text="Unban" />
+      <Button layoutX="98.0" layoutY="348.0" mnemonicParsing="false" onAction="#banInformationAction" text="Ban information" />
    </children>
 </Pane>

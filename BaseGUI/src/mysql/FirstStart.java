@@ -71,6 +71,18 @@ public class FirstStart {
 		create.executeUpdate();
 		////////////////////////////////////////////////////////////////////////////////////
 		
+		
+		
+		/////////BANNED USERS////////////////////////////////////////////////////////////
+		 create = con.prepareStatement("CREATE TABLE IF NOT EXISTS Banned_Users("+
+					"LibraryCardNumber INT NOT NULL,"+
+					"BanDate timestamp default CURRENT_TIMESTAMP,"+
+					"ExpirationDate timestamp default CURRENT_TIMESTAMP,"+
+					"Reason VARCHAR(500),"+
+					"PRIMARY KEY(LibraryCardNumberID)"+
+					")");
+		create.executeUpdate();
+		////////////////////////////////////////////////////////////////////////////////////
 		con.close();
 		
 	}

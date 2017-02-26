@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import base.Ban;
 import base.Borrows;
 import base.Reservations;
 import controllers.LoginWindowController;
@@ -15,11 +16,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import mysql.Bans;
 import mysql.BooksTable;
 import mysql.BorrowsTable;
 import mysql.ReservationsTable;
@@ -28,9 +32,13 @@ public class UserMenuWindowController {
 		
 	BorrowsTable borrowsTable = new BorrowsTable();
 	ReservationsTable reservationsTable = new ReservationsTable();
+	Bans bans = new Bans();
 	
     ArrayList<Borrows> borrowsArrayList = new ArrayList<>();
 	ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
+	
+	String banned = LoginWindowController.getBannedInfo();
+	static boolean firstShowInfo;
 	
     @FXML
     private TableView<Reservations> tableViewReservations;
@@ -97,19 +105,46 @@ public class UserMenuWindowController {
 	@FXML
     void initialize() throws ClassNotFoundException, SQLException{
     	textWelcome.setText("Welcome "+LoginWindowController.getName());
+    	
+    	
+    	if(banned.equals("Yes") && firstShowInfo==false){
 
+    		Ban ban = bans.banInformation(LoginWindowController.getLibraryCardNumber());
+    		
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("YOU ARE BANNED!!!");
+    		alert.setHeaderText("Ban date: "+ban.getBanDate()
+    				+"\nExpiration date: "+ban.getExpirationDate()
+    				+"\nReason: "+ban.getReason());
+    		alert.showAndWait();
+    		firstShowInfo = true;
+    	}
+    	
     	getTableBorrows();
     	getTableReservations();
+    	
     }  
 
     @FXML
-    void booksAction(ActionEvent event) throws IOException {
-    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/BooksWindow.fxml"));
-    	Scene scene = new Scene(parent);
-    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    void booksAction(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
     	
-    	stage.setScene(scene);
-    	stage.show();
+    	if(banned.equals("Yes")){
+    		Ban ban = bans.banInformation(LoginWindowController.getLibraryCardNumber());
+    		
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("YOU ARE BANNED!!!");
+    		alert.setHeaderText("Ban date: "+ban.getBanDate()
+    				+"\nExpiration date: "+ban.getExpirationDate()
+    				+"\nReason: "+ban.getReason());
+    		alert.showAndWait();
+    	}else{
+        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/BooksWindow.fxml"));
+        	Scene scene = new Scene(parent);
+        	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        	
+        	stage.setScene(scene);
+        	stage.show();
+    	}
     }
 
     @FXML
