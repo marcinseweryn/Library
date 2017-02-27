@@ -12,6 +12,7 @@ import base.Book;
 import base.Save_Read;
 import mysql.BorrowsTable;
 import mysql.ReservationsTable;
+import mysql.Bans;
 import mysql.BooksTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -142,6 +143,7 @@ public class BooksWindowController {
 	  @FXML
 	  void borrowAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {		  		  
 		  BorrowsTable borrowsTable = new BorrowsTable();
+		  Bans ban = new Bans();
 		  TextInputDialog dialog = new TextInputDialog();
 		  
 		  String available = baseTable.getSelectionModel().getSelectedItem().getAvailable();
@@ -153,13 +155,21 @@ public class BooksWindowController {
 				if (result.isPresent()){
 					String b=result.get();
 					int LibraryCardNumber=Integer.parseInt(b);
-												
+					
+					if(ban.checkBannedUsers(LibraryCardNumber)==false){
+					
 						int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();
 						booksTable.updateBookStatus(BookID,"No");
 						borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
 						
 						getBooksTableView();
+					}else{
+						Alert alert = new Alert(AlertType.WARNING);
+						alert.setTitle("WARNING");
+						alert.setHeaderText("User is banned! \nMore information in users window");
+						alert.showAndWait();					
 					}
+				}
 		  }else{
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("WARNING");

@@ -16,7 +16,7 @@ public class UsersTable {
 		PreparedStatement getUsers=con.prepareStatement("SELECT u.LibraryCardNumber,u.FirstName,"
 				+ "u.LastName,u.City,u.Address,u.PostalCode,u.Telephone,u.Email,u.Banned,"
 				+ "count(case when b.ReturnDate is null and b.BorrowID is not null then 1 else null end) as Borrows,"
-				+ "count(case when b.ExpirationDate < current_date() then 1 else null end) as ExpirationDates "
+				+ "count(case when b.ExpirationDate < current_date() and b.ReturnDate is null then 1 else null end) as ExpirationDates "
 				+ "FROM users as u "
 					+ "LEFT OUTER JOIN borrows as b on u.LibraryCardNumber=b.LibraryCardNumber "
 					+ "GROUP BY u.LibraryCardNumber");

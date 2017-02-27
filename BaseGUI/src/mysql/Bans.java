@@ -45,15 +45,19 @@ public class Bans {
 		boolean banned;	
 		Integer bans;
 		Connection con = connectionToDatabase.getConnection();
-		PreparedStatement get = con.prepareStatement("SELECT count(LibraryCardNumber) as bans FROM banned_users");
+		PreparedStatement get = con.prepareStatement("SELECT count(LibraryCardNumber) as bans FROM banned_users"
+				+ " WHERE LibraryCardNumber="+LibraryCardNumber);
 		ResultSet rs=get.executeQuery();
 		
 		rs.next();
 		bans = rs.getInt("bans");
+		
 		if(bans>0){
 			banned = true;
+			System.out.println("1");
 		}else{
 			banned = false;
+			System.out.println("2");
 		}
 		
 		con.close();
@@ -91,6 +95,26 @@ public class Bans {
 		PreparedStatement delete = con.prepareStatement("DELETE FROM banned_users "
 				+ "WHERE ExpirationDate<current_timestamp()");
 		delete.executeUpdate();
+	}
+	
+	public void automaticBansForBorrowing() throws SQLException, ClassNotFoundException{
+		Connection con=connectionToDatabase.getConnection();
+		PreparedStatement get = con.prepareStatement("SELECT u.LibraryCardNumber,"
+				+ "count(case when b.ExpirationDate < current_date() and"
+				+ " b.ReturnDate is null then 1 else null end) as expirations "
+					+"FROM users as u "
+					+"JOIN borrows as b ON b.LibraryCardNumber=u.LibraryCardNumber "
+					+"WHERE u.banned='No' "
+					+"HAVING expirations > 2");
+		ResultSet rs=get.executeQuery();
+		
+		Integer LibraryCardNumber;
+		while(rs.next()){
+			LibraryCardNumber = rs.getInt("LibraryCardNumber");
+			banUser(LibraryCardNumber,"You have three or more not returned books."
+					+ " You must return the books to the library to unlock the account.",9999);
+		}
+		
 	}
 	
 	

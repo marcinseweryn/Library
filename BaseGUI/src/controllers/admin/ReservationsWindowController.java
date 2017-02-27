@@ -1,7 +1,6 @@
 package controllers.admin;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -14,11 +13,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import mysql.Bans;
 import mysql.BooksTable;
 import mysql.BorrowsTable;
 import mysql.ReservationsTable;
@@ -41,7 +43,8 @@ public class ReservationsWindowController {
     @FXML
     private TextField textFieldLibraryCardNumber;
     
-    void setReservationsTableView(ObservableList<Reservations> olist){
+    @SuppressWarnings("unchecked")
+	void setReservationsTableView(ObservableList<Reservations> olist){
     	tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
     	tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
     	tableColumnISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
@@ -70,14 +73,22 @@ public class ReservationsWindowController {
     @FXML
     void confirmAction(ActionEvent event) throws ClassNotFoundException, SQLException {
     	BorrowsTable borrowsTable = new BorrowsTable();
+    	Bans ban = new Bans();
     	
     	Integer BookID = tableViewReservations.getSelectionModel().getSelectedItem().getBookID();
     	Integer LibraryCardNumber = tableViewReservations.getSelectionModel().getSelectedItem().getLibraryCardNumber();
     	Integer ReservationID = tableViewReservations.getSelectionModel().getSelectedItem().getReservationID();
     	
-    	borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
-    	reservationsTable.deleteFromReservations(ReservationID);
-    	getReservationsTable();
+    	if(ban.checkBannedUsers(LibraryCardNumber)==false){
+	    	borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
+	    	reservationsTable.deleteFromReservations(ReservationID);
+	    	getReservationsTable();
+    	}else{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setHeaderText("User is banned! \nMore information in users window");
+			alert.showAndWait();
+    	}
     }
 
     @FXML
