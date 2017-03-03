@@ -143,6 +143,7 @@ public class BooksWindowController {
 	  @FXML
 	  void borrowAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {		  		  
 		  BorrowsTable borrowsTable = new BorrowsTable();
+		  ReservationsTable reservationsTable = new ReservationsTable();
 		  Bans ban = new Bans();
 		  TextInputDialog dialog = new TextInputDialog();
 		  
@@ -156,18 +157,28 @@ public class BooksWindowController {
 					String b=result.get();
 					int LibraryCardNumber=Integer.parseInt(b);
 					
-					if(ban.checkBannedUsers(LibraryCardNumber)==false){
-					
-						int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();
-						booksTable.updateBookStatus(BookID,"No");
-						borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
+					if((borrowsTable.getUserBorrowsNumber(LibraryCardNumber)+
+							reservationsTable.getUserReservationsNumber(LibraryCardNumber))<=5)
+					{
+						if(ban.checkBannedUsers(LibraryCardNumber)==false){
 						
-						getBooksTableView();
+							int BookID=baseTable.getSelectionModel().getSelectedItem().getBookID();
+							booksTable.updateBookStatus(BookID,"No");
+							borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
+							
+							getBooksTableView();
+						}else{
+							Alert alert = new Alert(AlertType.WARNING);
+							alert.setTitle("WARNING");
+							alert.setHeaderText("User is banned! \nMore information in users window");
+							alert.showAndWait();
+	
+						}
 					}else{
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.setTitle("WARNING");
-						alert.setHeaderText("User is banned! \nMore information in users window");
-						alert.showAndWait();					
+						alert.setHeaderText("User reached limit of borrowed books and the booking!");
+						alert.showAndWait();
 					}
 				}
 		  }else{

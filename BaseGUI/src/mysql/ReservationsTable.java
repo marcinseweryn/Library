@@ -115,6 +115,18 @@ public class ReservationsTable {
 		
 	}
 	
-	
+	public Integer getUserReservationsNumber(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException {
+		boolean limit;
+		Integer number;
+		Connection con = connectionToDatabase.getConnection();
+		PreparedStatement get = con.prepareStatement("SELECT count(LibraryCardNumber) as number FROM reservations"
+				+ " WHERE LibraryCardNumber=" + LibraryCardNumber);
+		ResultSet rs = get.executeQuery();
+		
+		rs.next();
+		number = rs.getInt("number");
+
+		return number;
+	}
 
 }

@@ -112,7 +112,7 @@ public class Bans {
 		while(rs.next()){
 			LibraryCardNumber = rs.getInt("LibraryCardNumber");
 			banUser(LibraryCardNumber,"You have three or more not returned books."
-					+ " You must return the books to the library to unlock the account.",9999);
+					+ " You must return the books to the library to unlock the account.",4000);
 		}
 		
 	}

@@ -25,6 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import mysql.BooksTable;
+import mysql.BorrowsTable;
 import mysql.ReservationsTable;
 
 public class BooksWindowController {
@@ -88,24 +89,32 @@ public class BooksWindowController {
     @FXML
     void reservationAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
     	ReservationsTable reservationsTable = new ReservationsTable();
-    	LoginWindowController loginWindowController =new LoginWindowController();
+    	BorrowsTable borrowsTable = new BorrowsTable();
     	
+		Integer LibraryCardNumber = LoginWindowController.getLibraryCardNumber();
 		String available = booksTableView.getSelectionModel().getSelectedItem().getAvailable();
 		if(available.equals("Yes")){
-    	
-	    	Integer BookID = booksTableView.getSelectionModel().getSelectedItem().getBookID();
-			Integer LibraryCardNumber = loginWindowController.getLibraryCardNumber();
 			
-			reservationsTable.saveReservation(LibraryCardNumber, BookID);
-			booksTable.updateBookStatus(BookID,"No");
-			
-			
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("INFORMATION");
-			alert.setHeaderText("You have two days to borrow this book");
-			alert.showAndWait();
-			
-			getBooksTableView();
+			if((borrowsTable.getUserBorrowsNumber(LibraryCardNumber)+
+					reservationsTable.getUserReservationsNumber(LibraryCardNumber))<=5){
+				
+				    Integer BookID = booksTableView.getSelectionModel().getSelectedItem().getBookID();
+						
+					reservationsTable.saveReservation(LibraryCardNumber, BookID);
+					booksTable.updateBookStatus(BookID,"No");
+							
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("INFORMATION");
+					alert.setHeaderText("You have two days to borrow this book");
+					alert.showAndWait();
+						
+					getBooksTableView();
+			}else{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("WARNING");
+				alert.setHeaderText("You reached limit of borrowed books and the booking!");
+				alert.showAndWait();
+			}
 		}else{
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("WARNING");

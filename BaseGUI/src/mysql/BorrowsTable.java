@@ -136,5 +136,20 @@ public class BorrowsTable {
 		return borrowsList;
 		
 	}
+
+	public Integer getUserBorrowsNumber(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException {
+		boolean limit;
+		Integer number;
+		Connection con = connectionToDatabase.getConnection();
+		PreparedStatement get = con.prepareStatement("SELECT count(LibraryCardNumber) as number FROM borrows"
+				+ " WHERE LibraryCardNumber=" + LibraryCardNumber+" and ReturnDate IS NULL");
+		ResultSet rs = get.executeQuery();
+		
+		rs.next();
+		number = rs.getInt("number");
+		
+
+		return number;
+	}
 	
 }
