@@ -117,5 +117,35 @@ public class Bans {
 		
 	}
 	
+	public void automaticBansForReservations() throws SQLException, ClassNotFoundException{
+		Connection con=connectionToDatabase.getConnection();
+		PreparedStatement get = con.prepareStatement("SELECT u.LibraryCardNumber,"
+				+ "count(case when r.Completed='No' then 1 else null end) as expirations,"
+				+ "count(case when r.Completed='Cancelled' then 1 else null end) as Cancelled "
+					+"FROM users as u "
+					+"JOIN reservations as r ON r.LibraryCardNumber=u.LibraryCardNumber "
+					+"WHERE u.banned='No' and (r.ExpirationDate between "
+					+ "(current_date() - interval 30 day) and current_date())");
+		ResultSet rs=get.executeQuery();
+		Integer LibraryCardNumber,Expirations,Cancelled;
+		while(rs.next()){
+			LibraryCardNumber = rs.getInt("LibraryCardNumber");
+			Expirations = rs.getInt("expirations");
+			Cancelled = rs.getInt("Cancelled");
+			
+			if(Expirations>=3){
+				banUser(LibraryCardNumber,"You have three or more not realized books reservations "
+						+ "in last 30 days.",14);
+			}else{
+				if((Cancelled+Expirations)>=5){
+					banUser(LibraryCardNumber,"You have five or more not realized or cancelled books reservations "
+							+ "in last 30 days.",14);
+				}else{
+					
+					}					
+				}
+		}	
+	}
+	
 	
 }

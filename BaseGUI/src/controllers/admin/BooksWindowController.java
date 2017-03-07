@@ -41,6 +41,7 @@ public class BooksWindowController {
 	ReservationsTable reservationsTable = new ReservationsTable();
 
 	
+	@SuppressWarnings("unchecked")
 	public void setBaseTableview(ObservableList<Book> olist) {
 		tableColumnBookID.setCellValueFactory(new PropertyValueFactory<>("BookID"));
 		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -81,7 +82,7 @@ public class BooksWindowController {
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		
-		reservationsTable.deleteExpiredReservations();
+		reservationsTable.updateExpiredReservations();
 		getBooksTableView();
 	}
 

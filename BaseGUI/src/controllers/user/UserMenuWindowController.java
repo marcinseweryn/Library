@@ -153,7 +153,7 @@ public class UserMenuWindowController {
     	Integer ReservationID = tableViewReservations.getSelectionModel().getSelectedItem().getReservationID();
     	Integer BookID = tableViewReservations.getSelectionModel().getSelectedItem().getBookID();
     	
-    	reservationsTable.deleteFromReservations(ReservationID);
+    	reservationsTable.cancelReservation(ReservationID);
     	booksTable.updateBookStatus(BookID,"Yes");
     	getTableReservations();
     }

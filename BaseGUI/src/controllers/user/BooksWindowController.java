@@ -63,7 +63,7 @@ public class BooksWindowController {
 	
 	@FXML
     void initialize() throws ClassNotFoundException, IOException, SQLException {
-			reservationsTable.deleteExpiredReservations();
+			reservationsTable.updateExpiredReservations();
 			getBooksTableView();
 	}
 

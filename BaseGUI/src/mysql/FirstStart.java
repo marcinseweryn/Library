@@ -66,6 +66,7 @@ public class FirstStart {
 					"LibraryCardNumber INT NOT NULL,"+
 					"ReservationDate timestamp default CURRENT_TIMESTAMP,"+
 					"ExpirationDate timestamp default current_timestamp,"+
+					"Completed varchar(10),"+
 					"PRIMARY KEY(ReservationID)"+
 					")");
 		create.executeUpdate();
@@ -79,7 +80,7 @@ public class FirstStart {
 					"BanDate timestamp default CURRENT_TIMESTAMP,"+
 					"ExpirationDate timestamp default CURRENT_TIMESTAMP,"+
 					"Reason VARCHAR(500),"+
-					"PRIMARY KEY(LibraryCardNumberID)"+
+					"PRIMARY KEY(LibraryCardNumber)"+
 					")");
 		create.executeUpdate();
 		////////////////////////////////////////////////////////////////////////////////////

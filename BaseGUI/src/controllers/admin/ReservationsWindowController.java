@@ -66,7 +66,7 @@ public class ReservationsWindowController {
 		
 	@FXML
 	void initialize() throws ClassNotFoundException, SQLException{	
-		reservationsTable.deleteExpiredReservations();
+		reservationsTable.updateExpiredReservations();
 		getReservationsTable();
 	}
     
@@ -81,7 +81,7 @@ public class ReservationsWindowController {
     	
     	if(ban.checkBannedUsers(LibraryCardNumber)==false){
 	    	borrowsTable.saveToBorrows(BookID, LibraryCardNumber);
-	    	reservationsTable.deleteFromReservations(ReservationID);
+	    	reservationsTable.confirmReservation(ReservationID);
 	    	getReservationsTable();
     	}else{
 			Alert alert = new Alert(AlertType.WARNING);

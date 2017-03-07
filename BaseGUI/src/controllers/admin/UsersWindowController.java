@@ -77,6 +77,7 @@ public class UsersWindowController {
 	@FXML
     void initialize() throws ClassNotFoundException, SQLException, IOException {
 		ban.automaticBansForBorrowing();
+		ban.automaticBansForReservations();
     	getUsersTableView();
     }
     

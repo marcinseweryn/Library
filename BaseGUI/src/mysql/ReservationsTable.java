@@ -22,7 +22,8 @@ public class ReservationsTable {
 				+ "u.LibraryCardNumber,u.FirstName,u.LastName,ReservationDate,r.ExpirationDate "
 					+"FROM reservations as r "
 					+"JOIN users as u ON u.LibraryCardNumber=r.LibraryCardNumber "
-					+"JOIN books as b ON b.BookID=r.BookID");
+					+"JOIN books as b ON b.BookID=r.BookID "
+					+"WHERE r.Completed IS NULL");
 		ResultSet rs=get.executeQuery();
 		
 		ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
@@ -68,16 +69,38 @@ public class ReservationsTable {
 		con.close();
 	}
 	
-	public void deleteExpiredReservations() throws SQLException, ClassNotFoundException{
+	public void updateExpiredReservations() throws SQLException, ClassNotFoundException{
 		Connection con = connectionToDatabase.getConnection();
 		PreparedStatement update = con.prepareStatement("UPDATE books SET Available='Yes' "
 				+ "WHERE BookID in"
 				+ "(SELECT BookID FROM reservations WHERE ExpirationDate<current_timestamp())");
 		update.executeUpdate();
-		PreparedStatement delete = con.prepareStatement("DELETE FROM reservations "
+		
+		update = con.prepareStatement("UPDATE reservations SET Completed='No'"
 				+ "WHERE ExpirationDate<current_timestamp() ");
-		delete.executeUpdate();
+		update.executeUpdate();
 		con.close();	
+	}
+	
+	public void cancelReservation(Integer ReservationID) throws SQLException, ClassNotFoundException{
+		Connection con = connectionToDatabase.getConnection();
+		PreparedStatement update = con.prepareStatement("UPDATE books SET Available='Yes' "
+				+ "WHERE BookID in"
+				+ "(SELECT BookID FROM reservations WHERE ReservationID="+ReservationID+")");
+		update.executeUpdate();
+		
+		update = con.prepareStatement("UPDATE reservations SET Completed='Cancelled' "
+				+ "WHERE ReservationID="+ReservationID);
+		update.executeUpdate();
+		con.close();
+	}
+	
+	public void confirmReservation(Integer ReservationID) throws ClassNotFoundException, SQLException{
+		Connection con = connectionToDatabase.getConnection();
+		PreparedStatement update = con.prepareStatement("UPDATE reservations SET Completed='Yes' "
+				+ "WHERE ReservationID="+ReservationID);
+		update.executeUpdate();
+		con.close();
 	}
 	
 	public ArrayList<Reservations> getUserReservationsTable(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException{
@@ -87,7 +110,7 @@ public class ReservationsTable {
 					+"FROM reservations as r "
 					+"JOIN users as u ON u.LibraryCardNumber=r.LibraryCardNumber "
 					+"JOIN books as b ON b.BookID=r.BookID "
-					+ "WHERE u.LibraryCardNumber="+LibraryCardNumber);
+					+ "WHERE u.LibraryCardNumber="+LibraryCardNumber+" and Completed IS NULL");
 		ResultSet rs=get.executeQuery();
 		
 		ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
@@ -116,11 +139,10 @@ public class ReservationsTable {
 	}
 	
 	public Integer getUserReservationsNumber(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException {
-		boolean limit;
 		Integer number;
 		Connection con = connectionToDatabase.getConnection();
 		PreparedStatement get = con.prepareStatement("SELECT count(LibraryCardNumber) as number FROM reservations"
-				+ " WHERE LibraryCardNumber=" + LibraryCardNumber);
+				+ " WHERE LibraryCardNumber=" + LibraryCardNumber +" and Completed IS NULL");
 		ResultSet rs = get.executeQuery();
 		
 		rs.next();
