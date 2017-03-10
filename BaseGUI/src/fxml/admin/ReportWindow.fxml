@@ -43,13 +43,13 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></JFXButton>
-      <TableView layoutX="218.0" layoutY="12.0" prefHeight="417.0" prefWidth="591.0">
+      <TableView fx:id="tableViewStandardReport" layoutX="218.0" layoutY="12.0" prefHeight="417.0" prefWidth="591.0">
         <columns>
-          <TableColumn prefWidth="150.0" text="Date" />
-          <TableColumn prefWidth="110.0" text="Borrowed books" />
-            <TableColumn prefWidth="110.0" text="Booked books" />
-            <TableColumn prefWidth="110.0" text="Returned books" />
-            <TableColumn prefWidth="110.0" text="New users" />
+          <TableColumn fx:id="tableColumnDate" prefWidth="150.0" text="Date" />
+          <TableColumn fx:id="tableColumnBorrowedBooks" prefWidth="110.0" text="Borrowed books" />
+            <TableColumn fx:id="tableColumnBookedBooks" prefWidth="110.0" text="Booked books" />
+            <TableColumn fx:id="tableColumnReturnedBooks" prefWidth="110.0" text="Returned books" />
+            <TableColumn fx:id="tableColumnNewUsers" prefWidth="110.0" text="New users" />
         </columns>
       </TableView>
    </children>

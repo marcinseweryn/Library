@@ -1,21 +1,40 @@
 package controllers.admin;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 
+import base.StandardReport;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import mysql.DatesTable;
+import mysql.Reports;
 
 public class ReportWindowController {
+	
+	private static ArrayList<StandardReport> standardReportList;
+	
+	DatesTable datesTable = new DatesTable();
+	Reports reports = new Reports();
 
+    @FXML
+    private TableView<StandardReport> tableViewStandardReport;
+    
     @FXML
     private JFXDatePicker dateFrom, dateTo;
 
@@ -23,10 +42,28 @@ public class ReportWindowController {
     private JFXButton submitButton, standardReportButton, mostPopularBooksButton, 
     printToExcelButton, menuButton;
 
+    @FXML
+    private TableColumn<StandardReport,Integer> tableColumnBorrowedBooks, tableColumnBookedBooks,
+    tableColumnReturnedBooks, tableColumnNewUsers;
+    @FXML
+    private TableColumn<StandardReport,String> tableColumnDate;
     
+    @SuppressWarnings("unchecked")
+	public void setStandardReportTableView(ObservableList<StandardReport> olist){
+    	tableColumnBorrowedBooks.setCellValueFactory(new PropertyValueFactory<>("BorrowedBooks"));
+    	tableColumnBookedBooks.setCellValueFactory(new PropertyValueFactory<>("BookedBooks"));
+    	tableColumnReturnedBooks.setCellValueFactory(new PropertyValueFactory<>("ReturnedBooks"));
+    	tableColumnNewUsers.setCellValueFactory(new PropertyValueFactory<>("NewUsers"));
+    	tableColumnDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
+    	tableViewStandardReport.setItems(olist);
+    	tableViewStandardReport.getColumns().clear();
+    	tableViewStandardReport.getColumns().addAll(tableColumnDate, tableColumnBorrowedBooks, 
+    			tableColumnBookedBooks,tableColumnReturnedBooks, tableColumnNewUsers);  	
+    }
     
     @FXML
-    void initialize(){
+    void initialize() throws ClassNotFoundException, SQLException{
+    	datesTable.checkAndAddDates();
 
     }
     
@@ -83,7 +120,7 @@ public class ReportWindowController {
 
     @FXML
     void standardReportAction(ActionEvent event) {
-    
+    	
 
     }
 
@@ -98,8 +135,14 @@ public class ReportWindowController {
     }
 
     @FXML
-    void submitAction(ActionEvent event) {
-
+    void submitAction(ActionEvent event) throws ClassNotFoundException, SQLException {
+    	Date dateF,dateT;
+    	dateF = Date.valueOf(dateFrom.getValue());
+    	dateT = Date.valueOf(dateTo.getValue());
+    	
+    	standardReportList = reports.standardReport(dateF, dateT);
+    	ObservableList<StandardReport> olist = FXCollections.observableArrayList(standardReportList);
+    	setStandardReportTableView(olist);
     }
 
     @FXML

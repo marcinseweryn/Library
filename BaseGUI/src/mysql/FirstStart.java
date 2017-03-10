@@ -23,7 +23,8 @@ public class FirstStart {
 					"Telephone varchar(20),"+
 					"Email varchar(30),"+
 					"Password varchar(40),"+
-					"Banned varchar(3) default 'No'"+
+					"Banned varchar(3) default 'No',"+
+					"RegistrationDate datetime default current_timestamp"+
 					")");
 		create.executeUpdate();
 		////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +84,13 @@ public class FirstStart {
 					"PRIMARY KEY(LibraryCardNumber)"+
 					")");
 		create.executeUpdate();
+		////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		//////DATES/////////////////////////////////////////////////////////////////////////
+		 create = con.prepareStatement("CREATE TABLE IF NOT EXISTS Dates("+
+				 	"Date date PRIMARY KEY)");
+		 create.executeUpdate();
 		////////////////////////////////////////////////////////////////////////////////////
 		con.close();
 		
