@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 
+import base.MostPopularBooks;
 import base.StandardReport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,12 +29,16 @@ import mysql.Reports;
 public class ReportWindowController {
 	
 	private static ArrayList<StandardReport> standardReportList;
+	private static ArrayList<MostPopularBooks> mostPopularBooksList;
 	
 	DatesTable datesTable = new DatesTable();
 	Reports reports = new Reports();
 
     @FXML
     private TableView<StandardReport> tableViewStandardReport;
+
+    @FXML
+    private TableView<MostPopularBooks> tableViewMostPopularBooks;
     
     @FXML
     private JFXDatePicker dateFrom, dateTo;
@@ -48,6 +53,13 @@ public class ReportWindowController {
     @FXML
     private TableColumn<StandardReport,String> tableColumnDate;
     
+    @FXML
+    private TableColumn<MostPopularBooks,String> tableColumnTitle, tableColumnAuthor;
+    @FXML
+    private TableColumn<MostPopularBooks,Integer> tableColumnBorrows;
+    
+
+    
     @SuppressWarnings("unchecked")
 	public void setStandardReportTableView(ObservableList<StandardReport> olist){
     	tableColumnBorrowedBooks.setCellValueFactory(new PropertyValueFactory<>("BorrowedBooks"));
@@ -61,10 +73,23 @@ public class ReportWindowController {
     			tableColumnBookedBooks,tableColumnReturnedBooks, tableColumnNewUsers);  	
     }
     
+    @SuppressWarnings("unchecked")
+	public void setMostPopularBooksTableView(ObservableList<MostPopularBooks> obList){
+    	tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
+    	tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+    	tableColumnBorrows.setCellValueFactory(new PropertyValueFactory<>("Borrows"));
+    	tableViewMostPopularBooks.setItems(obList);
+    	tableViewMostPopularBooks.getColumns().clear();
+    	tableViewMostPopularBooks.getColumns().addAll(tableColumnTitle, tableColumnAuthor, 
+    			tableColumnBorrows);
+    
+    }
+    
     @FXML
     void initialize() throws ClassNotFoundException, SQLException{
     	datesTable.checkAndAddDates();
-
+    	
+    	tableViewMostPopularBooks.setVisible(false);
     }
     
     @FXML
@@ -90,7 +115,8 @@ public class ReportWindowController {
 
     @FXML
     void mostPopularBooksAction(ActionEvent event) {
-
+    	tableViewMostPopularBooks.setVisible(true);
+    	tableViewStandardReport.setVisible(false);
     }
 
     @FXML
@@ -120,7 +146,8 @@ public class ReportWindowController {
 
     @FXML
     void standardReportAction(ActionEvent event) {
-    	
+    	tableViewMostPopularBooks.setVisible(false);
+    	tableViewStandardReport.setVisible(true);
 
     }
 
@@ -143,6 +170,10 @@ public class ReportWindowController {
     	standardReportList = reports.standardReport(dateF, dateT);
     	ObservableList<StandardReport> olist = FXCollections.observableArrayList(standardReportList);
     	setStandardReportTableView(olist);
+    	
+    	mostPopularBooksList = reports.mostPopularBooksReport(dateF, dateT);
+    	ObservableList<MostPopularBooks> obList = FXCollections.observableArrayList(mostPopularBooksList);
+    	setMostPopularBooksTableView(obList);
     }
 
     @FXML

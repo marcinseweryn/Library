@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import base.MostPopularBooks;
 import base.StandardReport;
 
 public class Reports {
@@ -51,6 +52,31 @@ public class Reports {
 		StandardReport standardReport = new StandardReport(sumBorrowedBooks, sumBookedBooks,
 				sumReturnedBooks, sumNewUsers, "Sum");
 		reportList.add(standardReport);
+		return reportList;
+	}
+	
+	public ArrayList<MostPopularBooks> mostPopularBooksReport(Date dateFrom, Date dateTo) throws SQLException, ClassNotFoundException{
+		Connection con = connectionToDatabase.getConnection(); 
+		PreparedStatement get = con.prepareStatement("SELECT bo.Title,bo.Author, count(distinct b.BorrowID) as Borrows"
+				+ " FROM dates as d"
+				+ " LEFT JOIN borrows as b ON d.Date=DATE(b.BorrowDate)"
+				+ " JOIN books as bo ON b.BookID=bo.BookID"
+				+ " WHERE d.Date BETWEEN '2017-03-10' AND '2017-03-11'"
+				+ " GROUP BY bo.Title"
+				+ " ORDER BY Borrows DESC");
+		ResultSet rs = get.executeQuery();
+		
+		ArrayList<MostPopularBooks> reportList = new ArrayList<>();
+		String Title, Author;
+		Integer Borrows;
+		while(rs.next()){
+			Title = rs.getString("Title");
+			Author  = rs.getString("Author");
+			Borrows = rs.getInt("Borrows");
+			
+			MostPopularBooks mostPopularBooks = new MostPopularBooks(Title, Author, Borrows);
+			reportList.add(mostPopularBooks);
+		}
 		return reportList;
 	}
 

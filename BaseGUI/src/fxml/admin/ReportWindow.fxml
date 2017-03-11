@@ -52,6 +52,13 @@
             <TableColumn fx:id="tableColumnNewUsers" prefWidth="110.0" text="New users" />
         </columns>
       </TableView>
+      <TableView fx:id="tableViewMostPopularBooks" layoutX="218.0" layoutY="12.0" prefHeight="417.0" prefWidth="450.0">
+        <columns>
+          <TableColumn fx:id="tableColumnTitle" prefWidth="150.0" text="Title" />
+          <TableColumn fx:id="tableColumnAuthor" prefWidth="150.0" text="Author" />
+            <TableColumn fx:id="tableColumnBorrows" prefWidth="150.0" text="Borrows" />
+        </columns>
+      </TableView>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />
