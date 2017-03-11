@@ -226,7 +226,7 @@ public class ReportsListWindowController {
     void createLocalTableExcelFileAction(ActionEvent event) throws IOException, ClassNotFoundException {
     	Excel excel=new Excel();
     	base=sr.getBase(list.getSelectionModel().getSelectedItem());
-    	excel.createExelFile(base,list.getSelectionModel().getSelectedItem());
+    	//excel.createExelFile(base,list.getSelectionModel().getSelectedItem());
     }
 
 	public void emptyDatabaseInfo() {
@@ -335,6 +335,6 @@ public class ReportsListWindowController {
     	String tableName=MySqlTableList.getSelectionModel().getSelectedItem();
     	selectMySqlTable(tableName);
     	base=booksTable.getBooks();
-    	excel.createExelFile(base,tableName);
+    	//excel.createExelFile(base,tableName);
     }
 }

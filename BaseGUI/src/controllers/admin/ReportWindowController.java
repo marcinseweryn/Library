@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 
+import base.Excel;
 import base.MostPopularBooks;
 import base.StandardReport;
 import javafx.collections.FXCollections;
@@ -30,6 +31,8 @@ public class ReportWindowController {
 	
 	private static ArrayList<StandardReport> standardReportList;
 	private static ArrayList<MostPopularBooks> mostPopularBooksList;
+	
+	private static Integer excelReport = 1;
 	
 	DatesTable datesTable = new DatesTable();
 	Reports reports = new Reports();
@@ -117,6 +120,7 @@ public class ReportWindowController {
     void mostPopularBooksAction(ActionEvent event) {
     	tableViewMostPopularBooks.setVisible(true);
     	tableViewStandardReport.setVisible(false);
+    	excelReport = 2;
     }
 
     @FXML
@@ -130,8 +134,13 @@ public class ReportWindowController {
     }
 
     @FXML
-    void printToExcelAction(ActionEvent event) {
-
+    void printToExcelAction(ActionEvent event) throws IOException {
+    	Excel excel =new Excel();
+    	
+    	switch(excelReport){
+	    	case 1: excel.createExcelStandardReport(standardReportList); break;
+	    	case 2: excel.createExcelMostPopularBooks(mostPopularBooksList); break;
+    	}
     }
 
     @FXML
@@ -148,6 +157,7 @@ public class ReportWindowController {
     void standardReportAction(ActionEvent event) {
     	tableViewMostPopularBooks.setVisible(false);
     	tableViewStandardReport.setVisible(true);
+    	excelReport = 1;
 
     }
 
