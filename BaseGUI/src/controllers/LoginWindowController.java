@@ -5,6 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import mysql.Bans;
@@ -24,6 +30,15 @@ public class LoginWindowController {
 	private static Integer LibraryCardNumber;
 	private static String Name,bannedInfo;
 	
+    @FXML
+    private JFXPasswordField passwordField;
+
+    @FXML
+    private JFXTextField loginField;
+    
+    @FXML
+    private JFXButton loginInButton, menuButton;
+    
 	
 	public static String getBannedInfo() {
 		return bannedInfo;
@@ -41,11 +56,6 @@ public class LoginWindowController {
 		return LibraryCardNumber;
 	}
 
-	@FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private TextField loginField;
 
     @FXML
     void initialize() throws ClassNotFoundException, SQLException{
@@ -108,6 +118,26 @@ public class LoginWindowController {
     		}
     		con.close();
     	}
+    }
+
+    @FXML
+    void loginInMouseEntered(MouseEvent event) {
+    	loginInButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void loginInMouseExited(MouseEvent event) {
+    	loginInButton.setStyle("-fx-background-color:  #2196f3");
+    }
+
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #2196f3");
     }
 	
 }

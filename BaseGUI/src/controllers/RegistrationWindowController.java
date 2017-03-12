@@ -6,6 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import mysql.BooksTable;
@@ -23,11 +28,14 @@ import javafx.scene.Node;
 public class RegistrationWindowController {
 
     @FXML
-    private TextField firstNameField, lastNameField, cityField, addressField,
-    postalCodeField, telephoneField, emailField;
-    
+    private JFXTextField firstNameField, lastNameField, cityField, addressField, postalCodeField,
+    telephoneField, emailField;
+
     @FXML
-    private PasswordField passwordField;
+    private JFXPasswordField passwordField;
+
+    @FXML
+    private JFXButton submitButton, menuButton;
 
     @FXML
     void backToStartAction(ActionEvent event) throws IOException {
@@ -78,6 +86,25 @@ public class RegistrationWindowController {
     		con.close();
     		
     	}
+    }
+    
+    @FXML
+    void submitMouseEntered(MouseEvent event) {
+    	submitButton.setStyle("-fx-background-color:  #673ab7");
+    }
 
+    @FXML
+    void submitMouseExited(MouseEvent event) {
+    	submitButton.setStyle("-fx-background-color:  #2196f3");
+    }
+    
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #2196f3");
     }
 }
