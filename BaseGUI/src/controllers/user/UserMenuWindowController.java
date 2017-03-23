@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXButton;
+
 import base.Ban;
 import base.Borrows;
 import base.Reservations;
@@ -21,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import mysql.Bans;
@@ -57,6 +60,8 @@ public class UserMenuWindowController {
     private TableColumn<Borrows, String> tableBorrowsColumnTitle, tableBorrowsColumnAuthor,
     tableBorrowsColumnISBN, tableBorrowsColumnBorrowDate, tableBorrowsColumnExpirationDate;
     
+    @FXML
+    private JFXButton booksButton, settingsButton, historyButton, logOffButton, cancelReservationButton;
     
   
 	@SuppressWarnings("unchecked")
@@ -146,6 +151,16 @@ public class UserMenuWindowController {
         	stage.show();
     	}
     }
+    
+    @FXML
+    void booksMouseEntered(MouseEvent event) {
+    	booksButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void booksMouseExited(MouseEvent event) {
+    	booksButton.setStyle("-fx-background-color:  #2196f3");
+    }
 
     @FXML
     void cancelReservationAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
@@ -156,6 +171,16 @@ public class UserMenuWindowController {
     	reservationsTable.cancelReservation(ReservationID);
     	booksTable.updateBookStatus(BookID,"Yes");
     	getTableReservations();
+    }
+    
+    @FXML
+    void cancelReservationMouseEntered(MouseEvent event) {
+    	cancelReservationButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void cancelReservationMouseExited(MouseEvent event) {
+    	cancelReservationButton.setStyle("-fx-background-color:  #2196f3");
     }
 
     @FXML
@@ -168,6 +193,16 @@ public class UserMenuWindowController {
     	stage.show();
 
     }
+    
+    @FXML
+    void historyMouseEntered(MouseEvent event) {
+    	historyButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void historyMouseExited(MouseEvent event) {
+    	historyButton.setStyle("-fx-background-color:  #2196f3");
+    }
 
     @FXML
     void logOffAction(ActionEvent event) throws IOException {
@@ -179,6 +214,16 @@ public class UserMenuWindowController {
     	stage.show();
     	
     }
+    
+    @FXML
+    void logOffMouseEntered(MouseEvent event) {
+    	logOffButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void logOffMouseExited(MouseEvent event) {
+    	logOffButton.setStyle("-fx-background-color:  #2196f3");
+    }
 
     @FXML
     void settingsAction(ActionEvent event) throws IOException {
@@ -189,6 +234,16 @@ public class UserMenuWindowController {
     	stage.setScene(scene);
     	stage.show();
 
+    }
+    
+    @FXML
+    void settingsMouseEntered(MouseEvent event) {
+    	settingsButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void settingsMouseExited(MouseEvent event) {
+    	settingsButton.setStyle("-fx-background-color:  #2196f3");
     }
 	
 	

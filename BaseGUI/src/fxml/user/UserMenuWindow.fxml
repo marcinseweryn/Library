@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.user.UserMenuWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="710.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/TableViewStyle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.user.UserMenuWindowController">
    <children>
-      <Button layoutX="37.0" layoutY="123.0" mnemonicParsing="false" onAction="#booksAction" prefHeight="25.0" prefWidth="59.0" text="Books" />
-      <Button layoutX="37.0" layoutY="175.0" mnemonicParsing="false" onAction="#settingsAction" prefHeight="25.0" prefWidth="59.0" text="Settings" />
-      <Text fx:id="textWelcome" layoutX="37.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="445.75341796875">
+      <Text fx:id="textWelcome" layoutX="35.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="445.75341796875">
          <font>
-            <Font name="Arial Bold" size="25.0" />
+            <Font name="System Bold Italic" size="30.0" />
          </font>
+         <effect>
+            <DropShadow color="#c3c3c3" />
+         </effect>
       </Text>
-      <Button layoutX="37.0" layoutY="227.0" mnemonicParsing="false" onAction="#historyAction" prefHeight="25.0" prefWidth="59.0" text="History" />
-      <Button layoutX="37.0" layoutY="281.0" mnemonicParsing="false" onAction="#logOffAction" prefHeight="25.0" prefWidth="59.0" text="Log off" />
       <TableView fx:id="tableViewReservations" layoutX="136.0" layoutY="96.0" prefHeight="105.0" prefWidth="547.0">
         <columns>
           <TableColumn fx:id="tableReservationsColumnTitle" prefWidth="75.0" text="Title" />
@@ -38,14 +39,44 @@
       </TableView>
       <Text layoutX="136.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your reservations">
          <font>
-            <Font name="Arial Bold" size="16.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
+         <effect>
+            <Glow />
+         </effect>
       </Text>
       <Text layoutX="136.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your borrowed books">
          <font>
-            <Font name="Arial Bold" size="16.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
+         <effect>
+            <Glow />
+         </effect>
       </Text>
-      <Button layoutX="547.0" layoutY="201.0" mnemonicParsing="false" onAction="#cancelReservationAction" prefHeight="25.0" prefWidth="136.0" text="Cancel reservation" />
+      <JFXButton fx:id="booksButton" buttonType="RAISED" layoutX="25.0" layoutY="120.0" onAction="#booksAction" onMouseEntered="#booksMouseEntered" onMouseExited="#booksMouseExited" prefHeight="36.0" prefWidth="85.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="BOOKS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="settingsButton" buttonType="RAISED" layoutX="25.0" layoutY="180.0" onAction="#settingsAction" onMouseEntered="#settingsMouseEntered" onMouseExited="#settingsMouseExited" prefHeight="36.0" prefWidth="85.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="SETTINGS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="historyButton" buttonType="RAISED" layoutX="25.0" layoutY="240.0" onAction="#historyAction" onMouseEntered="#historyMouseEntered" onMouseExited="#historyMouseExited" prefHeight="36.0" prefWidth="85.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="HISTORY" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="logOffButton" buttonType="RAISED" layoutX="25.0" layoutY="369.0" onAction="#logOffAction" onMouseEntered="#logOffMouseEntered" onMouseExited="#logOffMouseExited" prefHeight="36.0" prefWidth="85.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="LOG OFF" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="cancelReservationButton" buttonType="RAISED" layoutX="533.0" layoutY="203.0" onAction="#cancelReservationAction" onMouseEntered="#cancelReservationMouseEntered" onMouseExited="#cancelReservationMouseExited" prefHeight="25.0" prefWidth="136.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="Cancel reservation" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
    </children>
 </Pane>

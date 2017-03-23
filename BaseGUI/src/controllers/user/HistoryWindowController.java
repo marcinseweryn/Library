@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.BorrowsTable;
 
@@ -69,6 +70,17 @@ public class HistoryWindowController {
     	
     	stage.setScene(scene);
     	stage.show();
+
+    }
+    
+
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
 
     }
 

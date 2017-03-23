@@ -3,8 +3,9 @@ package controllers.user;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 
 import base.Book;
 import controllers.LoginWindowController;
@@ -17,12 +18,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.BooksTable;
 import mysql.BorrowsTable;
@@ -34,14 +34,13 @@ public class BooksWindowController {
 	ReservationsTable reservationsTable = new ReservationsTable();
 	
 	private static ArrayList<Book> booksArrayList;
-	private ArrayList<Book> indexlist= new ArrayList<Book>();
 	
     @FXML
-    private TextField titleTextField, authorTextField, ISBNtextField;
+    private JFXTextField textFieldTitle, textFieldAuthor, textFieldISBN;
 
     @FXML
-    private CheckBox checkBoxTitle, checkBoxAuthor,checkBoxISBN;
-
+    private JFXButton menuButton, reservationButton, searchButton;
+    
     @FXML
     private TableView<Book> booksTableView;
 
@@ -85,6 +84,16 @@ public class BooksWindowController {
     	stage.show();
 
     }
+    
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #2196f3");
+    }
 
     @FXML
     void reservationAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
@@ -122,86 +131,94 @@ public class BooksWindowController {
 			alert.showAndWait();
 		}
     }
+    
+    @FXML
+    void reservationMouseEntered(MouseEvent event) {
+    	reservationButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void reservationMouseExited(MouseEvent event) {
+    	reservationButton.setStyle("-fx-background-color:  #2196f3");
+    }
 
     @FXML
     void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
-    	  Map<Integer,Book> basee=new HashMap<Integer,Book>();
+
   		try {
   			booksArrayList=booksTable.getBooks();
   		} catch (SQLException e) {
   			e.printStackTrace();
   		}
-  		indexlist.removeAll(indexlist);
-  		
-  		if(checkBoxTitle.isSelected()==false && checkBoxAuthor.isSelected()==false && checkBoxISBN.isSelected()==false)
-  		{	
-  			
-  		}else{
-  			for(Book book:booksArrayList)
-  			{
-  				if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
-  				{
-  					if(book.getTitle().equals(titleTextField.getText()) && book.getAuthor().equals(authorTextField.getText()) && book.getISBN().equals(ISBNtextField.getText()) )
-  					{
-  						basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-  					}else{}
-  				}else{
-  					if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true)
-  					{
-  						if(book.getTitle().equals(titleTextField.getText()) && book.getAuthor().equals(authorTextField.getText()))
-  						{
-  							basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-  						}else{}
-  					}else{
-  						if(checkBoxTitle.isSelected()==true && checkBoxISBN.isSelected()==true)
-  						{
-  							if(book.getTitle().equals(titleTextField.getText()) && book.getISBN().equals(ISBNtextField.getText()))
-  							{
-  								basee.put(booksArrayList.indexOf(book),book);
-  							}else{}
-  						}else{
-  							if(checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
-  							{
-  								if(book.getISBN().equals(ISBNtextField.getText()) && book.getAuthor().equals(authorTextField.getText()))
-  								{
-  									basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-  								}else{}
-  							}else{
-  								if(checkBoxTitle.isSelected()==true)
-  								{
-  									if(book.getTitle().equals(titleTextField.getText()))
-  									{
-  										basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-  									}else{}	
-  								}else{
-  									if(checkBoxAuthor.isSelected()==true)
-  									{
-  										if(book.getAuthor().equals(authorTextField.getText()))
-  										{
-  											basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-  										}else{}
-  									}else{
-  										if(checkBoxISBN.isSelected()==true)
-  										{
-  											if(book.getISBN().equals(ISBNtextField.getText()))
-  											{
-  												basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-  											}else{}
-  										}else{
-  											
-  										}	
-  									}	
-  								}	
-  							}		
-  						}
-  					}
-  				}											
-  			}							
-  		}
-  		ObservableList<Book> olist=FXCollections.observableArrayList(basee.values());
+
+  		ArrayList<Book> searchResults =new ArrayList<>();
+    	
+    	for(Book book:booksArrayList){
+    		///////////////////////////LEVEL 0/////////////////////////////////////////////   	
+	    	if(textFieldTitle.getText().isEmpty() && textFieldAuthor.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
+	    		searchResults=booksArrayList;
+	    		break;
+	    	}else{
+	    		////////////////////////LEVEL 1//////////////////////////////////////////////
+	    		if(textFieldTitle.getText().isEmpty() && textFieldAuthor.getText().isEmpty()){
+	    			if(book.getISBN().equals(textFieldISBN.getText())){
+	    				searchResults.add(book);
+	    			}else{}	    			
+	    		}else{
+	    			if(textFieldTitle.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
+	    				if(book.getAuthor().equals(textFieldAuthor.getText())){
+	    					searchResults.add(book);
+	    				}else{}
+	    			}else{
+	    				if(textFieldAuthor.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
+	    					if(book.getTitle().equals(textFieldTitle.getText())){
+	    						searchResults.add(book);
+	    					}else{}
+	    				}else{
+	    					////////////////////////LEVEL 2/////////////////////////////////////////
+	    					if(textFieldTitle.getText().isEmpty()){
+	    						if(book.getAuthor().equals(textFieldAuthor.getText()) && book.getISBN().equals(textFieldISBN.getText())){
+	    							searchResults.add(book);
+	    						}else{}
+	    					}else{
+	    						if(textFieldAuthor.getText().isEmpty()){
+	    							if((book.getTitle().equals(textFieldTitle.getText()))&& book.getISBN().equals(textFieldISBN.getText())){
+	    								searchResults.add(book);
+	    							}else{}
+	    						}else{
+	    							if(textFieldISBN.getText().isEmpty()){
+	    								if((book.getTitle().equals(textFieldTitle.getText())) && book.getAuthor().equals(textFieldAuthor.getText())){
+	    									searchResults.add(book);
+	    								}else{}
+	    							}else{
+	    								///////////////////////////LEVEL 3////////////////////////////////////
+	    								if((book.getTitle().equals(textFieldTitle.getText())) && book.getAuthor().equals(textFieldAuthor.getText()) && book.getISBN().equals(textFieldISBN.getText())){
+	    									searchResults.add(book);
+	    								}else{}					
+	    							}
+	    						}
+	    					}
+	    				}
+	    			}	
+	    		}  		
+	    	}
+    	}
+
+
+  		ObservableList<Book> olist=FXCollections.observableArrayList(searchResults);
   		setBaseTableview(olist);
-  		indexlist.addAll(basee.values());
+
   		
+    }
+    
+    @FXML
+    void searchMouseEntered(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void searchMouseExited(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:  #2196f3");
     }
 
 }

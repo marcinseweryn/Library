@@ -3,6 +3,10 @@ package controllers.user;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+
 import base.Users;
 import controllers.LoginWindowController;
 import javafx.event.ActionEvent;
@@ -14,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import mysql.UsersTable;
@@ -24,12 +29,14 @@ public class SettingsWindowController {
 
 	
     @FXML
-    private TextField firstNameField, lastNameField, cityField, addressField, postalCodeField,
+    private JFXTextField  firstNameField, lastNameField, cityField, addressField, postalCodeField,
     telephoneField, emailField;
     
     @FXML
-    private PasswordField passwordField;
-
+    private JFXPasswordField  passwordField;
+    
+    @FXML
+    private JFXButton saveButton, menuButton;
     
     @FXML
     void initialize() throws ClassNotFoundException, SQLException{
@@ -70,6 +77,16 @@ public class SettingsWindowController {
     	}
 
     }
+    
+    @FXML
+    void saveMouseEntered(MouseEvent event) {
+    	saveButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void saveMouseExited(MouseEvent event) {
+    	saveButton.setStyle("-fx-background-color:  #2196f3");
+    }
 
     @FXML
     void menuAction(ActionEvent event) throws IOException {
@@ -79,6 +96,16 @@ public class SettingsWindowController {
     	
     	stage.setScene(scene);
     	stage.show();
+    }
+    
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #673ab7");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #2196f3");
     }
 
 }

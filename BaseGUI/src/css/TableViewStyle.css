@@ -51,3 +51,7 @@
 .corner {
 	-fx-background-color: #ffffff;
 }
+
+.table-view .filler{
+	-fx-background-color: #ffffff;
+}

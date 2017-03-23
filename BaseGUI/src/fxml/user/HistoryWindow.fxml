@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.user.HistoryWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="690.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/TableViewStyle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.user.HistoryWindowController">
    <children>
-      <Text layoutX="300.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="History">
-         <font>
-            <Font name="Arial Bold" size="26.0" />
-         </font>
-      </Text>
-      <Button layoutX="21.0" layoutY="350.0" mnemonicParsing="false" onAction="#menuAction" text="Menu" />
       <TableView fx:id="tableViewHistory" layoutX="9.0" layoutY="56.0" prefHeight="277.0" prefWidth="676.0">
         <columns>
           <TableColumn fx:id="tableColumnTitle" prefWidth="75.0" text="Title" />
@@ -25,5 +20,18 @@
             <TableColumn fx:id="tableColumnReturnDate" prefWidth="150.0" text="Return date" />
         </columns>
       </TableView>
+      <JFXButton fx:id="menuButton" buttonType="RAISED" layoutX="24.0" layoutY="361.0" onAction="#menuAction" onMouseEntered="#menuMouseEntered" onMouseExited="#menuMouseExited" prefHeight="20.0" prefWidth="106.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="MENU" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <Text layoutX="280.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HISTORY" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="32.0" />
+         </font>
+         <effect>
+            <DropShadow color="#c6c6c6" />
+         </effect>
+      </Text>
    </children>
 </Pane>
