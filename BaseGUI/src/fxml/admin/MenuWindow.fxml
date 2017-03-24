@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.MenuController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #673ab7;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.MenuController">
    <children>
-      <Text cache="true" fontSmoothingType="LCD" layoutX="32.0" layoutY="48.0" stroke="#323030" strokeWidth="0.0" text="LIBRARY ADMINISTRATION" textAlignment="CENTER">
+      <Text cache="true" fill="WHITE" fontSmoothingType="LCD" layoutX="37.0" layoutY="41.0" stroke="#323030" strokeWidth="0.0" text="LIBRARY ADMINISTRATION" textAlignment="CENTER">
          <font>
-            <Font name="Times New Roman Bold" size="24.0" />
+            <Font name="System Bold Italic" size="25.0" />
          </font>
       </Text>
-      <Button layoutX="158.0" layoutY="147.0" mnemonicParsing="false" onAction="#booksOfflineAction" prefHeight="42.0" prefWidth="83.0" text="Books&#10; (offline)" textAlignment="CENTER" />
-      <Button layoutX="284.0" layoutY="147.0" mnemonicParsing="false" onAction="#listOfReportsAction" prefHeight="42.0" prefWidth="83.0" text="List of &#10;reports" textAlignment="CENTER" />
-      <Button layoutX="158.0" layoutY="99.0" mnemonicParsing="false" onAction="#booksAction" prefHeight="25.0" prefWidth="83.0" text="Books" />
-      <Button layoutX="32.0" layoutY="99.0" mnemonicParsing="false" onAction="#reservationsAction" text="Reservations" />
-      <Button layoutX="159.0" layoutY="216.0" mnemonicParsing="false" onAction="#usersAction" prefHeight="25.0" prefWidth="83.0" text="Users" />
-      <Button layoutX="32.0" layoutY="147.0" mnemonicParsing="false" onAction="#borrowedBooksAction" prefHeight="42.0" prefWidth="83.0" text="Borrowed&#10;books&#10;" textAlignment="CENTER" />
-      <Button layoutX="158.0" layoutY="276.0" mnemonicParsing="false" onAction="#logOffAction" prefHeight="25.0" prefWidth="86.0" text="Log off" />
-      <Button layoutX="284.0" layoutY="99.0" mnemonicParsing="false" onAction="#reportAction" prefHeight="25.0" prefWidth="83.0" text="Report" />
+      <JFXButton fx:id="reportButton" buttonType="RAISED" layoutX="59.0" layoutY="281.0" onAction="#reportAction" onMouseEntered="#reportMouseEntered" onMouseExited="#reportMouseExited" prefHeight="50.0" prefWidth="110.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="REPORT" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="reservationsButton" buttonType="RAISED" layoutX="59.0" layoutY="200.0" onAction="#reservationsAction" onMouseEntered="#reservationsMouseEntered" onMouseExited="#reservationsMouseExited" prefHeight="50.0" prefWidth="110.0" ripplerFill="#0d47a1" style="-fx-background-color: #e91e63;" text="RESERVATIONS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="booksButton" buttonType="RAISED" layoutX="59.0" layoutY="109.0" onAction="#booksAction" onMouseEntered="#booksMouseEntered" onMouseExited="#booksMouseExited" prefHeight="50.0" prefWidth="110.0" ripplerFill="#0d47a1" style="-fx-background-color: #7cb342;" text="BOOKS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="borrowedBooksButton" buttonType="RAISED" layoutX="224.0" layoutY="109.0" onAction="#borrowedBooksAction" onMouseEntered="#borrowedBooksMouseEntered" onMouseExited="#borrowedBooksMouseExited" prefHeight="50.0" prefWidth="110.0" ripplerFill="#0d47a1" style="-fx-background-color: #ef6c00;" text="BORROWED&#10;    BOOKS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="usersButton" buttonType="RAISED" layoutX="224.0" layoutY="200.0" onAction="#usersAction" onMouseEntered="#usersMouseEntered" onMouseExited="#usersMouseExited" prefHeight="50.0" prefWidth="110.0" ripplerFill="#0d47a1" style="-fx-background-color: #009688;" text="USERS" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="logOffButton" buttonType="RAISED" layoutX="224.0" layoutY="281.0" onAction="#logOffAction" onMouseEntered="#logOffMouseEntered" onMouseExited="#logOffMouseExited" prefHeight="50.0" prefWidth="110.0" ripplerFill="#0d47a1" style="-fx-background-color: #e53935;" text="LOG OFF" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
    </children>
 </Pane>

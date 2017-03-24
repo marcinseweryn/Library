@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXButton;
+
 import base.Book;
 import base.Borrows;
 import javafx.collections.FXCollections;
@@ -18,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.BorrowsTable;
 import mysql.BooksTable;
@@ -38,7 +41,10 @@ public class BorrowedBooksWindowController {
 	private TableColumn<Borrows, String> tableColumnTitle, tableColumnAuthor, tableColumnISBN, tableColumnName,
 			tableColumnSurname, tableColumnBorrowDate, tableColumnExpirationDate;
 	@FXML
-	private TableColumn<Borrows, Integer> tableColumnLibraryCardNumber;
+	private TableColumn<Borrows, Integer> tableColumnLibraryCardNumber;	
+
+    @FXML
+    private JFXButton returnedButton, deleteButton, menuButton, searchButton;
 
 	public void setBorrowsTableView(ObservableList<Borrows> olist) {
 		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -75,6 +81,16 @@ public class BorrowedBooksWindowController {
 		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
 		setBorrowsTableView(olist);
 	}
+	
+    @FXML
+    void deleteMouseEntered(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:  #e64a19");
+    }
+
+    @FXML
+    void deleteMouseExited(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:  #ef6c00");
+    }
 
 	@FXML
 	void menuAction(ActionEvent event) throws IOException {
@@ -86,6 +102,16 @@ public class BorrowedBooksWindowController {
 		stage.show();
 
 	}
+	
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #e64a19");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #ef6c00");
+    }
 
 	@FXML
 	void returnedAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {		
@@ -100,6 +126,16 @@ public class BorrowedBooksWindowController {
 		setBorrowsTableView(olist);
 
 	}
+	
+    @FXML
+    void returnedMouseEntered(MouseEvent event) {
+    	returnedButton.setStyle("-fx-background-color:  #e64a19");
+    }
+
+    @FXML
+    void returnedMouseExited(MouseEvent event) {
+    	returnedButton.setStyle("-fx-background-color:  #ef6c00");
+    }
 
 	@FXML
 	void searchAction(ActionEvent event) throws ClassNotFoundException, SQLException {
@@ -122,5 +158,15 @@ public class BorrowedBooksWindowController {
 		setBorrowsTableView(olist);
 
 	}
+	
+    @FXML
+    void searchMouseEntered(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:  #e64a19");
+    }
+
+    @FXML
+    void searchMouseExited(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:  #ef6c00");
+    }
 
 }

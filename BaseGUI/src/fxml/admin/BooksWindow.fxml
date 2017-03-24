@@ -1,61 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.BooksWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" style="-fx-background-color: #ccff90;" stylesheets="@../../css/BooksWindowStyle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.BooksWindowController">
    <children>
-      <TextField fx:id="text1" layoutX="101.0" layoutY="97.0" />
-      <TextField fx:id="text2" layoutX="101.0" layoutY="147.0" />
-      <TextField fx:id="text3" layoutX="101.0" layoutY="197.0" />
-      <Text layoutX="31.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" />
-      <Text layoutX="31.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author" />
-      <Text layoutX="31.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN" />
-      <Button layoutX="86.0" layoutY="252.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="25.0" prefWidth="47.0" text="Save" />
-      <Button layoutX="199.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteAction" text="Delete">
-         <tooltip>
-            <Tooltip text="Wybierz z tabeli rekord który chcesz usunąć" />
-         </tooltip></Button>
-      <Button layoutX="31.0" layoutY="252.0" mnemonicParsing="false" onAction="#menuAction" text="Menu">
-         <tooltip>
-            <Tooltip text="Powrót do menu" />
-         </tooltip></Button>
-      <Separator layoutX="251.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="419.0" prefWidth="15.0" />
-      <Text fx:id="saveInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data have been saved" wrappingWidth="237.34959506988525">
+      <Separator layoutX="251.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="408.0" prefWidth="15.0" />
+      <Text fx:id="saveInfo" layoutX="18.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data have been saved" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="deleteInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data has been removed" wrappingWidth="237.34959506988525">
+      <Text fx:id="deleteInfo" layoutX="18.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data has been removed" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fx:id="editInfo" layoutX="21.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data has been modified" wrappingWidth="237.34959506988525">
+      <Text fx:id="editInfo" layoutX="18.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The data has been modified" wrappingWidth="237.34959506988525">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button layoutX="140.0" layoutY="252.0" mnemonicParsing="false" onAction="#editAction" prefHeight="25.0" prefWidth="50.0" text="Edit">
-         <tooltip>
-            <Tooltip text="Wybierz z tabeli rekord który chcesz edytować" />
-         </tooltip></Button>
-      <Button layoutX="25.0" layoutY="61.0" mnemonicParsing="false" onAction="#searchAction" text="Search">
-         <tooltip>
-            <Tooltip text="Wybierz co chcesz wyszukać" />
-         </tooltip></Button>
-      <CheckBox fx:id="checkBoxTitle" layoutX="76.0" layoutY="99.0" mnemonicParsing="false" />
-      <CheckBox fx:id="checkBoxAuthor" layoutX="76.0" layoutY="147.0" mnemonicParsing="false" />
-      <CheckBox fx:id="checkBoxISBN" layoutX="76.0" layoutY="194.0" mnemonicParsing="false" />
-      <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="327.0" prefWidth="527.0">
+      <TableView fx:id="baseTable" layoutX="266.0" layoutY="22.0" prefHeight="354.0" prefWidth="527.0" style="-fx-border-color: #000000;">
         <columns>
             <TableColumn fx:id="tableColumnBookID" prefWidth="102.0" text="BookID" />
           <TableColumn fx:id="tableColumnTitle" minWidth="8.0" prefWidth="105.0" text="Title" />
@@ -66,9 +38,53 @@
       </TableView>
       <Text layoutX="98.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Books">
          <font>
-            <Font name="Arial Bold" size="26.0" />
+            <Font name="System Bold Italic" size="28.0" />
          </font>
       </Text>
-      <Button layoutX="106.0" layoutY="289.0" mnemonicParsing="false" onAction="#borrowAction" text="Borrow" />
+      <JFXTextField fx:id="textFieldTitle" focusColor="BLACK" labelFloat="true" layoutX="31.0" layoutY="67.0" promptText="Title" unFocusColor="BLACK">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="textFieldAuthor" focusColor="BLACK" labelFloat="true" layoutX="31.0" layoutY="127.0" promptText="Author" unFocusColor="BLACK">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="textFieldISBN" focusColor="BLACK" labelFloat="true" layoutX="31.0" layoutY="187.0" promptText="ISBN" unFocusColor="BLACK">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXTextField>
+      <JFXButton fx:id="menuButton" buttonType="RAISED" layoutX="14.0" layoutY="292.0" onAction="#menuAction" onMouseEntered="#menuMouseEntered" onMouseExited="#menuMouseExited" prefHeight="25.0" prefWidth="68.0" ripplerFill="#11ff44" style="-fx-background-color: #7cb342;" text="MENU" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="saveButton" buttonType="RAISED" layoutX="14.0" layoutY="241.0" onAction="#saveAction" onMouseEntered="#saveMouseEntered" onMouseExited="#saveMouseExited" prefHeight="25.0" prefWidth="68.0" ripplerFill="#11ff44" style="-fx-background-color: #7cb342;" text="SAVE" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="editButton" buttonType="RAISED" layoutX="94.0" layoutY="241.0" onAction="#editAction" onMouseEntered="#editMouseEntered" onMouseExited="#editMouseExited" prefHeight="25.0" prefWidth="68.0" ripplerFill="#11ff44" style="-fx-background-color: #7cb342;" text="EDIT" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="172.0" layoutY="241.0" onAction="#deleteAction" onMouseEntered="#deleteMouseEntered" onMouseExited="#deleteMouseExited" prefHeight="25.0" prefWidth="68.0" ripplerFill="#11ff44" style="-fx-background-color: #7cb342;" text="DELETE" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="borrowButton" buttonType="RAISED" layoutX="94.0" layoutY="292.0" onAction="#borrowAction" onMouseEntered="#borrowMouseEntered" onMouseExited="#borrowMouseExited" prefHeight="25.0" prefWidth="68.0" ripplerFill="#11ff44" style="-fx-background-color: #7cb342;" text="BORROW" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="searchButton" buttonType="RAISED" layoutX="172.0" layoutY="292.0" onAction="#searchAction" onMouseEntered="#searchMouseEntered" onMouseExited="#searchMouseExited" prefHeight="25.0" prefWidth="68.0" ripplerFill="#11ff44" style="-fx-background-color: #7cb342;" text="SEARCH" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="11.0" />
+         </font>
+      </JFXButton>
    </children>
 </Pane>

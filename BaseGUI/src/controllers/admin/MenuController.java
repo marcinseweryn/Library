@@ -1,18 +1,13 @@
 package controllers.admin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Optional;
+
+
+import com.jfoenix.controls.JFXButton;
 
 import base.Book;
 import base.Save_Read;
-import base.Save_Read_BaseList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.BooksTable;
 
@@ -33,6 +26,9 @@ public class MenuController {
 	Save_Read sr = new Save_Read();
 	BooksTable booksTable = new BooksTable();
 
+    @FXML
+    private JFXButton reservationsButton, booksButton, borrowedBooksButton, usersButton,
+    reportButton, logOffButton;
 	
 	@FXML
 	void initialize(){
@@ -71,6 +67,16 @@ public class MenuController {
 	
     }
 	
+    @FXML
+    void booksMouseEntered(MouseEvent event) {
+    	booksButton.setStyle("-fx-background-color:  #43a047");
+    }
+
+    @FXML
+    void booksMouseExited(MouseEvent event) {
+    	booksButton.setStyle("-fx-background-color:  #7cb342");
+    }
+	
 	@FXML
 	void listOfReportsAction(ActionEvent event) throws IOException {
     	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/ReportsListWindow.fxml"));
@@ -82,8 +88,6 @@ public class MenuController {
 	}	
 	
 
-
-
     @FXML
     void usersAction(ActionEvent event) throws IOException {
     	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/UsersWindow.fxml"));
@@ -92,6 +96,16 @@ public class MenuController {
     	
     	stage.setScene(scene);
     	stage.show();
+    }
+    
+    @FXML
+    void usersMouseEntered(MouseEvent event) {
+    	usersButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void usersMouseExited(MouseEvent event) {
+    	usersButton.setStyle("-fx-background-color:   #009688");
     }
 
     @FXML
@@ -102,6 +116,16 @@ public class MenuController {
     	
     	stage.setScene(scene);
     	stage.show();
+    }
+    
+    @FXML
+    void borrowedBooksMouseEntered(MouseEvent event) {
+    	borrowedBooksButton.setStyle("-fx-background-color:  #e64a19");
+    }
+
+    @FXML
+    void borrowedBooksMouseExited(MouseEvent event) {
+    	borrowedBooksButton.setStyle("-fx-background-color:  #ef6c00");
     }
 
     @FXML
@@ -114,6 +138,16 @@ public class MenuController {
     	stage.show();
 
     }
+    
+    @FXML
+    void logOffMouseEntered(MouseEvent event) {
+    	logOffButton.setStyle("-fx-background-color:  #c62828");
+    }
+
+    @FXML
+    void logOffMouseExited(MouseEvent event) {
+    	logOffButton.setStyle("-fx-background-color:   #e53935");
+    }
 
     @FXML
     void reportAction(ActionEvent event) throws IOException {
@@ -125,6 +159,16 @@ public class MenuController {
     	stage.show();
 
     }
+    
+    @FXML
+    void reportMouseEntered(MouseEvent event) {
+    	reportButton.setStyle("-fx-background-color:  #1976d2");
+    }
+
+    @FXML
+    void reportMouseExited(MouseEvent event) {
+    	reportButton.setStyle("-fx-background-color:   #2196f3");
+    }
 
     @FXML
     void reservationsAction(ActionEvent event) throws IOException {
@@ -135,6 +179,16 @@ public class MenuController {
     	stage.setScene(scene);
     	stage.show();
 
+    }
+    
+    @FXML
+    void reservationsMouseEntered(MouseEvent event) {
+    	reservationsButton.setStyle("-fx-background-color:  #c51162");
+    }
+
+    @FXML
+    void reservationsMouseExited(MouseEvent event) {
+    	reservationsButton.setStyle("-fx-background-color:  #e91e63");
     }
 	
 }

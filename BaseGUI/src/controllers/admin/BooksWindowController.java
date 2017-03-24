@@ -4,9 +4,10 @@ package controllers.admin;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 
 import base.Book;
 import base.Save_Read;
@@ -24,12 +25,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -61,18 +61,21 @@ public class BooksWindowController {
 	}
 	
 	@FXML
-	private TextField text1, text2,text3;
-	@FXML
-	private Text saveInfo,editInfo,deleteInfo;
-	@FXML
-	private CheckBox checkBoxTitle,checkBoxAuthor,checkBoxISBN;
-
+	private JFXTextField textFieldTitle, textFieldAuthor, textFieldISBN;
 	
     @FXML
+    private JFXButton menuButton, saveButton, editButton, deleteButton, borrowButton, searchButton;
+	
+	@FXML
+	private Text saveInfo,editInfo,deleteInfo;
+
+    @FXML
     private TableView<Book> baseTable;
+    
     @FXML
     private TableColumn<Book,String> tableColumnTitle, tableColumnAuthor, tableColumnISBN,
     tableColumnAvailable;
+    
     @FXML
     private TableColumn<Book,Integer> tableColumnBookID;
 	
@@ -96,20 +99,40 @@ public class BooksWindowController {
     	stage.show();
 
 	}
+	
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #43a047");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #7cb342");
+    }
 
 	@FXML
 	void saveAction(ActionEvent event) throws ClassNotFoundException, IOException, InterruptedException, SQLException {
 	
-		Book book = new Book(text1.getText(), text2.getText(), text3.getText(),"Yes");
+		Book book = new Book(textFieldTitle.getText(), textFieldAuthor.getText(), textFieldISBN.getText(),"Yes");
 		booksArrayList.add(book);
 					
 		booksTable.saveToBooks(book);
 		getBooksTableView();
 		
-		text1.clear();text2.clear();text3.clear();
+		textFieldTitle.clear();textFieldAuthor.clear();textFieldISBN.clear();
 		saveInfo.setVisible(true);
 		editInfo.setVisible(false);
 		deleteInfo.setVisible(false);
+	}
+	
+	@FXML
+	void saveMouseEntered(MouseEvent event) {
+		saveButton.setStyle("-fx-background-color:  #43a047");
+	}
+
+	@FXML
+	void saveMouseExited(MouseEvent event) {
+		saveButton.setStyle("-fx-background-color:  #7cb342");
 	}
 
 
@@ -124,22 +147,43 @@ public class BooksWindowController {
 		booksTable.deleteFromBooks(BookID);
 
 		getBooksTableView();
-		text1.clear();text2.clear();text3.clear();
+		textFieldTitle.clear();textFieldAuthor.clear();textFieldISBN.clear();
 	}
 	
-	 @FXML
-	 void editAction(ActionEvent event) throws ClassNotFoundException, IOException, SQLException {
+    @FXML
+    void deleteMouseEntered(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:  #43a047");
+    }
+
+    @FXML
+    void deleteMouseExited(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:  #7cb342");
+    }
+	
+	@FXML
+	void editAction(ActionEvent event) throws ClassNotFoundException, IOException, SQLException {
 		saveInfo.setVisible(false);
 		deleteInfo.setVisible(false);
 		editInfo.setVisible(true);
 		
 		int ID=baseTable.getSelectionModel().getSelectedItem().getBookID();
-		booksTable.updateBooksRecord(ID,text1.getText(),text2.getText(),text3.getText());
+		booksTable.updateBooksRecord(ID,textFieldTitle.getText(),textFieldAuthor.getText(),textFieldISBN.getText());
 	
 		  
 		getBooksTableView();
-		text1.clear();text2.clear();text3.clear();
+		textFieldTitle.clear();textFieldAuthor.clear();textFieldISBN.clear();
 	}
+	
+	@FXML
+	void editMouseEntered(MouseEvent event) {
+		editButton.setStyle("-fx-background-color:  #43a047");
+	}
+
+	@FXML
+	void editMouseExited(MouseEvent event) {
+		editButton.setStyle("-fx-background-color:  #7cb342");
+	}	 
+
 	 
 	  @FXML
 	  void borrowAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {		  		  
@@ -189,84 +233,96 @@ public class BooksWindowController {
 				alert.showAndWait();
 		  }
 	  }
-	 
+	  
+	  @FXML
+	  void borrowMouseEntered(MouseEvent event) {
+		  borrowButton.setStyle("-fx-background-color:  #43a047");
+	  }
+
+	  @FXML
+	  void borrowMouseExited(MouseEvent event) {
+		  borrowButton.setStyle("-fx-background-color:  #7cb342");
+	  }
+	  
 	  @FXML
 	  void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
-		  Map<Integer,Book> basee=new HashMap<Integer,Book>();
-		try {
-			booksArrayList=booksTable.getBooks();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		if(checkBoxTitle.isSelected()==false && checkBoxAuthor.isSelected()==false && checkBoxISBN.isSelected()==false)
-		{	
-			
-		}else{
-			for(Book book:booksArrayList)
-			{
-				if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
-				{
-					if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()) && book.getISBN().equals(text3.getText()) )
-					{
-						basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-					}else{}
-				}else{
-					if(checkBoxTitle.isSelected()==true && checkBoxAuthor.isSelected()==true)
-					{
-						if(book.getTitle().equals(text1.getText()) && book.getAuthor().equals(text2.getText()))
-						{
-							basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-						}else{}
-					}else{
-						if(checkBoxTitle.isSelected()==true && checkBoxISBN.isSelected()==true)
-						{
-							if(book.getTitle().equals(text1.getText()) && book.getISBN().equals(text3.getText()))
-							{
-								basee.put(booksArrayList.indexOf(book),book);
-							}else{}
-						}else{
-							if(checkBoxAuthor.isSelected()==true && checkBoxISBN.isSelected()==true)
-							{
-								if(book.getISBN().equals(text3.getText()) && book.getAuthor().equals(text2.getText()))
-								{
-									basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-								}else{}
-							}else{
-								if(checkBoxTitle.isSelected()==true)
-								{
-									if(book.getTitle().equals(text1.getText()))
-									{
-										basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-									}else{}	
-								}else{
-									if(checkBoxAuthor.isSelected()==true)
-									{
-										if(book.getAuthor().equals(text2.getText()))
-										{
-											basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-										}else{}
-									}else{
-										if(checkBoxISBN.isSelected()==true)
-										{
-											if(book.getISBN().equals(text3.getText()))
-											{
-												basee.put(booksArrayList.get(booksArrayList.indexOf(book)).getBookID(),book);
-											}else{}
-										}else{
-											
-										}	
-									}	
-								}	
-							}		
-						}
-					}
-				}											
-			}							
-		}
-		ObservableList<Book> olist=FXCollections.observableArrayList(basee.values());
-		setBaseTableview(olist);		
+		  try {
+	  			booksArrayList=booksTable.getBooks();
+	  		} catch (SQLException e) {
+	  			e.printStackTrace();
+	  		}
+
+	  		ArrayList<Book> searchResults =new ArrayList<>();
+	    	
+	    	for(Book book:booksArrayList){
+	    		///////////////////////////LEVEL 0/////////////////////////////////////////////   	
+		    	if(textFieldTitle.getText().isEmpty() && textFieldAuthor.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
+		    		searchResults=booksArrayList;
+		    		break;
+		    	}else{
+		    		////////////////////////LEVEL 1//////////////////////////////////////////////
+		    		if(textFieldTitle.getText().isEmpty() && textFieldAuthor.getText().isEmpty()){
+		    			if(book.getISBN().equals(textFieldISBN.getText())){
+		    				searchResults.add(book);
+		    			}else{}	    			
+		    		}else{
+		    			if(textFieldTitle.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
+		    				if(book.getAuthor().equals(textFieldAuthor.getText())){
+		    					searchResults.add(book);
+		    				}else{}
+		    			}else{
+		    				if(textFieldAuthor.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
+		    					if(book.getTitle().equals(textFieldTitle.getText())){
+		    						searchResults.add(book);
+		    					}else{}
+		    				}else{
+		    					////////////////////////LEVEL 2/////////////////////////////////////////
+		    					if(textFieldTitle.getText().isEmpty()){
+		    						if(book.getAuthor().equals(textFieldAuthor.getText()) && book.getISBN().equals(textFieldISBN.getText())){
+		    							searchResults.add(book);
+		    						}else{}
+		    					}else{
+		    						if(textFieldAuthor.getText().isEmpty()){
+		    							if((book.getTitle().equals(textFieldTitle.getText()))&& book.getISBN().equals(textFieldISBN.getText())){
+		    								searchResults.add(book);
+		    							}else{}
+		    						}else{
+		    							if(textFieldISBN.getText().isEmpty()){
+		    								if((book.getTitle().equals(textFieldTitle.getText())) && book.getAuthor().equals(textFieldAuthor.getText())){
+		    									searchResults.add(book);
+		    								}else{}
+		    							}else{
+		    								///////////////////////////LEVEL 3////////////////////////////////////
+		    								if((book.getTitle().equals(textFieldTitle.getText())) && book.getAuthor().equals(textFieldAuthor.getText()) && book.getISBN().equals(textFieldISBN.getText())){
+		    									searchResults.add(book);
+		    								}else{}					
+		    							}
+		    						}
+		    					}
+		    				}
+		    			}	
+		    		}  		
+		    	}
+	    	}
+
+
+	  		ObservableList<Book> olist=FXCollections.observableArrayList(searchResults);
+	  		setBaseTableview(olist);
+
+	  			
 	  }
+	  
+	  @FXML
+	  void searchMouseEntered(MouseEvent event) {
+		  searchButton.setStyle("-fx-background-color:  #43a047");
+	  }
+
+	  @FXML
+	  void searchMouseExited(MouseEvent event) {
+		  searchButton.setStyle("-fx-background-color:  #7cb342");
+	  }
+	  
+
 	 	 	
 public	ArrayList<Book> getBase(){
 		return booksArrayList;

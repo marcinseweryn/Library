@@ -14,14 +14,14 @@
             <Font name="System Bold" size="38.0" />
          </font>
       </Text>
-      <JFXPasswordField fx:id="passwordField" labelFloat="true" layoutX="121.0" layoutY="200.0" promptText="Password" unFocusColor="BLACK">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font></JFXPasswordField>
       <JFXTextField fx:id="loginField" labelFloat="true" layoutX="122.0" layoutY="129.0" promptText="Library card number" unFocusColor="BLACK">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></JFXTextField>
+      <JFXPasswordField fx:id="passwordField" labelFloat="true" layoutX="121.0" layoutY="200.0" promptText="Password" unFocusColor="BLACK">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></JFXPasswordField>
       <JFXButton fx:id="loginInButton" buttonType="RAISED" layoutX="163.0" layoutY="259.0" onAction="#loginInAction" onMouseEntered="#loginInMouseEntered" onMouseExited="#loginInMouseExited" prefHeight="25.0" prefWidth="72.0" ripplerFill="#0d47a1" style="-fx-background-color: #2196f3;" text="LOGIN IN" textFill="WHITE">
          <font>
             <Font name="System Bold" size="11.0" />
