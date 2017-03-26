@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.ReservationsWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="895.0" style="-fx-background-color: #ff80ab;" stylesheets="@../../css/ReservationsWindowStyle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.ReservationsWindowController">
    <children>
-      <Text layoutX="288.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservations">
+      <JFXTextField fx:id="textFieldLibraryCardNumber" focusColor="BLACK" labelFloat="true" layoutX="23.0" layoutY="67.0" promptText="Library card number">
          <font>
-            <Font name="Arial Bold" size="26.0" />
+            <Font name="System Bold" size="13.0" />
+         </font></JFXTextField>
+      <Text layoutX="352.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reservations">
+         <font>
+            <Font name="System Bold Italic" size="32.0" />
          </font>
       </Text>
-      <Button layoutX="40.0" layoutY="153.0" mnemonicParsing="false" onAction="#confirmAction" text="Confirm">
-         <font>
-            <Font name="Arial Bold" size="15.0" />
-         </font>
-      </Button>
-      <Button layoutX="40.0" layoutY="228.0" mnemonicParsing="false" onAction="#deleteAction" prefHeight="27.0" prefWidth="77.0" text="Delete">
-         <font>
-            <Font name="Arial Bold" size="15.0" />
-         </font>
-      </Button>
-      <Button layoutX="340.0" layoutY="67.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="58.0" text="Search" />
-      <TableView fx:id="tableViewReservations" layoutX="133.0" layoutY="111.0" prefHeight="264.0" prefWidth="600.0">
+      <TableView fx:id="tableViewReservations" layoutX="133.0" layoutY="111.0" prefHeight="264.0" prefWidth="753.0" style="-fx-border-color: #000000;">
         <columns>
-          <TableColumn fx:id="tableColumnTitle" prefWidth="75.0" text="Title" />
-          <TableColumn fx:id="tableColumnAuthor" prefWidth="75.0" text="Author" />
-            <TableColumn fx:id="tableColumnISBN" prefWidth="75.0" text="ISBN" />
-            <TableColumn fx:id="tableColumnLibraryCardNumber" prefWidth="75.0" text="Library card&#10;   number&#10;" />
-            <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Name" />
-            <TableColumn fx:id="tableColumnSurname" prefWidth="75.0" text="Surname" />
+          <TableColumn fx:id="tableColumnTitle" prefWidth="100.0" text="Title" />
+          <TableColumn fx:id="tableColumnAuthor" prefWidth="100.0" text="Author" />
+            <TableColumn fx:id="tableColumnISBN" prefWidth="100.0" text="ISBN" />
+            <TableColumn fx:id="tableColumnLibraryCardNumber" prefWidth="100.0" text="Library card&#10;   number&#10;" />
+            <TableColumn fx:id="tableColumnName" prefWidth="100.0" text="Name" />
+            <TableColumn fx:id="tableColumnSurname" prefWidth="100.0" text="Surname" />
             <TableColumn fx:id="tableColumnExpirationDate" prefWidth="149.0" text="Expiration date" />
         </columns>
       </TableView>
-      <TextField fx:id="textFieldLibraryCardNumber" layoutX="175.0" layoutY="67.0" />
-      <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Library card number">
+      <JFXButton fx:id="confirmButton" buttonType="RAISED" layoutX="23.0" layoutY="152.0" onAction="#confirmAction" onMouseEntered="#confirmMouseEntered" onMouseExited="#confirmMouseExited" prefHeight="37.0" prefWidth="94.0" ripplerFill="#830000" style="-fx-background-color: #e91e63;" text="CONFIRM" textFill="WHITE">
          <font>
-            <Font name="Arial Bold" size="15.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
-      </Text>
-      <Button layoutX="40.0" layoutY="307.0" mnemonicParsing="false" onAction="#menuAction" prefHeight="27.0" prefWidth="77.0" text="Menu">
+      </JFXButton>
+      <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="23.0" layoutY="232.0" onAction="#deleteAction" onMouseEntered="#deleteMouseEntered" onMouseExited="#deleteMouseExited" prefHeight="37.0" prefWidth="94.0" ripplerFill="#830000" style="-fx-background-color: #e91e63;" text="DELETE" textFill="WHITE">
          <font>
-            <Font name="Arial Bold" size="15.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
-      </Button>
+      </JFXButton>
+      <JFXButton fx:id="menuButton" buttonType="RAISED" layoutX="22.0" layoutY="311.0" onAction="#menuAction" onMouseEntered="#menuMouseEntered" onMouseExited="#menuMouseExited" prefHeight="37.0" prefWidth="94.0" ripplerFill="#830000" style="-fx-background-color: #e91e63;" text="MENU" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="searchButton" buttonType="RAISED" layoutX="187.0" layoutY="68.0" onAction="#searchAction" onMouseEntered="#searchMouseEntered" onMouseExited="#searchMouseExited" prefHeight="25.0" prefWidth="71.0" ripplerFill="#830000" style="-fx-background-color: #e91e63;" text="SEARCH" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
    </children>
 </Pane>

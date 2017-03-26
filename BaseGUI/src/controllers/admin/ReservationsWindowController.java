@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+
 import base.Reservations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.Bans;
 import mysql.BooksTable;
@@ -35,13 +38,19 @@ public class ReservationsWindowController {
 	
     @FXML
     private TableColumn<Reservations, Integer> tableColumnLibraryCardNumber;
+    
     @FXML
     private TableColumn<Reservations, String> tableColumnExpirationDate;
+    
     @FXML
     private TableColumn<Reservations, String> tableColumnTitle, tableColumnAuthor, tableColumnISBN,
     tableColumnName, tableColumnSurname;
+    
     @FXML
-    private TextField textFieldLibraryCardNumber;
+    private JFXTextField textFieldLibraryCardNumber;
+    
+    @FXML
+    private JFXButton confirmButton, deleteButton, menuButton, searchButton;
     
     @SuppressWarnings("unchecked")
 	void setReservationsTableView(ObservableList<Reservations> olist){
@@ -90,6 +99,16 @@ public class ReservationsWindowController {
 			alert.showAndWait();
     	}
     }
+    
+    @FXML
+    void confirmMouseEntered(MouseEvent event) {
+    	confirmButton.setStyle("-fx-background-color: #c51162");
+    }
+
+    @FXML
+    void confirmMouseExited(MouseEvent event) {
+    	confirmButton.setStyle("-fx-background-color:  #e91e63");
+    }
 
     @FXML
     void deleteAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
@@ -101,6 +120,16 @@ public class ReservationsWindowController {
     	booksTable.updateBookStatus(BookID,"Yes");
     	getReservationsTable();
     }
+    
+    @FXML
+    void deleteMouseEntered(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color: #c51162");
+    }
+
+    @FXML
+    void deleteMouseExited(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:  #e91e63");
+    }
 
     @FXML
     void menuAction(ActionEvent event) throws IOException {
@@ -111,6 +140,16 @@ public class ReservationsWindowController {
     	stage.setScene(scene);
     	stage.show();
 
+    }
+    
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color: #c51162");
+    }
+
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #e91e63");
     }
 
     @FXML
@@ -126,6 +165,17 @@ public class ReservationsWindowController {
     	
 		ObservableList<Reservations> olist = FXCollections.observableArrayList(searchResult);
 		setReservationsTableView(olist);
+    }
+    
+
+    @FXML
+    void searchMouseEntered(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color: #c51162");
+    }
+
+    @FXML
+    void searchMouseExited(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:  #e91e63");
     }
 
 }

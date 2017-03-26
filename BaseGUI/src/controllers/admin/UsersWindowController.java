@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+
 import base.Ban;
 import base.Users;
 import javafx.collections.FXCollections;
@@ -20,11 +23,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.Bans;
 import mysql.UsersTable;
@@ -37,16 +40,21 @@ public class UsersWindowController {
 	
     @FXML
     private TableView<Users> usersTableView;
+    
     @FXML
-    private TextField textFieldPasswordChange, textFieldID, textFieldName, textFieldSurname;
+    private JFXTextField textFieldPasswordChange, textFieldID, textFieldName, textFieldSurname;
+    
     @FXML
     private TableColumn<Users, Integer> tableColumnLibraryCardNumber, tableColumnBorrows, 
     tableColumnExpirationDates; 
+    
     @FXML
     private TableColumn<Users, String> tableColumnName, tableColumnSurname, tableColumnCity,
     tableColumnAddress, tableColumnPostalCode, tableColumnTelephone, tableColumnEmail, tableColumnBanned;
 
-     
+    @FXML
+    private JFXButton searchButton, submitButton, deleteButton, banButton, unbanButton,
+    banInformationButton, menuButton; 
 
 	@SuppressWarnings("unchecked")
 	public void setUsersTableView(ObservableList<Users> olist){
@@ -117,6 +125,17 @@ public class UsersWindowController {
     }
     
     @FXML
+    void banMouseEntered(MouseEvent event) {
+    	banButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void banMouseExited(MouseEvent event) {
+    	banButton.setStyle("-fx-background-color:   #009688");
+    }
+    
+    
+    @FXML
     void unbanAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
     	Integer LibraryCardNumber = usersTableView.getSelectionModel().getSelectedItem().getLibraryCardNumber();	
     	String banned = usersTableView.getSelectionModel().getSelectedItem().getBanned();
@@ -138,6 +157,17 @@ public class UsersWindowController {
 			alert.showAndWait();	
     	}
     }
+    
+    @FXML
+    void unbanMouseEntered(MouseEvent event) {
+    	unbanButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void unbanMouseExited(MouseEvent event) {
+    	unbanButton.setStyle("-fx-background-color:   #009688");
+    }
+    
     
     @FXML
     void banInformationAction(ActionEvent event) throws ClassNotFoundException, SQLException {
@@ -162,6 +192,17 @@ public class UsersWindowController {
 			alert.showAndWait();	
     	}
     }
+    
+    @FXML
+    void banInformationMouseEntered(MouseEvent event) {
+    	banInformationButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void banInformationMouseExited(MouseEvent event) {
+    	banInformationButton.setStyle("-fx-background-color:   #009688");
+    }
+    
 
     @FXML
     void deleteAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
@@ -182,6 +223,16 @@ public class UsersWindowController {
 			}else{}
 		}
     }
+    
+    @FXML
+    void deleteMouseEntered(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void deleteMouseExited(MouseEvent event) {
+    	deleteButton.setStyle("-fx-background-color:   #009688");
+    }
 		
 
     @FXML
@@ -193,7 +244,18 @@ public class UsersWindowController {
     	stage.setScene(scene);
     	stage.show();
     }
+    
+    @FXML
+    void menuMouseEntered(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:  #00796b");
+    }
 
+    @FXML
+    void menuMouseExited(MouseEvent event) {
+    	menuButton.setStyle("-fx-background-color:   #009688");
+    }
+
+    
     @FXML
     void searchAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
     	usersArrayList = usersTable.getUserTable();
@@ -252,6 +314,17 @@ public class UsersWindowController {
 		ObservableList<Users> olist=FXCollections.observableArrayList(searchResults);
 		setUsersTableView(olist);
     }
+    
+    @FXML
+    void searchMouseEntered(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void searchMouseExited(MouseEvent event) {
+    	searchButton.setStyle("-fx-background-color:   #009688");
+    }
+    
 
     @FXML
     void submitAction(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
@@ -264,6 +337,16 @@ public class UsersWindowController {
 		alert.setTitle("INFORMATION");
 		alert.setHeaderText("Password has been changed");
 		alert.showAndWait();
+    }
+    
+    @FXML
+    void submitMouseEntered(MouseEvent event) {
+    	submitButton.setStyle("-fx-background-color:  #00796b");
+    }
+
+    @FXML
+    void submitMouseExited(MouseEvent event) {
+    	submitButton.setStyle("-fx-background-color:   #009688");
     }
 
 
