@@ -16,7 +16,7 @@ private Connection con = null;
 	public Connection getConnection() throws ClassNotFoundException {
 		Class.forName("com.mysql.jdbc.Driver");
 		try {
-			con= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/base"
+			con= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/library"
 					+ "?autoReconnect=true&useSSL=false","root","1234");
 		} catch (SQLException e) {
 			Alert alert = new Alert(AlertType.WARNING);

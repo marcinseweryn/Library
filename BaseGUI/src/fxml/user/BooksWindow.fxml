@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="760.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/TableViewStyle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.user.BooksWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="410.0" prefWidth="760.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/BooksWindowStyle.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.user.BooksWindowController">
    <children>
-      <TableView fx:id="booksTableView" layoutX="263.0" layoutY="63.0" prefHeight="327.0" prefWidth="475.0">
+      <TableView fx:id="booksTableView" layoutX="263.0" layoutY="63.0" prefHeight="327.0" prefWidth="462.0" style="-fx-border-color: #000000;" stylesheets="@../../css/TableViewStyle.css">
         <columns>
           <TableColumn fx:id="tableColumnTitle" prefWidth="120.0" text="Title" />
           <TableColumn fx:id="tableColumnAuthor" prefWidth="120.0" text="Author" />
@@ -42,17 +42,17 @@
             <DropShadow color="#c6c6c6" />
          </effect>
       </Text>
-      <JFXTextField fx:id="textFieldTitle" labelFloat="true" layoutX="36.0" layoutY="60.0" promptText="Title">
+      <JFXTextField fx:id="textFieldTitle" focusColor="BLACK" labelFloat="true" layoutX="36.0" layoutY="60.0" promptText="Title">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </JFXTextField>
-      <JFXTextField fx:id="textFieldAuthor" labelFloat="true" layoutX="36.0" layoutY="120.0" promptText="Author">
+      <JFXTextField fx:id="textFieldAuthor" focusColor="BLACK" labelFloat="true" layoutX="36.0" layoutY="120.0" promptText="Author">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </JFXTextField>
-      <JFXTextField fx:id="textFieldISBN" labelFloat="true" layoutX="36.0" layoutY="180.0" promptText="ISBN">
+      <JFXTextField fx:id="textFieldISBN" focusColor="BLACK" labelFloat="true" layoutX="36.0" layoutY="180.0" promptText="ISBN">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

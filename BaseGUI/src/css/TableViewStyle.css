@@ -36,7 +36,10 @@
 
 }
 
-
+.table-view > .virtual-flow > .scroll-bar:vertical > .thumb,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .thumb {
+	-fx-background-color:  #0d47a1;
+}
 
 .table-view > .virtual-flow > .scroll-bar:vertical,
 .table-view > .virtual-flow > .scroll-bar:vertical > .track,
@@ -44,12 +47,12 @@
 .table-view > .virtual-flow > .scroll-bar:horizontal,
 .table-view > .virtual-flow > .scroll-bar:horizontal > .track,
 .table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #42a5f5;
 }
 
 
 .corner {
-	-fx-background-color: #ffffff;
+	-fx-background-color: #42a5f5;
 }
 
 .table-view .filler{

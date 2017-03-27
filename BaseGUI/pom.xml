@@ -17,6 +17,11 @@
 		  <groupId>com.jfoenix</groupId>
 		  <artifactId>jfoenix</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.ibatis</groupId>
+		    <artifactId>ibatis-core</artifactId>
+		    <version>3.0</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -34,6 +39,11 @@
 			  <groupId>com.jfoenix</groupId>
 			  <artifactId>jfoenix</artifactId>
 			  <version>1.2.0</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.ibatis</groupId>
+			    <artifactId>ibatis-core</artifactId>
+			    <version>3.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

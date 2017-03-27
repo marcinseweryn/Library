@@ -17,8 +17,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -76,7 +74,7 @@ public class LoginWindowController {
 
     @FXML
     void loginInAction(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-    	if(passwordField.getText().equals("1234") && loginField.getText().equals("1111")){
+    	if(passwordField.getText().equals("admin") && loginField.getText().equals("admin")){
         	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/MenuWindow.fxml"));
         	Scene scene = new Scene(parent);
         	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
