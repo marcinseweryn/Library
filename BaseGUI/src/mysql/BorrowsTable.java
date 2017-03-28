@@ -138,7 +138,6 @@ public class BorrowsTable {
 	}
 
 	public Integer getUserBorrowsNumber(Integer LibraryCardNumber) throws SQLException, ClassNotFoundException {
-		boolean limit;
 		Integer number;
 		Connection con = connectionToDatabase.getConnection();
 		PreparedStatement get = con.prepareStatement("SELECT count(LibraryCardNumber) as number FROM borrows"

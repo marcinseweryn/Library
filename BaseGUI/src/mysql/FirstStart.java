@@ -21,6 +21,5 @@ public class FirstStart {
 		runner.runScript(new BufferedReader(new FileReader("LibraryScript.sql")));
 
 		con.close();
-		System.out.println("asdasd");
 	}
 }

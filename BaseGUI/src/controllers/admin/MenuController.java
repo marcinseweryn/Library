@@ -1,29 +1,20 @@
 package controllers.admin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 
 import com.jfoenix.controls.JFXButton;
-
-import base.Book;
-import base.Save_Read;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import mysql.BooksTable;
 
 public class MenuController {
 
-	private static ArrayList<Book> base;
-	Save_Read sr = new Save_Read();
 	BooksTable booksTable = new BooksTable();
 
     @FXML
@@ -33,27 +24,6 @@ public class MenuController {
 	@FXML
 	void initialize(){
 		
-	}
-
-	@FXML
-	void booksOfflineAction(ActionEvent event){
-		try{
-		///////////////////////////////////
-		base=sr.getBase(sr.getBaseName());	//check before action
-		///////////////////////////////////
-		Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/BooksOfflineWindow.fxml"));
-    	Scene scene = new Scene(parent);
-    	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    	stage.setScene(scene);
-    	stage.show();
-		}catch(Exception e){
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("WARNING");
-			alert.setHeaderText("Lack table!");
-			alert.setContentText("Go do the option to select a table or create a new one");
-			alert.showAndWait();  
-		}
-
 	}
 
 	@FXML

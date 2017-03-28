@@ -2,23 +2,18 @@ package mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import base.Book;
-import controllers.MainController;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class BooksTable {
 
 
-	private MainController mainControler;
+
 	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
 	public ArrayList<Book> getBooks() throws SQLException, ClassNotFoundException, IOException{
@@ -99,19 +94,6 @@ public class BooksTable {
 		con.close();
 	}
 	
-	public ArrayList<String> getTables() throws SQLException, ClassNotFoundException{
-		ArrayList<String> tables=new ArrayList<String>();
-		Connection con=connectionToDatabase.getConnection();
-		PreparedStatement show=con.prepareStatement("SHOW tables");
-		ResultSet rs=show.executeQuery();
-		
-		while(rs.next()){
-			tables.add(rs.getString(1));
-		}
-		con.close();
-		return tables;	
-	}
-	
 	public void deleteTable(String tableName) throws ClassNotFoundException{
 		Connection con = connectionToDatabase.getConnection();
 		try {
@@ -120,20 +102,7 @@ public class BooksTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
-	}
-	
-	public String getMySqlTableName() throws IOException{
-		String name = null;
-		try {
-			FileInputStream fis = new FileInputStream("lastMySqlTable");
-			DataInputStream dis = new DataInputStream(fis);
-			name=dis.readUTF();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}		
-		return name;
-	}
-	
+	}	
 	
 	
 		

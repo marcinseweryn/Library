@@ -49,6 +49,7 @@ public class BooksWindowController {
     tableColumnAvailable;
 	
 	
+	@SuppressWarnings("unchecked")
 	public void setBaseTableview(ObservableList<Book> olist) {
 		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 		tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));

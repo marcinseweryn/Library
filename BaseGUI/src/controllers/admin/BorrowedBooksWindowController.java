@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 
-import base.Book;
 import base.Borrows;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,6 +45,7 @@ public class BorrowedBooksWindowController {
     @FXML
     private JFXButton returnedButton, deleteButton, menuButton, searchButton;
 
+	@SuppressWarnings("unchecked")
 	public void setBorrowsTableView(ObservableList<Borrows> olist) {
 		tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
 		tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));

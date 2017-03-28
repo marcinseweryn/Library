@@ -10,7 +10,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
 import base.Book;
-import base.Save_Read;
 import mysql.BorrowsTable;
 import mysql.ReservationsTable;
 import mysql.Bans;
@@ -36,7 +35,6 @@ import javafx.stage.Stage;
 public class BooksWindowController {
 	private static ArrayList<Book> booksArrayList;
 	
-	Save_Read sr = new Save_Read();
 	BooksTable booksTable=new BooksTable();
 	ReservationsTable reservationsTable = new ReservationsTable();
 

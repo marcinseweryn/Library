@@ -23,6 +23,7 @@ public class StartWindowController {
 
 	FirstStart firstStart = new FirstStart();
 	
+	@SuppressWarnings("unused")
 	private MainController mainControler;
 	
     @FXML
@@ -37,6 +38,7 @@ public class StartWindowController {
     @FXML
     void initialize() {
     	/////////////////////////First Connection////////////////////////////////////// 
+		@SuppressWarnings("unused")
 		FileInputStream fis;
 		try {
 			fis = new FileInputStream("FirstStartFile");
@@ -44,6 +46,7 @@ public class StartWindowController {
 			try{
 			firstStart.CreateTables();
 			FileOutputStream fos = new FileOutputStream("FirstStartFile");
+			fos.close();
 			}catch(Exception ex){
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("ERROR");
