@@ -1,6 +1,9 @@
 package controllers.user;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ import javafx.stage.Stage;
 import mysql.Bans;
 import mysql.BooksTable;
 import mysql.BorrowsTable;
+import mysql.ConnectionToDatabase;
 import mysql.ReservationsTable;
 
 public class UserMenuWindowController {
@@ -109,8 +113,7 @@ public class UserMenuWindowController {
  
 	@FXML
     void initialize() throws ClassNotFoundException, SQLException{
-    	textWelcome.setText("Welcome "+LoginWindowController.getName());
-    	
+    	textWelcome.setText("Welcome "+LoginWindowController.getName());   	
     	
     	if(banned.equals("Yes") && firstShowInfo==false){
 
@@ -132,7 +135,20 @@ public class UserMenuWindowController {
 
     @FXML
     void booksAction(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
+		/////////////////////////////AUTO  BAN///////////////////////////////////////////////////////
+    	bans.automaticBansForBorrowing();
+		bans.automaticBansForReservations();
     	
+		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
+		Connection con=connectionToDatabase.getConnection();
+		PreparedStatement getUsers=con.prepareStatement("SELECT Banned FROM Users "
+				+ "WHERE LibraryCardNumber="+LoginWindowController.getLibraryCardNumber());
+		ResultSet rs=getUsers.executeQuery();
+		rs.next();
+		banned = rs.getString("Banned");
+		con.close();
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		
     	if(banned.equals("Yes")){
     		Ban ban = bans.banInformation(LoginWindowController.getLibraryCardNumber());
     		

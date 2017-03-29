@@ -124,15 +124,16 @@ public class Bans {
 				+ "count(case when r.Completed='Cancelled' then 1 else null end) as Cancelled "
 					+"FROM users as u "
 					+"JOIN reservations as r ON r.LibraryCardNumber=u.LibraryCardNumber "
-					+"WHERE u.banned='No' and (r.ExpirationDate between "
-					+ "(current_date() - interval 30 day) and current_date())");
+					+"WHERE u.banned='No' and (r.ReservationDate between "
+					+ "(current_timestamp()- interval 30 day) and current_timestamp()) "
+					+ "GROUP BY u.LibraryCardNumber");
 		ResultSet rs=get.executeQuery();
 		Integer LibraryCardNumber,Expirations,Cancelled;
 		while(rs.next()){
 			LibraryCardNumber = rs.getInt("LibraryCardNumber");
 			Expirations = rs.getInt("expirations");
 			Cancelled = rs.getInt("Cancelled");
-			
+			System.out.println(Cancelled);
 			if(Expirations>=3){
 				banUser(LibraryCardNumber,"You have three or more not realized books reservations "
 						+ "in last 30 days.",14);
