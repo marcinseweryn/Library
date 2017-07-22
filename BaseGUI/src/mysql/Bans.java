@@ -133,7 +133,7 @@ public class Bans {
 			LibraryCardNumber = rs.getInt("LibraryCardNumber");
 			Expirations = rs.getInt("expirations");
 			Cancelled = rs.getInt("Cancelled");
-			System.out.println(Cancelled);
+
 			if(Expirations>=3){
 				banUser(LibraryCardNumber,"You have three or more not realized books reservations "
 						+ "in last 30 days.",14);

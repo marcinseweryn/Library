@@ -1,21 +1,36 @@
 package controllers;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import mysql.FirstStart;
 
 
 public class MainController {
 
+	FirstStart firstStart = new FirstStart();
+	
     @FXML
     private StackPane stackpane;
     
     @FXML
     void initialize() throws IOException {
-    	loadMenu();
+    	
+    	/////////////////////////First Connection////////////////////////////////////// 
+		@SuppressWarnings("unused")
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream("ConfigurationFile");
+	    	loadMenu();
+		} catch (FileNotFoundException e) {
+			loadConfiguration();
+		}
+   
     	
     }
     
@@ -28,6 +43,16 @@ public class MainController {
     	
     	StartWindowController startWindowController=loader.getController();
     	startWindowController.setMainControler(this);
+	}
+	
+	public void loadConfiguration() throws IOException {
+		FXMLLoader loader=new FXMLLoader();
+    	loader.setLocation(this.getClass().getResource("/fxml/FirstSetupWindow.fxml"));
+    	Pane pane =loader.load();
+    	setScreen(pane);
+    	
+    	FirstSetupWindowController firstSetupWindowController=loader.getController();
+    	firstSetupWindowController.setMainControler(this);
 	}
 
 	public void setScreen(Pane pane) {

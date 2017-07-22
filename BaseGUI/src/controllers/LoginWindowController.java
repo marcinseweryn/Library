@@ -1,5 +1,7 @@
 package controllers;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,7 +76,26 @@ public class LoginWindowController {
 
     @FXML
     void loginInAction(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
-    	if(passwordField.getText().equals("admin") && loginField.getText().equals("admin")){
+    	
+    	String username = null, password = null;
+    	
+		try {
+			FileInputStream fis = new FileInputStream("ConfigurationFile");
+			DataInputStream dis =  new DataInputStream(fis);
+			dis.readUTF();dis.readUTF();dis.readUTF();
+			username = dis.readUTF();
+			password = dis.readUTF();
+			System.out.println(username);
+			System.out.println(password);
+			dis.close();
+			fis.close();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+    	
+    	
+    	if(passwordField.getText().equals(password) && loginField.getText().equals(username)){
         	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/admin/MenuWindow.fxml"));
         	Scene scene = new Scene(parent);
         	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -88,7 +109,6 @@ public class LoginWindowController {
     		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password,FirstName,Banned FROM Users ");
     		ResultSet rs=getUsers.executeQuery();
     		
-    		String password;
     		
     		boolean passwordOK=false;
     		while(rs.next()){

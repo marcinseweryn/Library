@@ -1,8 +1,6 @@
 package controllers;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 
 import com.jfoenix.controls.JFXButton;
@@ -13,15 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import mysql.FirstStart;
+
 
 public class StartWindowController {
 
-	FirstStart firstStart = new FirstStart();
 	
 	@SuppressWarnings("unused")
 	private MainController mainControler;
@@ -37,24 +32,6 @@ public class StartWindowController {
 	
     @FXML
     void initialize() {
-    	/////////////////////////First Connection////////////////////////////////////// 
-		@SuppressWarnings("unused")
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream("FirstStartFile");
-		} catch (FileNotFoundException e) {
-			try{
-			firstStart.CreateTables();
-			FileOutputStream fos = new FileOutputStream("FirstStartFile");
-			fos.close();
-			}catch(Exception ex){
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("ERROR");
-				alert.setHeaderText("First launch requires a database connection!");
-				alert.showAndWait();
-				System.exit(0);
-			}
-		}
 
     }
 		
