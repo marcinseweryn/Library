@@ -61,7 +61,7 @@ public class Reports {
 				+ " FROM dates as d"
 				+ " LEFT JOIN borrows as b ON d.Date=DATE(b.BorrowDate)"
 				+ " JOIN books as bo ON b.BookID=bo.BookID"
-				+ " WHERE d.Date BETWEEN '2017-03-10' AND '2017-03-11'"
+				+ " WHERE d.Date BETWEEN '" + dateFrom + "' AND '" + dateTo + "'"
 				+ " GROUP BY bo.Title"
 				+ " ORDER BY Borrows DESC");
 		ResultSet rs = get.executeQuery();
