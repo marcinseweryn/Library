@@ -35,3 +35,10 @@ The application was created using the following tools and technologies: Java SE,
 
 * Unbanning expired users bans
 
+## Download
+
+http://www.filedropper.com/library_5
+
+**Warning:**
+* To run application you need MySQL server (port 3306).
+* The application automatically creates the database required for work properly based on the attached script.
