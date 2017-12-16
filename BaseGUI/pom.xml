@@ -4,46 +4,30 @@
 	<groupId>BaseGUI</groupId>
 	<artifactId>BaseGUI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+	    <maven.compiler.source>1.8</maven.compiler.source>
+	    <maven.compiler.target>1.8</maven.compiler.target>
+ 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
+			<version>3.15</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.jfoenix</groupId>
 		  <artifactId>jfoenix</artifactId>
+		  <version>1.2.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.ibatis</groupId>
 		    <artifactId>ibatis-core</artifactId>
+		    <version>3.0</version>
 		</dependency>
 	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi-ooxml</artifactId>
-				<version>3.15</version>
-			</dependency>
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.6</version>
-			</dependency>
-			<dependency>
-			  <groupId>com.jfoenix</groupId>
-			  <artifactId>jfoenix</artifactId>
-			  <version>1.2.0</version>
-			</dependency>
-			<dependency>
-			    <groupId>org.apache.ibatis</groupId>
-			    <artifactId>ibatis-core</artifactId>
-			    <version>3.0</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 </project>
