@@ -34,8 +34,8 @@ public class ReportWindowController {
 	
 	private static Integer excelReport = 1;
 	
-	DatesTable datesTable = new DatesTable();
-	Reports reports = new Reports();
+	private DatesTable datesTable = new DatesTable();
+	private Reports reports = new Reports();
 
     @FXML
     private TableView<StandardReport> tableViewStandardReport;

@@ -19,7 +19,7 @@ import mysql.FirstStart;
 
 public class FirstSetupWindowController {
 
-	FirstStart firstStart = new FirstStart();
+	private FirstStart firstStart = new FirstStart();
 	
     @FXML
     private JFXButton saveButton;
@@ -51,7 +51,7 @@ public class FirstSetupWindowController {
 			
 			dos.close();
 			fos.close();
-			firstStart.CreateTables();
+			firstStart.CreateDatabase();
 			
 	    	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/FirstSetupAdminWindow.fxml"));
 	    	Scene scene = new Scene(parent);

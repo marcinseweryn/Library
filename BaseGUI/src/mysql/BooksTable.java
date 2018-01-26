@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import base.Book;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -14,7 +15,7 @@ public class BooksTable {
 
 
 
-	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
+	private ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
 	public ArrayList<Book> getBooks() throws SQLException, ClassNotFoundException, IOException{
 		Connection con=connectionToDatabase.getConnection();

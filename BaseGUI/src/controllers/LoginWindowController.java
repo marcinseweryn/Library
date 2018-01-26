@@ -27,8 +27,8 @@ import mysql.ConnectionToDatabase;
 
 public class LoginWindowController {
 
-	private static Integer LibraryCardNumber;
-	private static String Name,bannedInfo;
+	private static Integer LIBRARY_CARD_NUMBER;
+	private static String NAME, BANNED_INFO;
 	
     @FXML
     private JFXPasswordField passwordField;
@@ -41,19 +41,19 @@ public class LoginWindowController {
     
 	
 	public static String getBannedInfo() {
-		return bannedInfo;
+		return BANNED_INFO;
 	}
 
 	public static void setBannedInfo(String bannedInfo) {
-		LoginWindowController.bannedInfo = bannedInfo;
+		LoginWindowController.BANNED_INFO = bannedInfo;
 	}
 
 	public static String getName() {
-		return Name;
+		return NAME;
 	}
 
 	public static Integer getLibraryCardNumber() {
-		return LibraryCardNumber;
+		return LIBRARY_CARD_NUMBER;
 	}
 
 
@@ -85,8 +85,7 @@ public class LoginWindowController {
 			dis.readUTF();dis.readUTF();dis.readUTF();
 			username = dis.readUTF();
 			password = dis.readUTF();
-			System.out.println(username);
-			System.out.println(password);
+
 			dis.close();
 			fis.close();
 		} catch (IOException e) {
@@ -106,18 +105,19 @@ public class LoginWindowController {
     	}else{
     		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
     		Connection con=connectionToDatabase.getConnection();
-    		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password,FirstName,Banned FROM Users ");
+    		PreparedStatement getUsers=con.prepareStatement("SELECT LibraryCardNumber,Password,FirstName,Banned FROM Users "
+    				+ "WHERE LibraryCardNumber=" + Integer.parseInt(loginField.getText()) );
     		ResultSet rs=getUsers.executeQuery();
     		
     		
     		boolean passwordOK=false;
     		while(rs.next()){
-    			LibraryCardNumber=rs.getInt("LibraryCardNumber");
+    			LIBRARY_CARD_NUMBER=rs.getInt("LibraryCardNumber");
     			password=rs.getString("Password");
-    			Name = rs.getString("FirstName");
-    			bannedInfo = rs.getString("Banned");
+    			NAME = rs.getString("FirstName");
+    			BANNED_INFO = rs.getString("Banned");
     			
-    			if(LibraryCardNumber==Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
+    			if(LIBRARY_CARD_NUMBER == Integer.parseInt(loginField.getText()) && password.equals(passwordField.getText())){   				
     	        	Parent parent = FXMLLoader.load(getClass().getResource("/fxml/user/UserMenuWindow.fxml"));
     	        	Scene scene = new Scene(parent);
     	        	Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

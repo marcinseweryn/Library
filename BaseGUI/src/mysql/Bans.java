@@ -10,7 +10,7 @@ import base.Ban;
 
 public class Bans {
 	
-	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
+	private ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 
 	public void banUser(Integer LibraryCardNumber, String Reason, Integer Days) throws SQLException, ClassNotFoundException{
 		Connection con=connectionToDatabase.getConnection();
@@ -54,10 +54,8 @@ public class Bans {
 		
 		if(bans>0){
 			banned = true;
-			System.out.println("1");
 		}else{
 			banned = false;
-			System.out.println("2");
 		}
 		
 		con.close();

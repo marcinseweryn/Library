@@ -30,10 +30,10 @@ import mysql.ReservationsTable;
 
 public class BooksWindowController {
 	
-	BooksTable booksTable = new BooksTable();
-	ReservationsTable reservationsTable = new ReservationsTable();
+	private BooksTable booksTable = new BooksTable();
+	private ReservationsTable reservationsTable = new ReservationsTable();
 	
-	private static ArrayList<Book> booksArrayList;
+	private static ArrayList<Book> BOOKS_ARRAY_LIST;
 	
     @FXML
     private JFXTextField textFieldTitle, textFieldAuthor, textFieldISBN;
@@ -69,8 +69,8 @@ public class BooksWindowController {
 
 
 	private void getBooksTableView() throws SQLException, ClassNotFoundException, IOException {
-		booksArrayList=booksTable.getBooks();
-		ObservableList<Book> olist=FXCollections.observableArrayList(booksArrayList);
+		BOOKS_ARRAY_LIST=booksTable.getBooks();
+		ObservableList<Book> olist=FXCollections.observableArrayList(BOOKS_ARRAY_LIST);
 		setBaseTableview(olist);
 	}
 		
@@ -147,17 +147,17 @@ public class BooksWindowController {
     void searchAction(ActionEvent event) throws ClassNotFoundException, IOException {
 
   		try {
-  			booksArrayList=booksTable.getBooks();
+  			BOOKS_ARRAY_LIST=booksTable.getBooks();
   		} catch (SQLException e) {
   			e.printStackTrace();
   		}
 
   		ArrayList<Book> searchResults =new ArrayList<>();
     	
-    	for(Book book:booksArrayList){
+    	for(Book book:BOOKS_ARRAY_LIST){
     		///////////////////////////LEVEL 0/////////////////////////////////////////////   	
 	    	if(textFieldTitle.getText().isEmpty() && textFieldAuthor.getText().isEmpty() && textFieldISBN.getText().isEmpty()){
-	    		searchResults=booksArrayList;
+	    		searchResults=BOOKS_ARRAY_LIST;
 	    		break;
 	    	}else{
 	    		////////////////////////LEVEL 1//////////////////////////////////////////////

@@ -10,9 +10,9 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 
 public class FirstStart {
 
-	ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
+	private ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
 	
-	public void CreateTables() throws SQLException, ClassNotFoundException, FileNotFoundException{
+	public void CreateDatabase() throws SQLException, ClassNotFoundException, FileNotFoundException{
 		connectionToDatabase.setDatabaseName("");
 		Connection con =  connectionToDatabase.getConnection();
 		

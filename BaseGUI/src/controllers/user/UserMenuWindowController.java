@@ -37,15 +37,15 @@ import mysql.ReservationsTable;
 
 public class UserMenuWindowController {
 		
-	BorrowsTable borrowsTable = new BorrowsTable();
-	ReservationsTable reservationsTable = new ReservationsTable();
-	Bans bans = new Bans();
+	private BorrowsTable borrowsTable = new BorrowsTable();
+	private ReservationsTable reservationsTable = new ReservationsTable();
+	private Bans bans = new Bans();
 	
-    ArrayList<Borrows> borrowsArrayList = new ArrayList<>();
-	ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
+    private ArrayList<Borrows> borrowsArrayList = new ArrayList<>();
+	private ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
 	
-	String banned = LoginWindowController.getBannedInfo();
-	static boolean firstShowInfo;
+	private String banned = LoginWindowController.getBannedInfo();
+	static boolean FIRST_SHOW_INFO;
 	
     @FXML
     private TableView<Reservations> tableViewReservations;
@@ -115,7 +115,7 @@ public class UserMenuWindowController {
     void initialize() throws ClassNotFoundException, SQLException{
     	textWelcome.setText("Welcome "+LoginWindowController.getName());   	
     	
-    	if(banned.equals("Yes") && firstShowInfo==false){
+    	if(banned.equals("Yes") && FIRST_SHOW_INFO==false){
 
     		Ban ban = bans.banInformation(LoginWindowController.getLibraryCardNumber());
     		
@@ -125,7 +125,7 @@ public class UserMenuWindowController {
     				+"\nExpiration date: "+ban.getExpirationDate()
     				+"\nReason: "+ban.getReason());
     		alert.showAndWait();
-    		firstShowInfo = true;
+    		FIRST_SHOW_INFO = true;
     	}
     	
     	getTableBorrows();

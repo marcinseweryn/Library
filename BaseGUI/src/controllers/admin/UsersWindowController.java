@@ -35,8 +35,8 @@ import mysql.UsersTable;
 public class UsersWindowController {
 	
 	private ArrayList<Users> usersArrayList = new ArrayList<>();
-	UsersTable usersTable = new UsersTable();
-	Bans ban = new Bans();   
+	private UsersTable usersTable = new UsersTable();
+	private Bans ban = new Bans();   
 	
     @FXML
     private TableView<Users> usersTableView;

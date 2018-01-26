@@ -8,12 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import mysql.FirstStart;
 
 
 public class MainController {
-
-	FirstStart firstStart = new FirstStart();
 	
     @FXML
     private StackPane stackpane;
@@ -29,9 +26,7 @@ public class MainController {
 	    	loadMenu();
 		} catch (FileNotFoundException e) {
 			loadConfiguration();
-		}
-   
-    	
+		}	
     }
     
 

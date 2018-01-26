@@ -26,9 +26,9 @@ import mysql.BooksTable;
 
 public class BorrowedBooksWindowController {
 
-	private static ArrayList<Borrows> borrowsList;
-	BorrowsTable borrowsTable = new BorrowsTable();
-	BooksTable booksTable = new BooksTable();
+	private static ArrayList<Borrows> BORROWS_LIST;
+	private BorrowsTable borrowsTable = new BorrowsTable();
+	private BooksTable booksTable = new BooksTable();
 
 	@FXML
 	private TextField textFieldLibraryCardNumber;
@@ -64,8 +64,8 @@ public class BorrowedBooksWindowController {
 
 	@FXML
 	void initialize() throws ClassNotFoundException, SQLException {
-		borrowsList = borrowsTable.getBorrowsList();
-		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
+		BORROWS_LIST = borrowsTable.getBorrowsList();
+		ObservableList<Borrows> olist = FXCollections.observableArrayList(BORROWS_LIST);
 		setBorrowsTableView(olist);
 	}
 
@@ -77,8 +77,8 @@ public class BorrowedBooksWindowController {
 		int BookID = borrowsTableView.getSelectionModel().getSelectedItem().getBookID();
 		booksTable.updateBookStatus(BookID,"Yes");
 		
-		borrowsList = borrowsTable.getBorrowsList();
-		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
+		BORROWS_LIST = borrowsTable.getBorrowsList();
+		ObservableList<Borrows> olist = FXCollections.observableArrayList(BORROWS_LIST);
 		setBorrowsTableView(olist);
 	}
 	
@@ -121,8 +121,8 @@ public class BorrowedBooksWindowController {
 		int BookID = borrowsTableView.getSelectionModel().getSelectedItem().getBookID();
 		booksTable.updateBookStatus(BookID,"Yes");
 		
-		borrowsList = borrowsTable.getBorrowsList();
-		ObservableList<Borrows> olist = FXCollections.observableArrayList(borrowsList);
+		BORROWS_LIST = borrowsTable.getBorrowsList();
+		ObservableList<Borrows> olist = FXCollections.observableArrayList(BORROWS_LIST);
 		setBorrowsTableView(olist);
 
 	}
@@ -140,13 +140,13 @@ public class BorrowedBooksWindowController {
 	@FXML
 	void searchAction(ActionEvent event) throws ClassNotFoundException, SQLException {
 
-		borrowsList = borrowsTable.getBorrowsList();
+		BORROWS_LIST = borrowsTable.getBorrowsList();
 		ArrayList<Borrows> searchList = new ArrayList<>();
 
-		for (Borrows borrow : borrowsList) {
+		for (Borrows borrow : BORROWS_LIST) {
 
 			if (textFieldLibraryCardNumber.getText().isEmpty()) {
-				searchList.addAll(borrowsList);
+				searchList.addAll(BORROWS_LIST);
 				break;
 			} else {
 				if (textFieldLibraryCardNumber.getText().equals(borrow.getLibraryCardNumber().toString())) {

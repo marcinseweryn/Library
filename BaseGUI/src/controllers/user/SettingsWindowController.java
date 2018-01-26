@@ -23,7 +23,7 @@ import mysql.UsersTable;
 
 public class SettingsWindowController {
 	
-	UsersTable usersTable = new UsersTable();
+	private UsersTable usersTable = new UsersTable();
 
 	
     @FXML

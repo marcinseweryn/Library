@@ -23,9 +23,9 @@ import mysql.BorrowsTable;
 
 public class HistoryWindowController {
 	
-	BorrowsTable borrowsTable = new BorrowsTable();
+	private BorrowsTable borrowsTable = new BorrowsTable();
 	
-	ArrayList<Borrows> historyArrayList= new ArrayList<>(); 
+	private ArrayList<Borrows> historyArrayList= new ArrayList<>(); 
 	
     @FXML
     private TableView<Borrows> tableViewHistory;

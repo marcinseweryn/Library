@@ -15,8 +15,6 @@ import mysql.BooksTable;
 
 public class MenuController {
 
-	BooksTable booksTable = new BooksTable();
-
     @FXML
     private JFXButton reservationsButton, booksButton, borrowedBooksButton, usersButton,
     reportButton, logOffButton;

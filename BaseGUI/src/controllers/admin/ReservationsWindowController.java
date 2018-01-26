@@ -31,7 +31,7 @@ import mysql.ReservationsTable;
 public class ReservationsWindowController {
 	
 	private ArrayList<Reservations> reservationsArrayList = new ArrayList<>();
-	ReservationsTable reservationsTable = new ReservationsTable();	
+	private ReservationsTable reservationsTable = new ReservationsTable();	
 	
     @FXML
     private TableView<Reservations> tableViewReservations;
