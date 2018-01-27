@@ -57,6 +57,33 @@ public class RegistrationWindowController {
 			alert.setHeaderText("All fields must be filled!");
 			alert.showAndWait();
     		
+    	}else if(!postalCodeField.getText().matches("\\d{2}-\\d{3}")){
+    		
+    		WarningAlert("Incorrect postal code!");
+    		
+    	}else if(!telephoneField.getText().matches("^[0-9]{9}$")){
+    		
+    		WarningAlert("Incorrect phone number!");
+    		
+    	}else if(!firstNameField.getText().matches("^[a-zA-Z\\s]{2,35}$")){
+    		
+    		WarningAlert("Incorrect name!");
+    		
+    	}else if(!lastNameField.getText().matches("^[a-zA-Z\\s]{2,35}$")){
+    		
+    		WarningAlert("Incorrect surname!");
+    		
+    	}else if(!emailField.getText().matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")){
+    		
+    		WarningAlert("Incorrect email!");
+    	
+    	}else if(!cityField.getText().matches("^[a-zA-Z\\s]{2,45}$")){
+    		
+    		WarningAlert("Incorrect city!");
+    		
+    	}else if(!addressField.getText().matches("^[a-zA-Z0-9\\s]*$")){
+    		
+    		WarningAlert("Incorrect address!");
     	}else{
     		ConnectionToDatabase connectionToDatabase = new ConnectionToDatabase();
     		Connection con=connectionToDatabase.getConnection();
@@ -83,6 +110,13 @@ public class RegistrationWindowController {
     		con.close();
     		
     	}
+    }
+    
+    void WarningAlert(String message){
+    	Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("WARNING");
+		alert.setHeaderText(message);
+		alert.showAndWait();
     }
     
     @FXML

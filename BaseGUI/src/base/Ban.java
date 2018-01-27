@@ -1,8 +1,8 @@
 package base;
 
 public class Ban {
-	Integer LibraryCardNumber;
-	String Reason, BanDate, ExpirationDate;
+	private Integer LibraryCardNumber;
+	private String Reason, BanDate, ExpirationDate;
 	
 	public Ban(Integer libraryCardNumber, String reason, String banDate, String expirationDate) {
 		super();
